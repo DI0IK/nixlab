@@ -24,7 +24,9 @@
     };
 
     environment = {
-      BORG_RSH = "ssh -p 23 -i ${config.sops.secrets."system-ssh-key".path} -o StrictHostKeyChecking=accept-new";
+      BORG_RSH = "ssh -p 23 -i ${
+        config.sops.secrets."system-ssh-key".path
+      } -o StrictHostKeyChecking=accept-new";
     };
 
     compression = "auto,zstd";

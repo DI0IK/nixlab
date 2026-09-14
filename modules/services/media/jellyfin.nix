@@ -21,7 +21,10 @@
         "/dev/dri/card0 rw"
       ];
       PrivateDevices = false;
-      SupplementaryGroups = [ "video" "render" ];
+      SupplementaryGroups = [
+        "video"
+        "render"
+      ];
     };
   };
 

@@ -1,6 +1,10 @@
 { config, pkgs, ... }:
 
 {
+  imports = [
+    ./auto-upgrade.nix
+  ];
+
   # Allow unfree packages (e.g. unrar for SABnzbd)
   nixpkgs.config.allowUnfree = true;
 

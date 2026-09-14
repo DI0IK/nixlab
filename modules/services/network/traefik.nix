@@ -241,26 +241,26 @@
         };
 
         services = {
-          jellyfin.loadBalancer.servers = [{ url = "http://127.0.0.1:8096"; }];
-          jellyseerr.loadBalancer.servers = [{ url = "http://127.0.0.1:5055"; }];
-          navidrome.loadBalancer.servers = [{ url = "http://127.0.0.1:4533"; }];
-          homeassistant.loadBalancer.servers = [{ url = "http://127.0.0.1:8123"; }];
-          forgejo.loadBalancer.servers = [{ url = "http://127.0.0.1:3000"; }];
-          immich.loadBalancer.servers = [{ url = "http://127.0.0.1:2283"; }];
-          authentik.loadBalancer.servers = [{ url = "http://127.0.0.1:9000"; }];
-          adguard.loadBalancer.servers = [{ url = "http://127.0.0.1:3001"; }];
-          thelounge.loadBalancer.servers = [{ url = "http://127.0.0.1:9001"; }];
-          searxng.loadBalancer.servers = [{ url = "http://127.0.0.1:8888"; }];
-          radarr.loadBalancer.servers = [{ url = "http://127.0.0.1:7878"; }];
-          sonarr.loadBalancer.servers = [{ url = "http://127.0.0.1:8989"; }];
-          prowlarr.loadBalancer.servers = [{ url = "http://127.0.0.1:9696"; }];
-          bazarr.loadBalancer.servers = [{ url = "http://127.0.0.1:6767"; }];
-          lidarr.loadBalancer.servers = [{ url = "http://127.0.0.1:8686"; }];
-          sabnzbd.loadBalancer.servers = [{ url = "http://127.0.0.1:8080"; }];
-          qui.loadBalancer.servers = [{ url = "http://127.0.0.1:7476"; }];
-          multiscrobbler.loadBalancer.servers = [{ url = "http://127.0.0.1:9078"; }];
-          koito.loadBalancer.servers = [{ url = "http://127.0.0.1:4110"; }];
-          redlib.loadBalancer.servers = [{ url = "http://127.0.0.1:8088"; }];
+          jellyfin.loadBalancer.servers = [ { url = "http://127.0.0.1:8096"; } ];
+          jellyseerr.loadBalancer.servers = [ { url = "http://127.0.0.1:5055"; } ];
+          navidrome.loadBalancer.servers = [ { url = "http://127.0.0.1:4533"; } ];
+          homeassistant.loadBalancer.servers = [ { url = "http://127.0.0.1:8123"; } ];
+          forgejo.loadBalancer.servers = [ { url = "http://127.0.0.1:3000"; } ];
+          immich.loadBalancer.servers = [ { url = "http://127.0.0.1:2283"; } ];
+          authentik.loadBalancer.servers = [ { url = "http://127.0.0.1:9000"; } ];
+          adguard.loadBalancer.servers = [ { url = "http://127.0.0.1:3001"; } ];
+          thelounge.loadBalancer.servers = [ { url = "http://127.0.0.1:9001"; } ];
+          searxng.loadBalancer.servers = [ { url = "http://127.0.0.1:8888"; } ];
+          radarr.loadBalancer.servers = [ { url = "http://127.0.0.1:7878"; } ];
+          sonarr.loadBalancer.servers = [ { url = "http://127.0.0.1:8989"; } ];
+          prowlarr.loadBalancer.servers = [ { url = "http://127.0.0.1:9696"; } ];
+          bazarr.loadBalancer.servers = [ { url = "http://127.0.0.1:6767"; } ];
+          lidarr.loadBalancer.servers = [ { url = "http://127.0.0.1:8686"; } ];
+          sabnzbd.loadBalancer.servers = [ { url = "http://127.0.0.1:8080"; } ];
+          qui.loadBalancer.servers = [ { url = "http://127.0.0.1:7476"; } ];
+          multiscrobbler.loadBalancer.servers = [ { url = "http://127.0.0.1:9078"; } ];
+          koito.loadBalancer.servers = [ { url = "http://127.0.0.1:4110"; } ];
+          redlib.loadBalancer.servers = [ { url = "http://127.0.0.1:8088"; } ];
         };
       };
     };
@@ -272,4 +272,3 @@
     after = [ "acme-dominikstahl.dev.service" ];
   };
 }
-
