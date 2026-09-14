@@ -1,0 +1,13 @@
+keys:
+  # fw13 admin age public key (YubiKey)
+  - &admin_yubikey age1yubikey1qt4anxdwj9zvedjxkmra4tgzm0wldmfm0d7hvv7m028klns4wnu9gqdhm5h
+
+  # Homelab host key (derived from system-ssh-key)
+  - &homelab_host age1n2nc8va6c7d9hd2jy8l6vlet8ahmhf8kwaj0ymsh220z2plavuas0fdvqw
+
+creation_rules:
+  - path_regex: secrets/.*\.yaml$
+    key_groups:
+      - age:
+          - *admin_yubikey
+          - *homelab_host

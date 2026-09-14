@@ -1,0 +1,44 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "extends": [
+    "config:recommended"
+  ],
+  "nix": {
+    "enabled": true
+  },
+  "lockFileMaintenance": {
+    "enabled": true,
+    "automerge": true,
+    "schedule": [
+      "at any time"
+    ]
+  },
+  "packageRules": [
+    {
+      "matchManagers": [
+        "nix"
+      ],
+      "groupName": "nix flake updates",
+      "automerge": true,
+      "platformAutomerge": true
+    },
+    {
+      "matchDatasources": [
+        "docker"
+      ],
+      "groupName": "container image updates"
+    }
+  ],
+  "customManagers": [
+    {
+      "customType": "regex",
+      "fileMatch": [
+        "\\.nix$"
+      ],
+      "matchStrings": [
+        "image\\s*=\\s*\"(?<depName>[^\":]+):(?<currentValue>[^\":]+)\";"
+      ],
+      "datasourceTemplate": "docker"
+    }
+  ]
+}

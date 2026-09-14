@@ -1,0 +1,26 @@
+name: CI
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v7
+    
+    - name: Install Nix
+      uses: cachix/install-nix-action@v31
+      with:
+        github_access_token: ${{ secrets.GITHUB_TOKEN }}
+        
+    - name: Check flake evaluation
+      run: |
+        nix build .#nixosConfigurations.homelab.config.system.build.toplevel --dry-run
+
+    - name: Check formatting
+      run: |
+        nix run nixpkgs#nixfmt -- --check $(find . -name '*.nix' -not -path './.git/*')

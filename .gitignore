@@ -1,0 +1,6 @@
+result
+result-*
+.direnv
+*.age
+secrets/secrets.yaml.dec
+.DS_Store
