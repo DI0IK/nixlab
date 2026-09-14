@@ -21,12 +21,6 @@
       "groupName": "nix flake updates",
       "automerge": true,
       "platformAutomerge": true
-    },
-    {
-      "matchDatasources": [
-        "docker"
-      ],
-      "groupName": "container image updates"
     }
   ],
   "customManagers": [
