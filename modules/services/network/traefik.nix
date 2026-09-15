@@ -243,6 +243,12 @@
             entryPoints = [ "websecure" ];
             tls = { };
           };
+          homepage = {
+            rule = "Host(`home.dominikstahl.dev`)";
+            service = "homepage";
+            entryPoints = [ "websecure" ];
+            tls = { };
+          };
           archivebox = {
             rule = "Host(`archive.dominikstahl.dev`)";
             service = "archivebox";
@@ -252,6 +258,7 @@
         };
 
         services = {
+          homepage.loadBalancer.servers = [ { url = "http://127.0.0.1:8082"; } ];
           jellyfin.loadBalancer.servers = [ { url = "http://127.0.0.1:8096"; } ];
           jellyseerr.loadBalancer.servers = [ { url = "http://127.0.0.1:5055"; } ];
           navidrome.loadBalancer.servers = [ { url = "http://127.0.0.1:4533"; } ];

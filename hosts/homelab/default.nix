@@ -35,6 +35,7 @@
     ../../modules/services/apps/adguard.nix
     ../../modules/services/apps/searxng.nix
     ../../modules/services/apps/thelounge.nix
+    ../../modules/services/apps/homepage.nix
 
     # Containers (Podman)
     ../../modules/services/containers/podman.nix
