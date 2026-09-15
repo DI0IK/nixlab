@@ -9,9 +9,41 @@
 
     settings = {
       title = "Homelab Dashboard";
+      theme = "dark";
+      color = "slate";
       headerStyle = "clean";
       statusStyle = "dot";
-      cardBlur = "sm";
+      cardBlur = "md";
+      useEqualHeights = true;
+      target = "_blank";
+      disableIndexing = true;
+      background = {
+        image = "https://images.unsplash.com/photo-1506703719100-a0f3a48c0f86?auto=format&fit=crop&w=2560&q=80";
+        blur = "sm";
+        saturate = 90;
+        brightness = 50;
+        opacity = 70;
+      };
+      layout = {
+        "Media & Streaming" = {
+          icon = "mdi-play-network";
+        };
+        "Downloaders & Arr Stack" = {
+          icon = "mdi-download-network";
+        };
+        "Apps & Services" = {
+          icon = "mdi-grid-large";
+        };
+        "Management & Monitoring" = {
+          icon = "mdi-server-network";
+        };
+      };
+      quicklaunch = {
+        searchDescriptions = true;
+        provider = "custom";
+        url = "https://search.dominikstahl.dev/search?q=";
+        target = "_blank";
+      };
     };
 
     widgets = [
