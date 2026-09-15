@@ -4,6 +4,7 @@
   services.homepage-dashboard = {
     enable = true;
     listenPort = 8082;
+    allowedHosts = "home.${config.networking.domain},home.${config.networking.domain}:443,localhost:8082,127.0.0.1:8082";
 
     settings = {
       title = "Homelab Dashboard";
@@ -190,7 +191,7 @@
   # Impermanence persistence for Homepage data
   environment.persistence."/persist" = {
     directories = [
-      "/var/lib/homepage-dashboard"
+      "/var/lib/private/homepage-dashboard"
     ];
   };
 }
