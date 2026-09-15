@@ -47,34 +47,56 @@
   # ==========================================
   services.loki = {
     enable = true;
-    configFile = pkgs.writeText "loki-local.yaml" (
-      builtins.toJSON {
-        auth_enabled = false;
-        server.http_listen_port = 3100;
-        common = {
-          path_prefix = "/var/lib/loki";
-          replication_factor = 1;
-          storage.filesystem = {
-            chunks_directory = "/var/lib/loki/chunks";
-            rules_directory = "/var/lib/loki/rules";
+    configuration = {
+      auth_enabled = false;
+      server.http_listen_port = 3100;
+
+      # Explicitly run as a single monolithic process
+      target = "all";
+
+      common = {
+        path_prefix = "/var/lib/loki";
+        replication_factor = 1;
+        ring = {
+          instance_addr = "127.0.0.1";
+          kvstore.store = "inmemory";
+        };
+        storage.filesystem = {
+          chunks_directory = "/var/lib/loki/chunks";
+          rules_directory = "/var/lib/loki/rules";
+        };
+      };
+
+      ingester = {
+        lifecycler = {
+          address = "127.0.0.1";
+          ring = {
+            kvstore.store = "inmemory";
+            replication_factor = 1;
           };
+          num_tokens = 512;
         };
-        schema_config = {
-          configs = [
-            {
-              from = "2020-10-24";
-              store = "tsdb";
-              object_store = "filesystem";
-              schema = "v13";
-              index = {
-                prefix = "index_";
-                period = "24h";
-              };
-            }
-          ];
-        };
-      }
-    );
+      };
+
+      limits_config = {
+        volume_enabled = true;
+      };
+
+      schema_config = {
+        configs = [
+          {
+            from = "2020-10-24";
+            store = "tsdb";
+            object_store = "filesystem";
+            schema = "v13";
+            index = {
+              prefix = "index_";
+              period = "24h";
+            };
+          }
+        ];
+      };
+    };
   };
 
   # Grafana Alloy replaces end-of-life Promtail for systemd-journal log scraping
