@@ -42,6 +42,37 @@
       {
         "Media & Streaming" = [
           {
+            "Calendar" = {
+              widget = {
+                type = "calendar";
+                firstDayInWeek = "monday";
+                view = "monthly";
+                maxEvents = 10;
+                showTime = true;
+                integrations = [
+                  {
+                    type = "sonarr";
+                    service_group = "Downloaders & Arr Stack";
+                    service_name = "Sonarr";
+                    color = "teal";
+                  }
+                  {
+                    type = "radarr";
+                    service_group = "Downloaders & Arr Stack";
+                    service_name = "Radarr";
+                    color = "red";
+                  }
+                  {
+                    type = "lidarr";
+                    service_group = "Downloaders & Arr Stack";
+                    service_name = "Lidarr";
+                    color = "amber";
+                  }
+                ];
+              };
+            };
+          }
+          {
             "Jellyfin" = {
               icon = "jellyfin.svg";
               href = "https://jellyfin.dominikstahl.dev";
