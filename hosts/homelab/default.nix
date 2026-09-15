@@ -19,6 +19,7 @@
     # Networking & Ingress
     ../../modules/services/network/wireguard-vps.nix
     ../../modules/services/network/traefik.nix
+    ../../modules/services/network/guacamole.nix
 
     # Centralized Databases & Cache
     ../../modules/services/databases/postgres.nix

@@ -32,5 +32,12 @@
         853 # AdGuard Home DNS-over-QUIC (DoQ)
       ];
     };
+
+    interfaces."podman0" = {
+      allowedTCPPorts = [
+        5432
+        4822
+      ];
+    };
   };
 }

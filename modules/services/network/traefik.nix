@@ -255,6 +255,12 @@
             entryPoints = [ "websecure" ];
             tls = { };
           };
+          guacamole = {
+            rule = "Host(`guacamole.dominikstahl.dev`)";
+            service = "guacamole";
+            entryPoints = [ "websecure" ];
+            tls = { };
+          };
         };
 
         services = {
@@ -281,6 +287,7 @@
           redlib.loadBalancer.servers = [ { url = "http://127.0.0.1:8088"; } ];
           grafana.loadBalancer.servers = [ { url = "http://127.0.0.1:3005"; } ];
           archivebox.loadBalancer.servers = [ { url = "http://127.0.0.1:8000"; } ];
+          guacamole.loadBalancer.servers = [ { url = "http://127.0.0.1:8084"; } ];
         };
       };
     };

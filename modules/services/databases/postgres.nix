@@ -3,6 +3,7 @@
 {
   services.postgresql = {
     enable = true;
+    enableTCPIP = true;
     package = pkgs.postgresql_17;
     extensions = ps: [ ps.pgvector ];
 
@@ -11,6 +12,7 @@
       "forgejo"
       "authentik"
       "immich"
+      "guacamole"
     ];
 
     ensureUsers = [
@@ -26,6 +28,10 @@
         name = "immich";
         ensureDBOwnership = true;
       }
+      {
+        name = "guacamole";
+        ensureDBOwnership = true;
+      }
     ];
 
     # Authentication: trust local UNIX socket and TCP loopback
@@ -35,6 +41,7 @@
       local   all             all                                     trust
       host    all             all             127.0.0.1/32            trust
       host    all             all             ::1/128                 trust
+      host    guacamole       guacamole       10.88.0.0/16            trust
     '';
 
     # Server performance tuning for 96GB RAM Optiplex host
