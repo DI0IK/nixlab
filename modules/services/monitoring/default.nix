@@ -126,6 +126,10 @@
         root_url = "https://grafana.${config.networking.domain}/";
       };
 
+      users = {
+        auto_assign_org_role = "Admin";
+      };
+
       security = {
         secret_key = "SW2YcwTIb9zpOOhoPsMm";
       };
