@@ -100,31 +100,58 @@
   };
 
   # Grafana Alloy replaces end-of-life Promtail for systemd-journal log scraping
-  services.alloy = {
+services.alloy = {
     enable = true;
     configPath = pkgs.writeText "config.alloy" ''
       loki.relabel "journal" {
-        forward_to = [loki.write.local.receiver]
+        // forward_to is strictly required by Alloy component validation
+        forward_to = []
 
+        // 1. Raw systemd unit
         rule {
           source_labels = ["__journal__systemd_unit"]
           target_label  = "unit"
         }
+
+        // 2. Base service_name: strip .service suffix
+        rule {
+          source_labels = ["__journal__systemd_unit"]
+          regex         = "(.+)\\.service"
+          target_label  = "service_name"
+        }
+
+        // 3. Container override: extract container name for podman units
         rule {
           source_labels = ["__journal__systemd_unit"]
           regex         = "podman-(.+)\\.service"
-          target_label  = "container"
+          target_label  = "service_name"
+        }
+
+        // 4. Fallback service_name: syslog identifier or process name
+        // (.* at the end allows matching when subsequent source_labels are present)
+        rule {
+          source_labels = ["service_name", "__journal_syslog_identifier", "__journal__comm"]
+          regex         = "^;*([^;]+).*"
+          target_label  = "service_name"
+        }
+
+        // 5. Explicitly map 'app' for dashboards requiring the app label
+        rule {
+          source_labels = ["service_name"]
+          regex         = "(.+)"
+          target_label  = "app"
         }
       }
 
       loki.source.journal "read" {
-        forward_to = [loki.relabel.journal.receiver]
-        labels     = {
+        forward_to    = [loki.write.local.receiver]
+        relabel_rules = loki.relabel.journal.rules
+        labels        = {
           job  = "systemd-journal",
           host = "${config.networking.hostName}",
         }
-        max_age    = "12h"
-        path       = "/var/log/journal"
+        max_age       = "12h"
+        path          = "/var/log/journal"
       }
 
       loki.write "local" {
@@ -177,7 +204,7 @@
         token_url = "https://sso.${config.networking.domain}/application/o/token/";
         api_url = "https://sso.${config.networking.domain}/application/o/userinfo/";
         use_pkce = true;
-        use_refresh_token = true;
+        use_refresh_token = false;
 
         # Role mapping based on Authentik groups:
         # - "Grafana Admins" -> GrafanaAdmin
