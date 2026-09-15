@@ -24,20 +24,30 @@
         brightness = 50;
         opacity = 70;
       };
-      layout = {
-        "Media & Streaming" = {
-          icon = "mdi-play-network";
-        };
-        "Downloaders & Arr Stack" = {
-          icon = "mdi-download-network";
-        };
-        "Apps & Services" = {
-          icon = "mdi-grid-large";
-        };
-        "Management & Monitoring" = {
-          icon = "mdi-server-network";
-        };
-      };
+      layout = [
+        {
+          "Media & Streaming" = {
+            icon = "mdi-play-network";
+          };
+        }
+        {
+          "Apps & Services" = {
+            icon = "mdi-grid-large";
+          };
+        }
+        {
+          "Management & Monitoring" = {
+            icon = "mdi-server-network";
+          };
+        }
+        {
+          "Downloaders & Arr Stack" = {
+            icon = "mdi-download-network";
+            style = "row";
+            columns = 4;
+          };
+        }
+      ];
       quicklaunch = {
         searchDescriptions = true;
         provider = "custom";
@@ -146,102 +156,6 @@
         ];
       }
       {
-        "Downloaders & Arr Stack" = [
-          {
-            "Radarr" = {
-              icon = "radarr.svg";
-              href = "https://radarr.dominikstahl.dev";
-              description = "Movies Management";
-              siteMonitor = "http://127.0.0.1:7878/ping";
-              widget = {
-                type = "radarr";
-                url = "http://127.0.0.1:7878";
-                key = "{{HOMEPAGE_VAR_RADARR_KEY}}";
-              };
-            };
-          }
-          {
-            "Sonarr" = {
-              icon = "sonarr.svg";
-              href = "https://sonarr.dominikstahl.dev";
-              description = "TV Shows Management";
-              siteMonitor = "http://127.0.0.1:8989/ping";
-              widget = {
-                type = "sonarr";
-                url = "http://127.0.0.1:8989";
-                key = "{{HOMEPAGE_VAR_SONARR_KEY}}";
-              };
-            };
-          }
-          {
-            "Prowlarr" = {
-              icon = "prowlarr.svg";
-              href = "https://prowlarr.dominikstahl.dev";
-              description = "Indexer Manager";
-              siteMonitor = "http://127.0.0.1:9696/ping";
-              widget = {
-                type = "prowlarr";
-                url = "http://127.0.0.1:9696";
-                key = "{{HOMEPAGE_VAR_PROWLARR_KEY}}";
-              };
-            };
-          }
-          {
-            "Bazarr" = {
-              icon = "bazarr.svg";
-              href = "https://bazarr.dominikstahl.dev";
-              description = "Subtitles Manager";
-              siteMonitor = "http://127.0.0.1:6767/ping";
-              widget = {
-                type = "bazarr";
-                url = "http://127.0.0.1:6767";
-                key = "{{HOMEPAGE_VAR_BAZARR_KEY}}";
-              };
-            };
-          }
-          {
-            "Lidarr" = {
-              icon = "lidarr.svg";
-              href = "https://lidarr.dominikstahl.dev";
-              description = "Music Management";
-              siteMonitor = "http://127.0.0.1:8686/ping";
-              widget = {
-                type = "lidarr";
-                url = "http://127.0.0.1:8686";
-                key = "{{HOMEPAGE_VAR_LIDARR_KEY}}";
-              };
-            };
-          }
-          {
-            "SABnzbd" = {
-              icon = "sabnzbd.svg";
-              href = "https://sabnzbd.dominikstahl.dev";
-              description = "Usenet Downloader";
-              siteMonitor = "http://127.0.0.1:8080";
-              widget = {
-                type = "sabnzbd";
-                url = "http://127.0.0.1:8080";
-                key = "{{HOMEPAGE_VAR_SABNZBD_KEY}}";
-              };
-            };
-          }
-          {
-            "qBittorrent" = {
-              icon = "qbittorrent.svg";
-              href = "https://qui.dominikstahl.dev";
-              description = "Torrent Client";
-              siteMonitor = "http://127.0.0.1:7476";
-              widget = {
-                type = "qbittorrent";
-                url = "{{HOMEPAGE_VAR_QBIT_URL}}";
-                username = "username";
-                password = "password";
-              };
-            };
-          }
-        ];
-      }
-      {
         "Apps & Services" = [
           {
             "Forgejo" = {
@@ -343,6 +257,102 @@
               href = "https://grafana.dominikstahl.dev";
               description = "Metrics & Dashboards";
               siteMonitor = "http://127.0.0.1:3005/api/health";
+            };
+          }
+        ];
+      }
+      {
+        "Downloaders & Arr Stack" = [
+          {
+            "Radarr" = {
+              icon = "radarr.svg";
+              href = "https://radarr.dominikstahl.dev";
+              description = "Movies Management";
+              siteMonitor = "http://127.0.0.1:7878/ping";
+              widget = {
+                type = "radarr";
+                url = "http://127.0.0.1:7878";
+                key = "{{HOMEPAGE_VAR_RADARR_KEY}}";
+              };
+            };
+          }
+          {
+            "Sonarr" = {
+              icon = "sonarr.svg";
+              href = "https://sonarr.dominikstahl.dev";
+              description = "TV Shows Management";
+              siteMonitor = "http://127.0.0.1:8989/ping";
+              widget = {
+                type = "sonarr";
+                url = "http://127.0.0.1:8989";
+                key = "{{HOMEPAGE_VAR_SONARR_KEY}}";
+              };
+            };
+          }
+          {
+            "Prowlarr" = {
+              icon = "prowlarr.svg";
+              href = "https://prowlarr.dominikstahl.dev";
+              description = "Indexer Manager";
+              siteMonitor = "http://127.0.0.1:9696/ping";
+              widget = {
+                type = "prowlarr";
+                url = "http://127.0.0.1:9696";
+                key = "{{HOMEPAGE_VAR_PROWLARR_KEY}}";
+              };
+            };
+          }
+          {
+            "Bazarr" = {
+              icon = "bazarr.svg";
+              href = "https://bazarr.dominikstahl.dev";
+              description = "Subtitles Manager";
+              siteMonitor = "http://127.0.0.1:6767/ping";
+              widget = {
+                type = "bazarr";
+                url = "http://127.0.0.1:6767";
+                key = "{{HOMEPAGE_VAR_BAZARR_KEY}}";
+              };
+            };
+          }
+          {
+            "Lidarr" = {
+              icon = "lidarr.svg";
+              href = "https://lidarr.dominikstahl.dev";
+              description = "Music Management";
+              siteMonitor = "http://127.0.0.1:8686/ping";
+              widget = {
+                type = "lidarr";
+                url = "http://127.0.0.1:8686";
+                key = "{{HOMEPAGE_VAR_LIDARR_KEY}}";
+              };
+            };
+          }
+          {
+            "SABnzbd" = {
+              icon = "sabnzbd.svg";
+              href = "https://sabnzbd.dominikstahl.dev";
+              description = "Usenet Downloader";
+              siteMonitor = "http://127.0.0.1:8080";
+              widget = {
+                type = "sabnzbd";
+                url = "http://127.0.0.1:8080";
+                key = "{{HOMEPAGE_VAR_SABNZBD_KEY}}";
+              };
+            };
+          }
+          {
+            "qBittorrent" = {
+              icon = "qbittorrent.svg";
+              href = "https://qui.dominikstahl.dev";
+              description = "Torrent Client";
+              siteMonitor = "http://127.0.0.1:7476";
+              widget = {
+                type = "qbittorrent";
+                url = "{{HOMEPAGE_VAR_QBIT_URL}}";
+                username = "username";
+                password = "password";
+              };
             };
           }
         ];
