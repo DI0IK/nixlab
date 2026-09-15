@@ -5,11 +5,13 @@
     enable = true;
     listenPort = 8082;
     allowedHosts = "home.${config.networking.domain},home.${config.networking.domain}:443,localhost:8082,127.0.0.1:8082";
-    environmentFiles = ["/var/lib/private/homepage-dashboard/homepage.env"];
+    environmentFiles = [ "/var/lib/private/homepage-dashboard/homepage.env" ];
 
     settings = {
       title = "Homelab Dashboard";
       headerStyle = "clean";
+      statusStyle = "dot";
+      cardBlur = "sm";
     };
 
     widgets = [
@@ -26,7 +28,7 @@
       {
         resources = {
           disk = "/data/media";
-          label = "Media";
+          label = "Media Storage";
         };
       }
       {
@@ -77,12 +79,13 @@
               icon = "jellyfin.svg";
               href = "https://jellyfin.dominikstahl.dev";
               description = "Media Server";
+              siteMonitor = "http://127.0.0.1:8096/health";
               widget = {
                 type = "jellyfin";
                 url = "http://127.0.0.1:8096";
                 key = "{{HOMEPAGE_VAR_JELLYFIN_KEY}}";
                 version = 2;
-                fields = ["movies" "series" "episodes"];
+                fields = [ "movies" "series" "episodes" ];
                 enableBlocks = true;
               };
             };
@@ -92,6 +95,7 @@
               icon = "jellyseerr.svg";
               href = "https://requests.dominikstahl.dev";
               description = "Media Requests";
+              siteMonitor = "http://127.0.0.1:5055/api/v1/status";
               widget = {
                 type = "seerr";
                 url = "http://127.0.0.1:5055";
@@ -104,6 +108,7 @@
               icon = "navidrome.svg";
               href = "https://music.dominikstahl.dev";
               description = "Music Server";
+              siteMonitor = "http://127.0.0.1:4533/ping";
             };
           }
         ];
@@ -115,6 +120,7 @@
               icon = "radarr.svg";
               href = "https://radarr.dominikstahl.dev";
               description = "Movies Management";
+              siteMonitor = "http://127.0.0.1:7878/ping";
               widget = {
                 type = "radarr";
                 url = "http://127.0.0.1:7878";
@@ -127,6 +133,7 @@
               icon = "sonarr.svg";
               href = "https://sonarr.dominikstahl.dev";
               description = "TV Shows Management";
+              siteMonitor = "http://127.0.0.1:8989/ping";
               widget = {
                 type = "sonarr";
                 url = "http://127.0.0.1:8989";
@@ -139,6 +146,7 @@
               icon = "prowlarr.svg";
               href = "https://prowlarr.dominikstahl.dev";
               description = "Indexer Manager";
+              siteMonitor = "http://127.0.0.1:9696/ping";
               widget = {
                 type = "prowlarr";
                 url = "http://127.0.0.1:9696";
@@ -151,6 +159,7 @@
               icon = "bazarr.svg";
               href = "https://bazarr.dominikstahl.dev";
               description = "Subtitles Manager";
+              siteMonitor = "http://127.0.0.1:6767/ping";
               widget = {
                 type = "bazarr";
                 url = "http://127.0.0.1:6767";
@@ -163,6 +172,7 @@
               icon = "lidarr.svg";
               href = "https://lidarr.dominikstahl.dev";
               description = "Music Management";
+              siteMonitor = "http://127.0.0.1:8686/ping";
               widget = {
                 type = "lidarr";
                 url = "http://127.0.0.1:8686";
@@ -175,6 +185,7 @@
               icon = "sabnzbd.svg";
               href = "https://sabnzbd.dominikstahl.dev";
               description = "Usenet Downloader";
+              siteMonitor = "http://127.0.0.1:8080";
               widget = {
                 type = "sabnzbd";
                 url = "http://127.0.0.1:8080";
@@ -187,6 +198,7 @@
               icon = "qbittorrent.svg";
               href = "https://qui.dominikstahl.dev";
               description = "Torrent Client";
+              siteMonitor = "http://127.0.0.1:7476";
               widget = {
                 type = "qbittorrent";
                 url = "{{HOMEPAGE_VAR_QBIT_URL}}";
@@ -204,6 +216,7 @@
               icon = "forgejo.svg";
               href = "https://git.dominikstahl.dev";
               description = "Git Workspace";
+              siteMonitor = "http://127.0.0.1:3000";
             };
           }
           {
@@ -211,6 +224,7 @@
               icon = "immich.svg";
               href = "https://photos.dominikstahl.dev";
               description = "Photo & Video Library";
+              siteMonitor = "http://127.0.0.1:2283/api/server/ping";
               widget = {
                 type = "immich";
                 url = "http://127.0.0.1:2283";
@@ -224,6 +238,7 @@
               icon = "searxng.svg";
               href = "https://search.dominikstahl.dev";
               description = "Meta Search Engine";
+              siteMonitor = "http://127.0.0.1:8888";
             };
           }
           {
@@ -231,6 +246,7 @@
               icon = "archivebox.svg";
               href = "https://archive.dominikstahl.dev";
               description = "Web Archiver";
+              siteMonitor = "http://127.0.0.1:8000";
             };
           }
           {
@@ -238,6 +254,7 @@
               icon = "thelounge.svg";
               href = "https://irc.dominikstahl.dev";
               description = "IRC Client";
+              siteMonitor = "http://127.0.0.1:9001";
             };
           }
           {
@@ -245,6 +262,7 @@
               icon = "redlib.svg";
               href = "https://redlib.dominikstahl.dev";
               description = "Reddit Frontend";
+              siteMonitor = "http://127.0.0.1:8088";
             };
           }
           {
@@ -252,6 +270,7 @@
               icon = "koito.svg";
               href = "https://koito.dominikstahl.dev";
               description = "ListenBrainz-compatible Scrobbler";
+              siteMonitor = "http://127.0.0.1:4110";
             };
           }
         ];
@@ -263,6 +282,7 @@
               icon = "home-assistant.svg";
               href = "https://ha.dominikstahl.dev";
               description = "Home Automation";
+              siteMonitor = "http://127.0.0.1:8123";
             };
           }
           {
@@ -270,6 +290,7 @@
               icon = "authentik.svg";
               href = "https://sso.dominikstahl.dev";
               description = "Identity & SSO";
+              siteMonitor = "http://127.0.0.1:9000/-/health/live/";
             };
           }
           {
@@ -277,6 +298,7 @@
               icon = "adguard-home.svg";
               href = "https://dns.dominikstahl.dev";
               description = "DNS & Ad Blocking";
+              siteMonitor = "http://127.0.0.1:3001";
               widget = {
                 type = "adguard";
                 url = "http://127.0.0.1:3001";
@@ -288,6 +310,7 @@
               icon = "grafana.svg";
               href = "https://grafana.dominikstahl.dev";
               description = "Metrics & Dashboards";
+              siteMonitor = "http://127.0.0.1:3005/api/health";
             };
           }
         ];
