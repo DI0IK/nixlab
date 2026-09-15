@@ -126,34 +126,43 @@
         root_url = "https://grafana.${config.networking.domain}/";
       };
 
+      users = {
+        allow_sign_up = false;
+      };
+
+      auth = {
+        disable_login_form = true;
+      };
+
+      "auth.basic" = {
+        enabled = false;
+      };
+
       security = {
         secret_key = "$__file{${config.sops.secrets."grafana-secret-key".path}}";
       };
 
       "auth.generic_oauth" = {
         enabled = true;
+        allow_sign_up = true;
+        auto_login = true;
         name = "Authentik";
         icon = "signin";
         client_id = "nAD3LK27pHMU6QcWctCfY5lgR7vH3QmL2zdyE6ng";
         client_secret = "$__file{${config.sops.secrets."grafana-oauth-client-secret".path}}";
-        scopes = "openid profile email groups";
-        empty_scopes = false;
+        scopes = "openid profile email offline_access";
         auth_url = "https://sso.${config.networking.domain}/application/o/authorize/";
         token_url = "https://sso.${config.networking.domain}/application/o/token/";
         api_url = "https://sso.${config.networking.domain}/application/o/userinfo/";
+        use_pkce = true;
+        use_refresh_token = true;
 
         # Role mapping based on Authentik groups:
-        # - "Grafana Admins" -> Admin
+        # - "Grafana Admins" -> GrafanaAdmin
         # - "Grafana" -> Editor
         # - fallback -> Viewer
-        role_attribute_path = "contains(groups[*], 'Grafana Admins') && 'Admin' || contains(groups[*], 'Grafana') && 'Editor' || 'Viewer'";
+        role_attribute_path = "contains(groups, 'Grafana Admins') && 'GrafanaAdmin' || contains(groups, 'Grafana') && 'Editor' || 'Viewer'";
         allow_assign_grafana_admin = true;
-        skip_org_role_sync = false;
-
-        login_attribute_path = "preferred_username";
-        name_attribute_path = "name";
-        email_attribute_path = "email";
-        groups_attribute_path = "groups";
       };
     };
 
