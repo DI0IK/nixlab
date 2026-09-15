@@ -44,6 +44,9 @@
 
     # Backup
     ../../modules/services/backup/borgbackup.nix
+
+    # Monitoring & Metrics
+    ../../modules/services/monitoring
   ];
 
   networking.hostName = "homelab";

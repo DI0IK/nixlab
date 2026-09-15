@@ -238,6 +238,13 @@
             entryPoints = [ "websecure" ];
             tls = { };
           };
+          grafana = {
+            rule = "Host(`grafana.dominikstahl.dev`)";
+            service = "grafana";
+            middlewares = [ "authentik" ];
+            entryPoints = [ "websecure" ];
+            tls = { };
+          };
         };
 
         services = {
@@ -261,6 +268,7 @@
           multiscrobbler.loadBalancer.servers = [ { url = "http://127.0.0.1:9078"; } ];
           koito.loadBalancer.servers = [ { url = "http://127.0.0.1:4110"; } ];
           redlib.loadBalancer.servers = [ { url = "http://127.0.0.1:8088"; } ];
+          grafana.loadBalancer.servers = [ { url = "http://127.0.0.1:3005"; } ];
         };
       };
     };
