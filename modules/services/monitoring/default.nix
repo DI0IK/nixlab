@@ -165,7 +165,7 @@
     directories = [
       "/var/lib/prometheus2"
       "/var/lib/loki"
-      "/var/lib/alloy"
+      "/var/lib/private/alloy"
       "/var/lib/grafana"
     ];
   };
