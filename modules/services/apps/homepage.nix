@@ -5,7 +5,7 @@
     enable = true;
     listenPort = 8082;
     allowedHosts = "home.${config.networking.domain},home.${config.networking.domain}:443,localhost:8082,127.0.0.1:8082";
-    environmentFile = "/var/lib/private/homepage-dashboard/homepage.env";
+    environmentFiles = ["/var/lib/private/homepage-dashboard/homepage.env"];
 
     settings = {
       title = "Homelab Dashboard";
@@ -46,6 +46,14 @@
               icon = "jellyfin.svg";
               href = "https://jellyfin.dominikstahl.dev";
               description = "Media Server";
+              widget = {
+                type = "jellyfin";
+                url = "http://127.0.0.1:8096";
+                key = "{{HOMEPAGE_VAR_JELLYFIN_KEY}}";
+                version = 2;
+                fields = ["movies" "series" "episodes"];
+                enableBlocks = true;
+              };
             };
           }
           {
