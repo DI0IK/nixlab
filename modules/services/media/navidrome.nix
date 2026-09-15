@@ -10,6 +10,9 @@
       Port = 4533;
       MusicFolder = "/data/media/media/music";
       ScanSchedule = "@every 1h";
+      ListenBrainz = {
+        BaseURL = "http://127.0.0.1:9078/1/";
+      };
     };
   };
 

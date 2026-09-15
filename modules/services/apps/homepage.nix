@@ -208,6 +208,13 @@
               description = "Reddit Frontend";
             };
           }
+          {
+            "Koito" = {
+              icon = "koito.svg";
+              href = "https://koito.dominikstahl.dev";
+              description = "ListenBrainz-compatible Scrobbler";
+            };
+          }
         ];
       }
       {
