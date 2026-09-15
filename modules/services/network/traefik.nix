@@ -124,7 +124,6 @@
           navidrome = {
             rule = "Host(`music.dominikstahl.dev`)";
             service = "navidrome";
-            middlewares = [ "authentik" ];
             entryPoints = [ "websecure" ];
             tls = { };
           };
