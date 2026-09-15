@@ -18,10 +18,10 @@
   virtualisation.oci-containers.containers.guacamole-client = {
     image = "docker.io/guacamole/guacamole:1.6.0";
     ports = [ "8084:8080" ];
-    
-    extraOptions = [ 
+
+    extraOptions = [
       "--network=bridge"
-      "--add-host=host.docker.internal:host-gateway" 
+      "--add-host=host.docker.internal:host-gateway"
     ];
 
     environment = {
@@ -33,14 +33,14 @@
       POSTGRESQL_DATABASE = "guacamole";
       POSTGRESQL_USER = "guacamole";
       POSTGRESQL_PASSWORD = "password";
-      
+
       OPENID_AUTHORIZATION_ENDPOINT = "https://sso.dominikstahl.dev/application/o/authorize/";
       OPENID_JWKS_ENDPOINT = "https://sso.dominikstahl.dev/application/o/guacamole/jwks/";
       OPENID_ISSUER = "https://sso.dominikstahl.dev/application/o/guacamole/";
       OPENID_CLIENT_ID = "bdSzU7xIotTTI0QPHf2vYRNQxNDq0ABS2cMC9fM9";
       OPENID_REDIRECT_URI = "https://guacamole.dominikstahl.dev/guacamole/";
       OPENID_ALLOWED_CLOCK_SKEW = "60";
-      
+
       EXTENSION_PRIORITY = "openid, jdbc";
     };
   };
