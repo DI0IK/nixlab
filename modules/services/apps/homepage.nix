@@ -5,6 +5,7 @@
     enable = true;
     listenPort = 8082;
     allowedHosts = "home.${config.networking.domain},home.${config.networking.domain}:443,localhost:8082,127.0.0.1:8082";
+    environmentFile = "/var/lib/private/homepage-dashboard/homepage.env";
 
     settings = {
       title = "Homelab Dashboard";
@@ -16,13 +17,22 @@
         resources = {
           cpu = true;
           memory = true;
-          disk = "/";
+          disk = "/persist";
+          cputemp = true;
+          uptime = true;
+          label = "System";
+        };
+      }
+      {
+        resources = {
+          disk = "/data/media";
+          label = "Media";
         };
       }
       {
         search = {
-          provider = "searxng";
-          url = "https://search.dominikstahl.dev";
+          provider = "custom";
+          url = "https://search.dominikstahl.dev/search?q=";
           target = "_blank";
         };
       }
@@ -43,6 +53,11 @@
               icon = "jellyseerr.svg";
               href = "https://requests.dominikstahl.dev";
               description = "Media Requests";
+              widget = {
+                type = "seerr";
+                url = "http://127.0.0.1:5055";
+                key = "{{HOMEPAGE_VAR_JELLYSEERR_KEY}}";
+              };
             };
           }
           {
@@ -61,6 +76,11 @@
               icon = "radarr.svg";
               href = "https://radarr.dominikstahl.dev";
               description = "Movies Management";
+              widget = {
+                type = "radarr";
+                url = "http://127.0.0.1:7878";
+                key = "{{HOMEPAGE_VAR_RADARR_KEY}}";
+              };
             };
           }
           {
@@ -68,6 +88,11 @@
               icon = "sonarr.svg";
               href = "https://sonarr.dominikstahl.dev";
               description = "TV Shows Management";
+              widget = {
+                type = "sonarr";
+                url = "http://127.0.0.1:8989";
+                key = "{{HOMEPAGE_VAR_SONARR_KEY}}";
+              };
             };
           }
           {
@@ -75,6 +100,11 @@
               icon = "prowlarr.svg";
               href = "https://prowlarr.dominikstahl.dev";
               description = "Indexer Manager";
+              widget = {
+                type = "prowlarr";
+                url = "http://127.0.0.1:9696";
+                key = "{{HOMEPAGE_VAR_PROWLARR_KEY}}";
+              };
             };
           }
           {
@@ -82,6 +112,11 @@
               icon = "bazarr.svg";
               href = "https://bazarr.dominikstahl.dev";
               description = "Subtitles Manager";
+              widget = {
+                type = "bazarr";
+                url = "http://127.0.0.1:6767";
+                key = "{{HOMEPAGE_VAR_BAZARR_KEY}}";
+              };
             };
           }
           {
@@ -89,6 +124,11 @@
               icon = "lidarr.svg";
               href = "https://lidarr.dominikstahl.dev";
               description = "Music Management";
+              widget = {
+                type = "lidarr";
+                url = "http://127.0.0.1:8686";
+                key = "{{HOMEPAGE_VAR_LIDARR_KEY}}";
+              };
             };
           }
           {
@@ -96,6 +136,11 @@
               icon = "sabnzbd.svg";
               href = "https://sabnzbd.dominikstahl.dev";
               description = "Usenet Downloader";
+              widget = {
+                type = "sabnzbd";
+                url = "http://127.0.0.1:8080";
+                key = "{{HOMEPAGE_VAR_SABNZBD_KEY}}";
+              };
             };
           }
           {
@@ -103,6 +148,12 @@
               icon = "qbittorrent.svg";
               href = "https://qui.dominikstahl.dev";
               description = "Torrent Client";
+              widget = {
+                type = "qbittorrent";
+                url = "{{HOMEPAGE_VAR_QBIT_URL}}";
+                username = "username";
+                password = "password";
+              };
             };
           }
         ];
@@ -121,6 +172,12 @@
               icon = "immich.svg";
               href = "https://photos.dominikstahl.dev";
               description = "Photo & Video Library";
+              widget = {
+                type = "immich";
+                url = "http://127.0.0.1:2283";
+                key = "{{HOMEPAGE_VAR_IMMICH_API_KEY}}";
+                version = 2;
+              };
             };
           }
           {
@@ -174,6 +231,10 @@
               icon = "adguard-home.svg";
               href = "https://dns.dominikstahl.dev";
               description = "DNS & Ad Blocking";
+              widget = {
+                type = "adguard";
+                url = "http://127.0.0.1:3001";
+              };
             };
           }
           {
