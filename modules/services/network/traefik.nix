@@ -244,6 +244,12 @@
             entryPoints = [ "websecure" ];
             tls = { };
           };
+          archivebox = {
+            rule = "Host(`archive.dominikstahl.dev`)";
+            service = "archivebox";
+            entryPoints = [ "websecure" ];
+            tls = { };
+          };
         };
 
         services = {
@@ -268,6 +274,7 @@
           koito.loadBalancer.servers = [ { url = "http://127.0.0.1:4110"; } ];
           redlib.loadBalancer.servers = [ { url = "http://127.0.0.1:8088"; } ];
           grafana.loadBalancer.servers = [ { url = "http://127.0.0.1:3005"; } ];
+          archivebox.loadBalancer.servers = [ { url = "http://127.0.0.1:8000"; } ];
         };
       };
     };

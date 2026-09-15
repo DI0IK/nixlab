@@ -40,6 +40,7 @@
     ../../modules/services/containers/podman.nix
     ../../modules/services/containers/immich.nix
     ../../modules/services/containers/authentik.nix
+    ../../modules/services/containers/archivebox.nix
     ../../modules/services/containers/misc.nix
 
     # Backup
