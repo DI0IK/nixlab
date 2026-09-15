@@ -100,7 +100,7 @@
   };
 
   # Grafana Alloy replaces end-of-life Promtail for systemd-journal log scraping
-services.alloy = {
+  services.alloy = {
     enable = true;
     configPath = pkgs.writeText "config.alloy" ''
       loki.relabel "journal" {
