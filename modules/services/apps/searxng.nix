@@ -8,6 +8,7 @@
 
     settings = {
       server = {
+        secret_key = "$SEARX_SECRET_KEY";
         bind_address = "127.0.0.1";
         port = 8888;
         base_url = "https://search.dominikstahl.dev/";
