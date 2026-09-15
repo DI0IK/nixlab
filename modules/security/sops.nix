@@ -64,6 +64,18 @@
         mode = "0400";
       };
 
+      "grafana-oauth-client-secret" = {
+        owner = "grafana";
+        group = "grafana";
+        mode = "0400";
+      };
+
+      "grafana-secret-key" = {
+        owner = "grafana";
+        group = "grafana";
+        mode = "0400";
+      };
+
       "admin-password-hash" = {
         neededForUsers = true;
       };

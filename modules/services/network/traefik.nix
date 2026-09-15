@@ -241,7 +241,6 @@
           grafana = {
             rule = "Host(`grafana.dominikstahl.dev`)";
             service = "grafana";
-            middlewares = [ "authentik" ];
             entryPoints = [ "websecure" ];
             tls = { };
           };
