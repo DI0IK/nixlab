@@ -86,8 +86,8 @@
     qui = {
       image = "ghcr.io/hotio/qui:release-1.29.0";
       autoStart = true;
-      ports = [
-        "127.0.0.1:7476:7476"
+      extraOptions = [
+        "--network=host"
       ];
       environment = {
         PUID = "1000";
