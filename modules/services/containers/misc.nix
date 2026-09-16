@@ -96,7 +96,7 @@
         TZ = "Europe/Berlin";
         QUI__METRICS_ENABLED = "true";
         QUI__METRICS_HOST = "0.0.0.0";
-        QUI__METRICS_PORT = "9100";
+        QUI__METRICS_PORT = "9106";
       };
       environmentFiles = [
         "/persist/var/lib/qui/qui.env"
