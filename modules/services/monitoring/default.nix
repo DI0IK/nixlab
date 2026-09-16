@@ -26,6 +26,16 @@
           "netdev"
         ];
       };
+      redis = {
+        enable = true;
+        port = 9121;
+        listenAddress = "127.0.0.1";
+      };
+      postgres = {
+        enable = true;
+        port = 9187;
+        listenAddress = "127.0.0.1";
+      };
     };
 
     scrapeConfigs = [
@@ -36,6 +46,35 @@
             targets = [
               "127.0.0.1:${toString config.services.prometheus.exporters.node.port}"
             ];
+          }
+        ];
+      }
+      {
+        job_name = "local-redis";
+        static_configs = [
+          {
+            targets = [
+              "127.0.0.1:${toString config.services.prometheus.exporters.redis.port}"
+            ];
+          }
+        ];
+      }
+      {
+        job_name = "local-postgres";
+        static_configs = [
+          {
+            targets = [
+              "127.0.0.1:${toString config.services.prometheus.exporters.postgres.port}"
+            ];
+          }
+        ];
+      }
+      {
+        job_name = "local-traefik";
+        metrics_path = "/metrics";
+        static_configs = [
+          {
+            targets = [ "127.0.0.1:9101" ];
           }
         ];
       }

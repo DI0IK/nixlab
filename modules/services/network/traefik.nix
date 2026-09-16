@@ -8,6 +8,10 @@
       api.dashboard = false;
 
       entryPoints = {
+        metrics = {
+          address = "127.0.0.1:9101";
+        };
+
         web = {
           address = ":80";
           http.redirections.entryPoint = {
@@ -45,6 +49,14 @@
               "fd86:ea04:1115::1/128"
             ];
           };
+        };
+      };
+
+      metrics = {
+        prometheus = {
+          entryPoint = "metrics";
+          addEntryPointsLabels = true;
+          addRoutersLabels = true;
         };
       };
     };
