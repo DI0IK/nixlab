@@ -263,6 +263,14 @@
               siteMonitor = "http://127.0.0.1:3005/api/health";
             };
           }
+          {
+            "Guacamole" = {
+              icon = "guacamole.svg";
+              href = "https://guacamole.dominikstahl.dev/guacamole/";
+              description = "Remote Desktop Gateway";
+              siteMonitor = "http://127.0.0.1:8084/guacamole/";
+            };
+          }
         ];
       }
       {
