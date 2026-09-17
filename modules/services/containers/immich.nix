@@ -23,10 +23,9 @@
       };
       volumes = [
         "/mnt/immich-library:/usr/src/app/upload"
-        "/mnt/immich-external:/usr/src/app/externalLibraries:ro"
         "/mnt/immich-external:/external:ro"
-        "/mnt/immich-external-manger:/usr/src/app/externalLibraries_manger:ro"
         "/mnt/immich-external-manger:/external_manger:ro"
+        "/mnt/immich-external-old-nas:/external_old_nas:ro"
         "${config.sops.templates."immich-config.yaml".path}:/config/immich-config.yaml:ro"
         "/etc/localtime:/etc/localtime:ro"
       ];

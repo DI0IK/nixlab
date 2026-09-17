@@ -88,6 +88,18 @@
         mode = "0400";
       };
 
+      "old-nas-username" = {
+        owner = "root";
+        group = "root";
+        mode = "0400";
+      };
+
+      "old-nas-password" = {
+        owner = "root";
+        group = "root";
+        mode = "0400";
+      };
+
       "admin-password-hash" = {
         neededForUsers = true;
       };
@@ -143,6 +155,16 @@
         '';
         owner = "searx";
         group = "searx";
+        mode = "0400";
+      };
+
+      "cifs-old-nas-credentials" = {
+        content = ''
+          username=${config.sops.placeholder."old-nas-username"}
+          password=${config.sops.placeholder."old-nas-password"}
+        '';
+        owner = "root";
+        group = "root";
         mode = "0400";
       };
 

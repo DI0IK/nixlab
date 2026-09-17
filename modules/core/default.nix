@@ -48,6 +48,7 @@
     tree
     parted
     btrfs-progs
+    cifs-utils
     age
     sops
   ];

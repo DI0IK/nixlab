@@ -1,4 +1,4 @@
-{ ... }:
+{ config, ... }:
 
 {
   imports = [
@@ -106,6 +106,19 @@
       "x-systemd.idle-timeout=600"
       "ro"
       "soft"
+    ];
+  };
+
+  # Immich External Read-Only Photo Library (Old NAS SMB Share)
+  fileSystems."/mnt/immich-external-old-nas" = {
+    device = "//192.168.178.21/Bilder";
+    fsType = "cifs";
+    options = [
+      "x-systemd.automount"
+      "noauto"
+      "x-systemd.idle-timeout=600"
+      "ro"
+      "credentials=${config.sops.templates."cifs-old-nas-credentials".path}"
     ];
   };
 
