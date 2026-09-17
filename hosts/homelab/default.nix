@@ -38,6 +38,7 @@
     ../../modules/services/apps/thelounge.nix
     ../../modules/services/apps/homepage.nix
     ../../modules/services/apps/paperless.nix
+    ../../modules/services/apps/ycast.nix
 
     # Containers (Podman)
     ../../modules/services/containers/podman.nix

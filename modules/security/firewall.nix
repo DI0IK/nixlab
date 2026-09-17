@@ -10,6 +10,7 @@
     allowedTCPPorts = [
       22 # SSH
       53 # AdGuard Home DNS
+      80 # HTTP (for Denon YCast)
       503 # Modbus proxy (Sungrow inverter telemetry)
       853 # AdGuard Home DNS-over-TLS (DoT)
       1883 # Mosquitto MQTT broker

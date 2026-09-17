@@ -14,10 +14,6 @@
 
         web = {
           address = ":80";
-          http.redirections.entryPoint = {
-            to = "websecure";
-            scheme = "https";
-          };
         };
 
         websecure = {
@@ -279,6 +275,11 @@
             entryPoints = [ "websecure" ];
             tls = { };
           };
+          ycast = {
+            rule = "Host(`radiodenon.com`) || Host(`*.radiodenon.com`) || Host(`vtuner.com`) || Host(`*.vtuner.com`) || Host(`radiomarantz.com`) || Host(`*.radiomarantz.com`) || HostRegexp(`^.+\\.radiodenon\\.com$`) || HostRegexp(`^.+\\.vtuner\\.com$`)";
+            service = "ycast";
+            entryPoints = [ "web" ];
+          };
         };
 
         services = {
@@ -307,6 +308,7 @@
           archivebox.loadBalancer.servers = [ { url = "http://127.0.0.1:8000"; } ];
           guacamole.loadBalancer.servers = [ { url = "http://127.0.0.1:8084"; } ];
           paperless.loadBalancer.servers = [ { url = "http://127.0.0.1:28010"; } ];
+          ycast.loadBalancer.servers = [ { url = "http://127.0.0.1:8010"; } ];
         };
       };
     };
