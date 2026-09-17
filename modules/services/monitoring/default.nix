@@ -25,6 +25,9 @@
           "meminfo"
           "netdev"
         ];
+        extraFlags = [
+          "--collector.filesystem.mount-points-exclude=^/mnt/immich-external-old-nas$"
+        ];
       };
       redis = {
         enable = true;
