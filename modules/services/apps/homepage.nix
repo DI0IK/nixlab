@@ -223,6 +223,14 @@
               siteMonitor = "http://127.0.0.1:4110";
             };
           }
+          {
+            "Paperless" = {
+              icon = "paperless.svg";
+              href = "https://paperless.dominikstahl.dev";
+              description = "Document Management";
+              siteMonitor = "http://127.0.0.1:28010";
+            };
+          }
         ];
       }
       {

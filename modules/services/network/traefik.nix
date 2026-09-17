@@ -273,6 +273,12 @@
             entryPoints = [ "websecure" ];
             tls = { };
           };
+          paperless = {
+            rule = "Host(`paperless.dominikstahl.dev`)";
+            service = "paperless";
+            entryPoints = [ "websecure" ];
+            tls = { };
+          };
         };
 
         services = {
@@ -300,6 +306,7 @@
           grafana.loadBalancer.servers = [ { url = "http://127.0.0.1:3005"; } ];
           archivebox.loadBalancer.servers = [ { url = "http://127.0.0.1:8000"; } ];
           guacamole.loadBalancer.servers = [ { url = "http://127.0.0.1:8084"; } ];
+          paperless.loadBalancer.servers = [ { url = "http://127.0.0.1:28010"; } ];
         };
       };
     };

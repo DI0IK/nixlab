@@ -76,12 +76,33 @@
         mode = "0400";
       };
 
+      "paperless-admin-password" = {
+        owner = "paperless";
+        group = "paperless";
+        mode = "0400";
+      };
+
+      "paperless-secret" = {
+        owner = "paperless";
+        group = "paperless";
+        mode = "0400";
+      };
+
       "admin-password-hash" = {
         neededForUsers = true;
       };
     };
 
     templates = {
+
+      "paperless-env" = {
+        content = ''
+          PAPERLESS_SOCIALACCOUNT_PROVIDERS={"openid_connect":{"APPS":[{"provider_id":"authentik","name":"Authentik","client_id":"zGnyIvUxXuTNJ65ikflrN8bvVPTqHsGTpcnJusOA","secret":"${config.sops.placeholder."paperless-secret"}","settings":{"server_url":"https://sso.dominikstahl.dev/application/o/paperless/.well-known/openid-configuration"}}]}}
+        '';
+        owner = "paperless";
+        group = "paperless";
+        mode = "0400";
+      };
 
       "acme-cf.env" = {
         content = ''

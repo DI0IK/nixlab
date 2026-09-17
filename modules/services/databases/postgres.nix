@@ -13,6 +13,7 @@
       "authentik"
       "immich"
       "guacamole"
+      "paperless"
     ];
 
     ensureUsers = [
@@ -30,6 +31,10 @@
       }
       {
         name = "guacamole";
+        ensureDBOwnership = true;
+      }
+      {
+        name = "paperless";
         ensureDBOwnership = true;
       }
     ];
@@ -63,6 +68,8 @@
       "forgejo"
       "authentik"
       "immich"
+      "guacamole"
+      "paperless"
     ];
     location = "/var/backup/postgresql";
     startAt = "*-*-* 03:00:00";

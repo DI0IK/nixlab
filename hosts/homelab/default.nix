@@ -37,6 +37,7 @@
     ../../modules/services/apps/searxng.nix
     ../../modules/services/apps/thelounge.nix
     ../../modules/services/apps/homepage.nix
+    ../../modules/services/apps/paperless.nix
 
     # Containers (Podman)
     ../../modules/services/containers/podman.nix
