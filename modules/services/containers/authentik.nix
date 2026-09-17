@@ -3,7 +3,7 @@
 {
   virtualisation.oci-containers.containers = {
     authentik-server = {
-      image = "ghcr.io/goauthentik/server:2026.8.2";
+      image = "ghcr.io/goauthentik/server:2026.8.3";
       autoStart = true;
       cmd = [ "server" ];
       extraOptions = [
@@ -31,7 +31,7 @@
     };
 
     authentik-worker = {
-      image = "ghcr.io/goauthentik/server:2026.8.2";
+      image = "ghcr.io/goauthentik/server:2026.8.3";
       autoStart = true;
       user = "0";
       cmd = [ "worker" ];
