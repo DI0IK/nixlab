@@ -133,6 +133,8 @@
                   "episodes"
                 ];
                 enableBlocks = true;
+                enableNowPlaying = false;
+                enableMediaControl = false;
               };
             };
           }
