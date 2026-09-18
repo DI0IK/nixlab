@@ -13,6 +13,11 @@
     port = 9090;
     listenAddress = "127.0.0.1";
 
+    retentionTime = "1y";
+    extraFlags = [
+      "--storage.tsdb.retention.size=25GB"
+    ];
+
     exporters = {
       node = {
         enable = true;
