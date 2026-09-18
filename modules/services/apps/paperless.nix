@@ -48,6 +48,11 @@
     openMPThreadingWorkaround = true;
   };
 
+  # Gotenberg is pulled in by configureTika; default port 3000 conflicts with Forgejo
+  services.gotenberg = {
+    port = 28011;
+  };
+
   environment.persistence."/persist" = {
     directories = [
       "/var/lib/paperless"
