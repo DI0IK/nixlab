@@ -3,7 +3,7 @@
 {
   virtualisation.oci-containers.containers = {
     immich-server = {
-      image = "ghcr.io/immich-app/immich-server:release";
+      image = "ghcr.io/immich-app/immich-server:v3.2.2";
       autoStart = true;
       extraOptions = [
         "--network=host"
@@ -32,7 +32,7 @@
     };
 
     immich-machine-learning = {
-      image = "ghcr.io/immich-app/immich-machine-learning:release-openvino";
+      image = "ghcr.io/immich-app/immich-machine-learning:v3.2.2-openvino";
       autoStart = true;
       extraOptions = [
         "--network=host"
