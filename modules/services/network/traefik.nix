@@ -275,6 +275,12 @@
             entryPoints = [ "websecure" ];
             tls = { };
           };
+          spapi = {
+            rule = "Host(`sp-api.dominikstahl.dev`)";
+            service = "spapi";
+            entryPoints = [ "websecure" ];
+            tls = { };
+          };
           ycast = {
             rule = "Host(`radiodenon.com`) || Host(`*.radiodenon.com`) || Host(`vtuner.com`) || Host(`*.vtuner.com`) || Host(`radiomarantz.com`) || Host(`*.radiomarantz.com`) || HostRegexp(`^.+\\.radiodenon\\.com$`) || HostRegexp(`^.+\\.vtuner\\.com$`)";
             service = "ycast";
@@ -308,6 +314,7 @@
           archivebox.loadBalancer.servers = [ { url = "http://127.0.0.1:8000"; } ];
           guacamole.loadBalancer.servers = [ { url = "http://127.0.0.1:8084"; } ];
           paperless.loadBalancer.servers = [ { url = "http://127.0.0.1:28010"; } ];
+          spapi.loadBalancer.servers = [ { url = "http://192.168.179.10:2345"; } ];
           ycast.loadBalancer.servers = [ { url = "http://127.0.0.1:8010"; } ];
         };
       };
