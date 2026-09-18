@@ -40,7 +40,9 @@ in
     wantedBy = [ "multi-user.target" ];
 
     serviceConfig = {
-      ExecStart = "${pkgs.python3.withPackages (_: [ ycast ])}/bin/python3 -m ycast -l 127.0.0.1 -p 8010 -c ${stationsConfig}";
+      ExecStart = "${
+        pkgs.python3.withPackages (_: [ ycast ])
+      }/bin/python3 -m ycast -l 127.0.0.1 -p 8010 -c ${stationsConfig}";
       Restart = "on-failure";
       RestartSec = "5s";
 
