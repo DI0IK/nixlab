@@ -13,10 +13,12 @@ let
   };
 in
 {
-  # Host-side directory preparation for MicroVM storage and secrets
+  # Host-side directory preparation for MicroVM storage and secrets (with Btrfs NoCoW)
   systemd.tmpfiles.rules = [
     "d /persist/var/lib/microvms 0755 root root -"
+    "h /persist/var/lib/microvms - - - - +C"
     "d /persist/var/lib/microvms/calagopus-wings 0750 root root -"
+    "h /persist/var/lib/microvms/calagopus-wings - - - - +C"
     "d /run/secrets/calagopus-wings 0750 root root -"
   ];
 
@@ -111,6 +113,15 @@ in
         # Disable predictable interface names so the virtio-net adapter is always eth0
         boot.kernelParams = [ "net.ifnames=0" ];
         networking.usePredictableInterfaceNames = false;
+
+        # TCP BBR congestion control and network buffer tuning
+        boot.kernelModules = [ "tcp_bbr" ];
+        boot.kernel.sysctl = {
+          "net.core.default_qdisc" = "fq";
+          "net.ipv4.tcp_congestion_control" = "bbr";
+          "net.core.rmem_max" = 16777216;
+          "net.core.wmem_max" = 16777216;
+        };
 
         # Local network interface connected to host bridge
         networking.hostName = "calagopus-wings";
