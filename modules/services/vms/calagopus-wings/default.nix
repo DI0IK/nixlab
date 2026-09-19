@@ -15,9 +15,9 @@ in
 {
   # Host-side directory preparation for MicroVM storage and secrets (with Btrfs NoCoW)
   systemd.tmpfiles.rules = [
-    "d /persist/var/lib/microvms 0755 root root -"
+    "d /persist/var/lib/microvms 0775 microvm kvm -"
     "h /persist/var/lib/microvms - - - - +C"
-    "d /persist/var/lib/microvms/calagopus-wings 0750 root root -"
+    "d /persist/var/lib/microvms/calagopus-wings 0750 microvm kvm -"
     "h /persist/var/lib/microvms/calagopus-wings - - - - +C"
     "d /run/secrets/calagopus-wings 0750 root root -"
   ];
@@ -29,7 +29,9 @@ in
     preStart = ''
       mkdir -p /run/secrets/calagopus-wings
       rm -f /run/secrets/calagopus-wings/wg-games.key
-      install -m 0400 -o root -g root ${config.sops.secrets."wg-wings-private-key".path} /run/secrets/calagopus-wings/wg-games.key
+      install -m 0400 -o root -g root ${
+        config.sops.secrets."wg-wings-private-key".path
+      } /run/secrets/calagopus-wings/wg-games.key
     '';
   };
 
@@ -370,22 +372,28 @@ in
           enable = true;
           interfaces.eth0.allowedTCPPorts = [ 9100 ]; # Allow host Prometheus scrape only on local bridge
           allowedTCPPorts = [
-            22    # SSH administration
-            2022  # Calagopus SFTP
-            8080  # Calagopus Wings API (Panel communication)
+            22 # SSH administration
+            2022 # Calagopus SFTP
+            8080 # Calagopus Wings API (Panel communication)
             25565 # Minecraft (mc-router multiplexer)
           ];
           allowedUDPPorts = [
-            2456  # Valheim game
-            2457  # Valheim query
-            7777  # Satisfactory
+            2456 # Valheim game
+            2457 # Valheim query
+            7777 # Satisfactory
             34197 # Factorio
           ];
           allowedTCPPortRanges = [
-            { from = 20000; to = 20010; }
+            {
+              from = 20000;
+              to = 20010;
+            }
           ];
           allowedUDPPortRanges = [
-            { from = 20000; to = 20010; }
+            {
+              from = 20000;
+              to = 20010;
+            }
           ];
         };
       };
