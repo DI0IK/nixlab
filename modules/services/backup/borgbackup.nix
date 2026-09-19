@@ -103,6 +103,81 @@
     };
   };
 
+  # Photo backup: TrueNAS Immich active library and external libraries
+  services.borgbackup.jobs.photos-truenas = {
+    paths = [
+      "/mnt/immich-library"
+      "/mnt/immich-external"
+      "/mnt/immich-external-manger"
+    ];
+
+    exclude = [
+      # Regenerable Immich video streaming transcodes & preview thumbnails (~80 GB saved)
+      "pp:/mnt/immich-library/encoded-video"
+      "pp:/mnt/immich-library/thumbs"
+
+      # OS and NAS desktop artifacts
+      "sh:**/@Recycle"
+      "sh:**/@Recycle/**"
+      "sh:**/Thumbs.db"
+      "sh:**/.DS_Store"
+    ];
+
+    repo = "ssh://u599352-sub4@u599352-sub4.your-storagebox.de:23/./truenas";
+    encryption = {
+      mode = "repokey-blake2";
+      passCommand = "cat ${config.sops.secrets."borg-photos-passphrase".path}";
+    };
+
+    environment = {
+      BORG_RSH = "ssh -p 23 -i ${
+        config.sops.secrets."system-ssh-key".path
+      } -o StrictHostKeyChecking=accept-new";
+    };
+
+    compression = "auto,zstd";
+    startAt = "Sun *-*-* 02:00:00";
+
+    prune.keep = {
+      weekly = 4;
+      monthly = 12;
+    };
+  };
+
+  # Photo backup: Historical old NAS CIFS archive (powers on from 07:00 to 00:00)
+  services.borgbackup.jobs.photos-old-nas = {
+    paths = [
+      "/mnt/immich-external-old-nas"
+    ];
+
+    exclude = [
+      "sh:**/@Recycle"
+      "sh:**/@Recycle/**"
+      "sh:**/Thumbs.db"
+      "sh:**/.DS_Store"
+    ];
+
+    repo = "ssh://u599352-sub4@u599352-sub4.your-storagebox.de:23/./old-nas";
+    encryption = {
+      mode = "repokey-blake2";
+      passCommand = "cat ${config.sops.secrets."borg-photos-passphrase".path}";
+    };
+
+    environment = {
+      BORG_RSH = "ssh -p 23 -i ${
+        config.sops.secrets."system-ssh-key".path
+      } -o StrictHostKeyChecking=accept-new";
+    };
+
+    compression = "auto,zstd";
+    startAt = "Sun *-*-* 07:30:00";
+
+    prune.keep = {
+      weekly = 4;
+      monthly = 12;
+    };
+  };
+
   # Impermanence persistence for Borg cache (chunks/files index) and security config
   environment.persistence."/persist" = {
     directories = [

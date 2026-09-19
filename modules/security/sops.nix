@@ -34,6 +34,12 @@
         mode = "0400";
       };
 
+      "borg-photos-passphrase" = {
+        owner = "root";
+        group = "root";
+        mode = "0400";
+      };
+
       "system-ssh-key" = {
         owner = "root";
         group = "root";
