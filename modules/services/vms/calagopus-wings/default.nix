@@ -284,9 +284,80 @@ in
           gid = 988;
         };
 
+        # Node Exporter for MicroVM system metrics
+        services.prometheus.exporters.node = {
+          enable = true;
+          port = 9100;
+          listenAddress = "10.100.0.2";
+          enabledCollectors = [
+            "systemd"
+            "diskstats"
+            "cpu"
+            "meminfo"
+            "netdev"
+          ];
+        };
+
+        # Grafana Alloy for systemd-journal log scraping to host Loki
+        services.alloy = {
+          enable = true;
+          configPath = pkgs.writeText "config.alloy" ''
+            loki.relabel "journal" {
+              forward_to = []
+
+              rule {
+                source_labels = ["__journal__systemd_unit"]
+                target_label  = "unit"
+              }
+
+              rule {
+                source_labels = ["__journal__systemd_unit"]
+                regex         = "(.+)\\.service"
+                target_label  = "service_name"
+              }
+
+              rule {
+                source_labels = ["__journal__systemd_unit"]
+                regex         = "docker-(.+)\\.service"
+                target_label  = "service_name"
+              }
+
+              rule {
+                source_labels = ["service_name", "__journal_syslog_identifier", "__journal__comm"]
+                regex         = "^;*([^;]+).*"
+                target_label  = "service_name"
+              }
+
+              rule {
+                source_labels = ["service_name"]
+                regex         = "(.+)"
+                target_label  = "app"
+              }
+            }
+
+            loki.source.journal "read" {
+              forward_to    = [loki.write.host.receiver]
+              relabel_rules = loki.relabel.journal.rules
+              labels        = {
+                job  = "systemd-journal",
+                host = "calagopus-wings",
+              }
+              max_age       = "12h"
+              path          = "/var/log/journal"
+            }
+
+            loki.write "host" {
+              endpoint {
+                url = "http://10.100.0.1:3100/loki/api/v1/push"
+              }
+            }
+          '';
+        };
+
         # Firewall inside the MicroVM
         networking.firewall = {
           enable = true;
+          interfaces.eth0.allowedTCPPorts = [ 9100 ]; # Allow host Prometheus scrape only on local bridge
           allowedTCPPorts = [
             22    # SSH administration
             2022  # Calagopus SFTP

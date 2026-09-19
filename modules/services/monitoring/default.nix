@@ -86,6 +86,14 @@
           }
         ];
       }
+      {
+        job_name = "calagopus-wings-node";
+        static_configs = [
+          {
+            targets = [ "10.100.0.2:9100" ];
+          }
+        ];
+      }
     ];
   };
 
