@@ -275,6 +275,18 @@
             entryPoints = [ "websecure" ];
             tls = { };
           };
+          panel = {
+            rule = "Host(`panel.dominikstahl.dev`)";
+            service = "panel";
+            entryPoints = [ "websecure" ];
+            tls = { };
+          };
+          wings = {
+            rule = "Host(`wings.dominikstahl.dev`)";
+            service = "wings";
+            entryPoints = [ "websecure" ];
+            tls = { };
+          };
           spapi = {
             rule = "Host(`sp-api.dominikstahl.dev`)";
             service = "spapi";
@@ -314,6 +326,8 @@
           archivebox.loadBalancer.servers = [ { url = "http://127.0.0.1:8000"; } ];
           guacamole.loadBalancer.servers = [ { url = "http://127.0.0.1:8084"; } ];
           paperless.loadBalancer.servers = [ { url = "http://127.0.0.1:28010"; } ];
+          panel.loadBalancer.servers = [ { url = "http://127.0.0.1:8008"; } ];
+          wings.loadBalancer.servers = [ { url = "http://10.100.0.2:8080"; } ];
           spapi.loadBalancer.servers = [ { url = "http://192.168.179.10:2345"; } ];
           ycast.loadBalancer.servers = [ { url = "http://127.0.0.1:8010"; } ];
         };

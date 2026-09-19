@@ -16,6 +16,12 @@
         mode = "0400";
       };
 
+      "wg-wings-private-key" = {
+        owner = "root";
+        group = "root";
+        mode = "0400";
+      };
+
       "cloudflare-api-token" = {
         owner = "traefik";
         group = "traefik";

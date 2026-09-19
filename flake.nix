@@ -18,6 +18,11 @@
       url = "github:nix-community/impermanence";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
+    microvm = {
+      url = "github:microvm-nix/microvm.nix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs =
@@ -27,6 +32,7 @@
       disko,
       sops-nix,
       impermanence,
+      microvm,
       ...
     }@inputs:
     let
@@ -40,6 +46,7 @@
           disko.nixosModules.disko
           sops-nix.nixosModules.sops
           impermanence.nixosModules.impermanence
+          microvm.nixosModules.host
           ./hosts/homelab
         ];
       };

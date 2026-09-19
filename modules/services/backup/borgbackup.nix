@@ -27,8 +27,9 @@
       "sh:**/transcodes"
       "sh:**/transcodes/**"
 
-      # Container runtimes and ML models
+      # Container runtimes, MicroVMs, and ML models
       "pp:/persist/var/lib/containers"
+      "pp:/persist/var/lib/microvms"
       "pp:/persist/var/lib/immich/model-cache"
 
       # Active PostgreSQL cluster (rely on clean nightly logical dumps in /persist/var/backup)

@@ -46,6 +46,10 @@
     ../../modules/services/containers/authentik.nix
     ../../modules/services/containers/archivebox.nix
     ../../modules/services/containers/misc.nix
+    ../../modules/services/containers/calagopus.nix
+
+    # Virtual Machines (MicroVM)
+    ../../modules/services/vms/calagopus-wings
 
     # Backup
     ../../modules/services/backup/borgbackup.nix
