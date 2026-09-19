@@ -2,6 +2,15 @@
 
 let
   mcRouterSyncScript = pkgs.writeScript "mc-router-sync" (builtins.readFile ./mc-router-sync.py);
+
+  limboConfig = (pkgs.formats.toml { }).generate "server.toml" {
+    bind = "127.0.0.1:25564";
+    default_game_mode = "spectator";
+    welcome_message = "<gold><bold>Calagopus Network</bold></gold>\n<gray>There is no Minecraft server online for this address.</gray>";
+    server_list = {
+      message_of_the_day = "<gold><bold>Calagopus</bold></gold> <dark_gray>»</dark_gray> <red>Server offline or unrouted</red>";
+    };
+  };
 in
 {
   # Host-side directory preparation for MicroVM storage and secrets
@@ -171,7 +180,25 @@ in
               environment = {
                 PORT = "25565";
                 API_BINDING = "127.0.0.1:8081";
+                DEFAULT = "127.0.0.1:25564";
               };
+            };
+
+            # Limbo fallback server for unmatched/offline routes
+            limbo = {
+              image = "ghcr.io/quozul/picolimbo:latest";
+              autoStart = true;
+              extraOptions = [
+                "--network=host"
+              ];
+              volumes = [
+                "${limboConfig}:/etc/picolimbo/server.toml:ro"
+              ];
+              cmd = [
+                "pico_limbo"
+                "--config"
+                "/etc/picolimbo/server.toml"
+              ];
             };
 
             # Calagopus Wings daemon
@@ -206,6 +233,12 @@ in
           "d /var/lib/calagopus-config 0750 root root -"
           "d /var/log/calagopus 0750 root root -"
         ];
+
+        # Ensure Limbo fallback is started before mc-router
+        systemd.services.docker-mc-router = {
+          after = [ "docker-limbo.service" ];
+          wants = [ "docker-limbo.service" ];
+        };
 
         # mc-router dynamic route synchronizer
         systemd.services.mc-router-sync = {

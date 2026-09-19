@@ -11,6 +11,7 @@ DOCKER_SOCKET = "/var/run/docker.sock"
 ROUTER_API = "http://127.0.0.1:8081"
 DOMAIN_ENV_KEY = "SERVER_DOMAIN"
 BASE_DOMAIN_SUFFIX = ".dominikstahl.dev"  # Automatically append if only subdomain provided
+FALLBACK_BACKEND = "127.0.0.1:25564"
 
 class UnixHTTPConnection(http.client.HTTPConnection):
     def __init__(self, socket_path):
@@ -128,7 +129,8 @@ def extract_route_metadata(info):
     return domain, f"{host_ip}:{host_port}"
 
 def sync_all_running():
-    print("[INFO] Reconciling currently running containers...")
+    print("[INFO] Reconciling default fallback route and running containers...")
+    router_request("/defaultRoute", method="POST", payload={"backend": FALLBACK_BACKEND})
     try:
         raw = docker.request("GET", "/containers/json")
         containers = json.loads(raw.decode("utf-8"))
