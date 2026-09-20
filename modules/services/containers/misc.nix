@@ -103,7 +103,7 @@
       ];
       volumes = [
         "/persist/var/lib/qui:/config"
-        "/data/media:/data"
+        "/data/media:/data:rslave"
       ];
     };
 
