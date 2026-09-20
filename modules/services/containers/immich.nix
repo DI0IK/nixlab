@@ -22,10 +22,10 @@
         IMMICH_CONFIG_FILE = "/config/immich-config.yaml";
       };
       volumes = [
-        "/mnt/immich-library:/usr/src/app/upload"
-        "/mnt/immich-external:/external:ro"
-        "/mnt/immich-external-manger:/external_manger:ro"
-        "/mnt/immich-external-old-nas:/external_old_nas:ro"
+        "/mnt/immich-library:/usr/src/app/upload:rslave"
+        "/mnt/immich-external:/external:ro,rslave"
+        "/mnt/immich-external-manger:/external_manger:ro,rslave"
+        "/mnt/immich-external-old-nas:/external_old_nas:ro,rslave"
         "${config.sops.templates."immich-config.yaml".path}:/config/immich-config.yaml:ro"
         "/etc/localtime:/etc/localtime:ro"
       ];

@@ -145,7 +145,7 @@
     };
   };
 
-  # Photo backup: Historical old NAS CIFS archive (powers on from 07:00 to 00:00)
+  # Photo backup: Historical old NAS CIFS archive (powers on from 06:30 to 23:59)
   services.borgbackup.jobs.photos-old-nas = {
     paths = [
       "/mnt/immich-external-old-nas"
@@ -171,7 +171,18 @@
     };
 
     compression = "auto,zstd";
-    startAt = "Sun *-*-* 07:30:00";
+    startAt = "Sun *-*-* 08:30:00";
+
+    preHook = ''
+      # Trigger automount and verify the CIFS share is mounted
+      if ! mountpoint -q /mnt/immich-external-old-nas; then
+        ls /mnt/immich-external-old-nas > /dev/null 2>&1 || true
+      fi
+      if ! mountpoint -q /mnt/immich-external-old-nas; then
+        echo "Error: /mnt/immich-external-old-nas is not mounted (NAS may be powered off). Aborting backup." >&2
+        exit 1
+      fi
+    '';
 
     prune.keep = {
       weekly = 4;

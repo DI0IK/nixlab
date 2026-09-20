@@ -82,7 +82,8 @@
     options = [
       "x-systemd.automount"
       "noauto"
-      "x-systemd.idle-timeout=600"
+      "_netdev"
+      "nofail"
       "rw"
       "soft"
     ];
@@ -95,7 +96,8 @@
     options = [
       "x-systemd.automount"
       "noauto"
-      "x-systemd.idle-timeout=600"
+      "_netdev"
+      "nofail"
       "ro"
       "soft"
     ];
@@ -108,23 +110,46 @@
     options = [
       "x-systemd.automount"
       "noauto"
-      "x-systemd.idle-timeout=600"
+      "_netdev"
+      "nofail"
       "ro"
       "soft"
     ];
   };
 
   # Immich External Read-Only Photo Library (Old NAS SMB Share)
+  # Powers on daily between 06:30 and 23:59.
   fileSystems."/mnt/immich-external-old-nas" = {
     device = "//192.168.178.21/Bilder";
     fsType = "cifs";
     options = [
       "x-systemd.automount"
       "noauto"
-      "x-systemd.idle-timeout=600"
+      "x-systemd.mount-timeout=15s"
+      "_netdev"
+      "nofail"
       "ro"
+      "soft"
       "credentials=${config.sops.templates."cifs-old-nas-credentials".path}"
     ];
+  };
+
+  # Prevent systemd from permanently failing the mount / automount units when the old NAS
+  # is powered off during off-hours (00:00 - 06:30) and scanned by background services.
+  systemd.units."mnt-immich\\x2dexternal\\x2dold\\x2dnas.mount" = {
+    overrideStrategy = "asDropin";
+    text = ''
+      [Unit]
+      StartLimitIntervalSec=0
+    '';
+  };
+
+  systemd.units."mnt-immich\\x2dexternal\\x2dold\\x2dnas.automount" = {
+    overrideStrategy = "asDropin";
+    text = ''
+      [Unit]
+      StartLimitIntervalSec=0
+    '';
   };
 
   # State version for NixOS configuration
