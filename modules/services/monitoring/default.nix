@@ -46,6 +46,11 @@
       };
     };
 
+    globalConfig = {
+      scrape_interval = "15s";
+      evaluation_interval = "15s";
+    };
+
     scrapeConfigs = [
       {
         job_name = "local-node";
