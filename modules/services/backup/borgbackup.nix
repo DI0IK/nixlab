@@ -173,17 +173,6 @@
     compression = "auto,zstd";
     startAt = "Sun *-*-* 08:30:00";
 
-    preHook = ''
-      # Trigger automount and verify the CIFS share is mounted
-      if ! mountpoint -q /mnt/immich-external-old-nas; then
-        ls /mnt/immich-external-old-nas > /dev/null 2>&1 || true
-      fi
-      if ! mountpoint -q /mnt/immich-external-old-nas; then
-        echo "Error: /mnt/immich-external-old-nas is not mounted (NAS may be powered off). Aborting backup." >&2
-        exit 1
-      fi
-    '';
-
     prune.keep = {
       weekly = 4;
       monthly = 12;
