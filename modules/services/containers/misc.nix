@@ -84,7 +84,7 @@
 
     # Qui (web interface for torrents)
     qui = {
-      image = "ghcr.io/hotio/qui:release-1.29.0";
+      image = "ghcr.io/hotio/qui:release-1.30.0";
       autoStart = true;
       extraOptions = [
         "--network=host"
