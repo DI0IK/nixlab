@@ -189,8 +189,8 @@
             facialRecognition:
               enabled: true
               modelName: "buffalo_l"
-              minScore: 0.7
-              maxDistance: 0.3
+              minScore: 0.65
+              maxDistance: 0.48
               minFaces: 3
           trash:
             enabled: false
