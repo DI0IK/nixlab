@@ -29,8 +29,9 @@
         START_SSH_SERVER = true;
         SSH_DOMAIN = "git.dominikstahl.dev";
         SSH_USER = "git";
+        BUILTIN_SSH_SERVER_USER = "git";
         SSH_PORT = 22;
-        SSH_LISTEN_PORT = 22222;
+        SSH_LISTEN_PORT = 2222;
       };
       service = {
         DISABLE_REGISTRATION = true;

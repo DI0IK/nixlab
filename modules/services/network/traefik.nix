@@ -34,18 +34,6 @@
             ];
           };
         };
-
-        ssh = {
-          address = ":2222";
-          # Strict PROXY Protocol v2 parsing from VPS HAProxy endpoint
-          proxyProtocol = {
-            insecure = false;
-            trustedIPs = [
-              "172.30.32.1/32"
-              "fd86:ea04:1115::1/128"
-            ];
-          };
-        };
       };
 
       metrics = {
@@ -59,17 +47,6 @@
 
     # Declarative routing and TLS definitions for local services
     dynamicConfigOptions = {
-      tcp = {
-        routers.forgejo-ssh = {
-          rule = "HostSNI(`*`)";
-          entryPoints = [ "ssh" ];
-          service = "forgejo-ssh";
-        };
-        services.forgejo-ssh.loadBalancer.servers = [
-          { address = "127.0.0.1:22222"; }
-        ];
-      };
-
       tls = {
         certificates = [
           {
