@@ -28,6 +28,7 @@
       OIDC_PROVIDER_NAME = "Authentik";
       OIDC_CONFIGURATION_URL = "https://sso.dominikstahl.dev/application/o/mealie/.well-known/openid-configuration";
       OIDC_CLIENT_ID = "cK5babGmnWHg1TU4Ydl17GXp3YaSUWcRJlz4Pj32";
+      OIDC_REQUIRES_EMAIL_VERIFICATION = "false";
       OIDC_ADMIN_GROUP = "Mealie Admin";
       OIDC_GROUPS_CLAIM = "groups";
       OIDC_AUTO_REDIRECT = "true";
