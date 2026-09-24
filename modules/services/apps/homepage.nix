@@ -281,6 +281,14 @@
               siteMonitor = "http://127.0.0.1:8084/guacamole/";
             };
           }
+          {
+            "Calagopus" = {
+              icon = "pterodactyl.svg";
+              href = "https://panel.dominikstahl.dev";
+              description = "Game Server Management";
+              siteMonitor = "http://127.0.0.1:8008";
+            };
+          }
         ];
       }
       {
