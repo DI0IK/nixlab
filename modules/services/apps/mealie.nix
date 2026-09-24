@@ -6,6 +6,7 @@
     listenAddress = "127.0.0.1";
     port = 9002;
     openFirewall = false;
+    credentialsFile = config.sops.templates."mealie.env".path;
 
     settings = {
       BASE_URL = "https://mealie.dominikstahl.dev";
@@ -27,17 +28,11 @@
       OIDC_PROVIDER_NAME = "Authentik";
       OIDC_CONFIGURATION_URL = "https://sso.dominikstahl.dev/application/o/mealie/.well-known/openid-configuration";
       OIDC_CLIENT_ID = "cK5babGmnWHg1TU4Ydl17GXp3YaSUWcRJlz4Pj32";
-      OIDC_CLIENT_SECRET_FILE = "/run/credentials/mealie.service/oidc_client_secret";
+      OIDC_ADMIN_GROUP = "Mealie Admin";
+      OIDC_GROUPS_CLAIM = "groups";
       OIDC_AUTO_REDIRECT = "true";
       OIDC_REMEMBER_ME = "true";
     };
-  };
-
-  # Securely pass decrypted secret to DynamicUser via systemd credentials
-  systemd.services.mealie.serviceConfig = {
-    LoadCredential = [
-      "oidc_client_secret:${config.sops.secrets."mealie-oidc-secret".path}"
-    ];
   };
 
   # Impermanence: StateDirectory is /var/lib/private/mealie (managed by systemd DynamicUser)

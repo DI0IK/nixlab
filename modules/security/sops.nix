@@ -186,6 +186,15 @@
         mode = "0400";
       };
 
+      "mealie.env" = {
+        content = ''
+          OIDC_CLIENT_SECRET=${config.sops.placeholder."mealie-oidc-secret"}
+        '';
+        owner = "root";
+        group = "root";
+        mode = "0400";
+      };
+
       "immich-config.yaml" = {
         content = ''
           machineLearning:
