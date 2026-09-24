@@ -275,6 +275,18 @@
             service = "ycast";
             entryPoints = [ "web" ];
           };
+          n8n = {
+            rule = "Host(`n8n.dominikstahl.dev`)";
+            service = "n8n";
+            entryPoints = [ "websecure" ];
+            tls = { };
+          };
+          mealie = {
+            rule = "Host(`mealie.dominikstahl.dev`)";
+            service = "mealie";
+            entryPoints = [ "websecure" ];
+            tls = { };
+          };
         };
 
         services = {
@@ -307,6 +319,8 @@
           wings.loadBalancer.servers = [ { url = "http://10.100.0.2:8080"; } ];
           spapi.loadBalancer.servers = [ { url = "http://192.168.179.10:2345"; } ];
           ycast.loadBalancer.servers = [ { url = "http://127.0.0.1:8010"; } ];
+          n8n.loadBalancer.servers = [ { url = "http://127.0.0.1:5678"; } ];
+          mealie.loadBalancer.servers = [ { url = "http://127.0.0.1:9002"; } ];
         };
       };
     };

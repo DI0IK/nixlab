@@ -112,6 +112,12 @@
         mode = "0400";
       };
 
+      "mealie-oidc-secret" = {
+        owner = "root";
+        group = "root";
+        mode = "0400";
+      };
+
       "admin-password-hash" = {
         neededForUsers = true;
       };

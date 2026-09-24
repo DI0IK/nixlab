@@ -32,6 +32,7 @@
 
     # Automation & Apps
     ../../modules/services/automation/home-assistant.nix
+    ../../modules/services/automation/n8n.nix
     ../../modules/services/apps/forgejo.nix
     ../../modules/services/apps/adguard.nix
     ../../modules/services/apps/searxng.nix
@@ -39,6 +40,7 @@
     ../../modules/services/apps/homepage.nix
     ../../modules/services/apps/paperless.nix
     ../../modules/services/apps/ycast.nix
+    ../../modules/services/apps/mealie.nix
 
     # Containers (Podman)
     ../../modules/services/containers/podman.nix
