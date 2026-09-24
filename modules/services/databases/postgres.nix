@@ -15,7 +15,6 @@
       "guacamole"
       "paperless"
       "calagopus"
-      "n8n"
       "mealie"
     ];
 
@@ -42,10 +41,6 @@
       }
       {
         name = "calagopus";
-        ensureDBOwnership = true;
-      }
-      {
-        name = "n8n";
         ensureDBOwnership = true;
       }
       {
@@ -86,7 +81,6 @@
       "guacamole"
       "paperless"
       "calagopus"
-      "n8n"
       "mealie"
     ];
     location = "/var/backup/postgresql";

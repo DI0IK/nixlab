@@ -234,14 +234,6 @@
             };
           }
           {
-            "n8n" = {
-              icon = "n8n.svg";
-              href = "https://n8n.dominikstahl.dev";
-              description = "Workflow Automation";
-              siteMonitor = "http://127.0.0.1:5678/healthz";
-            };
-          }
-          {
             "Mealie" = {
               icon = "mealie.svg";
               href = "https://mealie.dominikstahl.dev";

@@ -32,7 +32,6 @@
 
     # Automation & Apps
     ../../modules/services/automation/home-assistant.nix
-    ../../modules/services/automation/n8n.nix
     ../../modules/services/apps/forgejo.nix
     ../../modules/services/apps/adguard.nix
     ../../modules/services/apps/searxng.nix
