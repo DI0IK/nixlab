@@ -166,8 +166,10 @@ in
           ];
           postUp = ''
             ${pkgs.iptables}/bin/iptables -t mangle -A POSTROUTING -p tcp --tcp-flags SYN,RST SYN -j TCPMSS --clamp-mss-to-pmtu
+            ${pkgs.iptables}/bin/iptables -t nat -A POSTROUTING -o wg-games -j SNAT --to-source 172.30.32.3
           '';
           preDown = ''
+            ${pkgs.iptables}/bin/iptables -t nat -D POSTROUTING -o wg-games -j SNAT --to-source 172.30.32.3 || true
             ${pkgs.iptables}/bin/iptables -t mangle -D POSTROUTING -p tcp --tcp-flags SYN,RST SYN -j TCPMSS --clamp-mss-to-pmtu || true
           '';
         };
