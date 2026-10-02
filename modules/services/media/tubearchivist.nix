@@ -51,6 +51,7 @@
         REDIS_NAME_SPACE = "ta:";
         TA_HOST = "https://tubearchivist.dominikstahl.dev";
         TA_PORT = "8005";
+        TA_BACKEND_PORT = "8006";
         TZ = "Europe/Berlin";
 
         # Authentik Forward Auth
