@@ -53,10 +53,29 @@
   # Inform lemmy-ui that it is being accessed externally through an HTTPS reverse proxy
   systemd.services.lemmy-ui.environment.LEMMY_UI_HTTPS = lib.mkForce "true";
 
-  # Impermanence persistence for pict-rs media storage (managed by systemd DynamicUser)
+  # Define static user and disable DynamicUser so pict-rs runs reliably
+  # with impermanence and stable ownership
+  users.users.pict-rs = {
+    group = "pict-rs";
+    isSystemUser = true;
+  };
+  users.groups.pict-rs = { };
+
+  systemd.services.pict-rs.serviceConfig = {
+    DynamicUser = lib.mkForce false;
+    User = "pict-rs";
+    Group = "pict-rs";
+  };
+
+  # Impermanence persistence for pict-rs media storage
   environment.persistence."/persist" = {
     directories = [
-      "/var/lib/private/pict-rs"
+      {
+        directory = "/var/lib/pict-rs";
+        user = "pict-rs";
+        group = "pict-rs";
+        mode = "0750";
+      }
     ];
   };
 }

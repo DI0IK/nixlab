@@ -56,6 +56,7 @@
 
       # Federated & cached media (Lemmy pict-rs and Matrix Continuwuity)
       "pp:/persist/var/lib/private/pict-rs"
+      "pp:/persist/var/lib/pict-rs"
       "sh:**/pict-rs/**"
       "pp:/persist/var/lib/continuwuity/media"
       "sh:**/continuwuity/media/**"
