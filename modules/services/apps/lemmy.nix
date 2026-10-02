@@ -53,6 +53,9 @@
   # Inform lemmy-ui that it is being accessed externally through an HTTPS reverse proxy
   systemd.services.lemmy-ui.environment.LEMMY_UI_HTTPS = lib.mkForce "true";
 
+  # Configure pict-rs port to 8538 to avoid conflict with sabnzbd on 8080
+  services.pict-rs.port = 8538;
+
   # Define static user and disable DynamicUser so pict-rs runs reliably
   # with impermanence and stable ownership
   users.users.pict-rs = {
