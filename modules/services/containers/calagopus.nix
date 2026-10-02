@@ -41,7 +41,7 @@
       PORT = "8008";
       DATABASE_URL = "postgresql://calagopus@127.0.0.1:5432/calagopus";
       DATABASE_MIGRATE = "true";
-      REDIS_URL = "redis://127.0.0.1:6379";
+      REDIS_URL = "redis://127.0.0.1:6379/3";
       APP_PRIMARY = "true";
       APP_ENABLE_WINGS_PROXY = "true";
       APP_USE_DECRYPTION_CACHE = "true";

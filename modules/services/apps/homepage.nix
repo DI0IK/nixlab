@@ -159,6 +159,14 @@
               siteMonitor = "http://127.0.0.1:4533/ping";
             };
           }
+          {
+            "Tube Archivist" = {
+              icon = "tubearchivist.svg";
+              href = "https://tubearchivist.dominikstahl.dev";
+              description = "YouTube Archival";
+              siteMonitor = "http://127.0.0.1:8005/api/health/";
+            };
+          }
         ];
       }
       {

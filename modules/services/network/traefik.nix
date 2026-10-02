@@ -301,6 +301,13 @@
             priority = 50;
             tls = { };
           };
+          tubearchivist = {
+            rule = "Host(`tubearchivist.dominikstahl.dev`)";
+            service = "tubearchivist";
+            middlewares = [ "authentik" ];
+            entryPoints = [ "websecure" ];
+            tls = { };
+          };
         };
 
         services = {
@@ -337,6 +344,7 @@
           matrix.loadBalancer.servers = [ { url = "http://127.0.0.1:6167"; } ];
           lemmy-backend.loadBalancer.servers = [ { url = "http://127.0.0.1:8536"; } ];
           lemmy-ui.loadBalancer.servers = [ { url = "http://127.0.0.1:8537"; } ];
+          tubearchivist.loadBalancer.servers = [ { url = "http://127.0.0.1:8005"; } ];
         };
       };
     };

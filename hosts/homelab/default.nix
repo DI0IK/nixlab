@@ -29,6 +29,7 @@
     ../../modules/services/media/jellyfin.nix
     ../../modules/services/media/arr.nix
     ../../modules/services/media/navidrome.nix
+    ../../modules/services/media/tubearchivist.nix
 
     # Automation & Apps
     ../../modules/services/automation/home-assistant.nix
