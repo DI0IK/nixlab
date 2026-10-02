@@ -65,7 +65,10 @@ in
   };
 
   # Configure pict-rs port to 8538 to avoid conflict with sabnzbd on 8080
-  services.pict-rs.port = 8538;
+  services.pict-rs = {
+    enable = true;
+    port = 8538;
+  };
 
   # Define static user and disable DynamicUser so pict-rs runs reliably
   # with impermanence and stable ownership
