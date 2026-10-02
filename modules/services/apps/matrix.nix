@@ -28,7 +28,7 @@
       oauth.oidc = {
         enable = true;
         client_id = "ieNHW82JJboIQr1zdsEKoMi3pTxgIwneNdgkpWnD";
-        discovery_url = "https://sso.dominikstahl.dev/application/o/matrix/.well-known/openid-configuration";
+        discovery_url = "https://sso.dominikstahl.dev/application/o/matrix/";
         client_secret_file = config.sops.secrets."matrix-oidc-secret".path;
       };
     };
