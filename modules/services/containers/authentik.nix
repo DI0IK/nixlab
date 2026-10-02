@@ -20,6 +20,7 @@
         AUTHENTIK_POSTGRESQL__PORT = "5432";
         AUTHENTIK_LISTEN__HTTP = "127.0.0.1:9000";
         AUTHENTIK_LISTEN__HTTPS = "127.0.0.1:9443";
+        AUTHENTIK_LISTEN__METRICS = "0.0.0.0:9300";
       };
       environmentFiles = [
         config.sops.templates."authentik.env".path
@@ -47,6 +48,8 @@
         AUTHENTIK_POSTGRESQL__USER = "authentik";
         AUTHENTIK_POSTGRESQL__NAME = "authentik";
         AUTHENTIK_POSTGRESQL__PORT = "5432";
+        AUTHENTIK_LISTEN__HTTP = "127.0.0.1:9003";
+        AUTHENTIK_LISTEN__METRICS = "0.0.0.0:9302";
       };
       environmentFiles = [
         config.sops.templates."authentik.env".path
