@@ -288,7 +288,7 @@
             tls = { };
           };
           lemmy-backend = {
-            rule = "Host(`lemmy.dominikstahl.dev`) && (PathPrefix(`/api`, `/pictrs`, `/feeds`, `/nodeinfo`, `/.well-known`) || Method(`POST`) || HeaderRegexp(`Accept`, `application/(activity|ld)\\+json`))";
+            rule = "Host(`lemmy.dominikstahl.dev`) && (PathPrefix(`/api`) || PathPrefix(`/pictrs`) || PathPrefix(`/feeds`) || PathPrefix(`/nodeinfo`) || PathPrefix(`/.well-known`) || Method(`POST`) || HeaderRegexp(`Accept`, `application/(activity|ld)\\+json`))";
             service = "lemmy-backend";
             entryPoints = [ "websecure" ];
             priority = 100;
