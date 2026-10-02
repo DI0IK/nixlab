@@ -207,15 +207,6 @@
         mode = "0400";
       };
 
-      "lemmy.env" = {
-        content = ''
-          LEMMY__OAUTH__CLIENT_SECRET="${config.sops.placeholder."lemmy-oidc-secret"}"
-        '';
-        owner = "root";
-        group = "root";
-        mode = "0400";
-      };
-
       "immich-config.yaml" = {
         content = ''
           machineLearning:

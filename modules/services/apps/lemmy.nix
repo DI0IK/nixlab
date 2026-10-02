@@ -1,57 +1,68 @@
-{ config, lib, ... }:
+{ config, lib, pkgs, ... }:
 
-{
-  services.lemmy = {
-    enable = true;
-    settings = {
-      hostname = "lemmy.dominikstahl.dev";
-      bind = "127.0.0.1";
-      port = 8536;
-      tls_enabled = true;
-
-      oauth = {
-        provider = "authentik";
-        client_id = "cRGsHFYPxNHtAhYkfpW2XUyBUz9WqNvOa5xdvPTd";
-        auth_url = "https://sso.dominikstahl.dev/application/o/authorize/";
-        token_url = "https://sso.dominikstahl.dev/application/o/token/";
-        user_info_url = "https://sso.dominikstahl.dev/application/o/userinfo/";
-        scopes = [
-          "openid"
-          "profile"
-          "email"
-        ];
-        id_field = "sub";
-        username_field = "preferred_username";
-        email_field = "email";
-      };
+let
+  lemmyConfig = pkgs.writeText "lemmy.hjson" (builtins.toJSON {
+    hostname = "lemmy.dominikstahl.dev";
+    bind = "0.0.0.0";
+    port = 8536;
+    tls_enabled = true;
+    pictrs = {
+      url = "http://127.0.0.1:8538";
     };
-
-    ui = {
-      port = 8537;
-    };
-
     database = {
-      createLocally = false;
-      uri = "postgres:///lemmy?host=/run/postgresql&user=lemmy";
+      connection = "postgres://lemmy@127.0.0.1:5432/lemmy";
+      pool_size = 10;
     };
-  };
-
-  # Inject decrypted Lemmy OIDC client secret via EnvironmentFile
-  systemd.services.lemmy = {
-    after = [
-      "sops-nix.service"
-      "postgresql.service"
-    ];
-    requires = [ "postgresql.service" ];
-    serviceConfig = {
-      EnvironmentFile = [
-        config.sops.templates."lemmy.env".path
+  });
+in
+{
+  virtualisation.oci-containers.containers = {
+    lemmy = {
+      image = "docker.io/dessalines/lemmy:1.0.0-beta.2";
+      autoStart = true;
+      extraOptions = [
+        "--network=host"
+      ];
+      environment = {
+        RUST_LOG = "warn,lemmy_server=info,lemmy_api=info";
+        LEMMY_CONFIG_LOCATION = "/config/config.hjson";
+        LEMMY_DATABASE_URL = "postgres://lemmy@127.0.0.1:5432/lemmy";
+      };
+      volumes = [
+        "${lemmyConfig}:/config/config.hjson:ro"
       ];
     };
+
+    lemmy-ui = {
+      image = "docker.io/dessalines/lemmy-ui:1.0.0-beta.2";
+      autoStart = true;
+      extraOptions = [
+        "--network=host"
+      ];
+      environment = {
+        LEMMY_UI_HOST = "127.0.0.1:8537";
+        LEMMY_UI_BACKEND_INTERNAL = "http://127.0.0.1:8536";
+        LEMMY_UI_BACKEND = "https://lemmy.dominikstahl.dev";
+        LEMMY_UI_HTTPS = "true";
+      };
+    };
   };
 
-  # Inform lemmy-ui that it is being accessed externally through an HTTPS reverse proxy
-  systemd.services.lemmy-ui.environment.LEMMY_UI_HTTPS = lib.mkForce "true";
+  systemd.services.podman-lemmy = {
+    after = [
+      "postgresql.service"
+      "pict-rs.service"
+    ];
+    requires = [
+      "postgresql.service"
+      "pict-rs.service"
+    ];
+  };
+
+  systemd.services.podman-lemmy-ui = {
+    after = [ "podman-lemmy.service" ];
+    requires = [ "podman-lemmy.service" ];
+  };
 
   # Configure pict-rs port to 8538 to avoid conflict with sabnzbd on 8080
   services.pict-rs.port = 8538;
