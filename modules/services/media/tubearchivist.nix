@@ -1,4 +1,4 @@
-{ ... }:
+{ config, ... }:
 
 {
   # Kernel tuning for Elasticsearch
@@ -44,6 +44,7 @@
         "--network=host"
       ];
       environment = {
+        TA_USERNAME = "tubearchivist";
         ELASTIC_PASSWORD = "tubearchivist-elastic-internal";
         ES_URL = "http://127.0.0.1:9200";
         REDIS_CON = "redis://127.0.0.1:6379/2";
@@ -57,6 +58,9 @@
         TA_AUTH_PROXY_USERNAME_HEADER = "X_AUTHENTIK_USERNAME";
         TA_AUTH_PROXY_LOGOUT_URL = "https://sso.dominikstahl.dev/flows/-/default/invalidation/";
       };
+      environmentFiles = [
+        config.sops.templates."tubearchivist.env".path
+      ];
       volumes = [
         "/data/media/media/youtube:/youtube"
         "/persist/var/lib/tubearchivist/cache:/cache"

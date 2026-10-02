@@ -124,7 +124,7 @@
         mode = "0400";
       };
 
-      "lemmy-oidc-secret" = {
+      "tubearchivist-admin-pass" = {
         owner = "root";
         group = "root";
         mode = "0400";
@@ -296,6 +296,15 @@
               cronExpression: "0 10 * * *"
             watch:
               enabled: false
+        '';
+        owner = "root";
+        group = "root";
+        mode = "0400";
+      };
+
+      "tubearchivist.env" = {
+        content = ''
+          TA_PASSWORD=${config.sops.placeholder."tubearchivist-admin-pass"}
         '';
         owner = "root";
         group = "root";
