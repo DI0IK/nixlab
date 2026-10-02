@@ -1,19 +1,26 @@
-{ config, lib, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 
 let
-  lemmyConfig = pkgs.writeText "lemmy.hjson" (builtins.toJSON {
-    hostname = "lemmy.dominikstahl.dev";
-    bind = "0.0.0.0";
-    port = 8536;
-    tls_enabled = true;
-    pictrs = {
-      url = "http://127.0.0.1:8538";
-    };
-    database = {
-      connection = "postgres://lemmy@127.0.0.1:5432/lemmy";
-      pool_size = 10;
-    };
-  });
+  lemmyConfig = pkgs.writeText "lemmy.hjson" (
+    builtins.toJSON {
+      hostname = "lemmy.dominikstahl.dev";
+      bind = "0.0.0.0";
+      port = 8536;
+      tls_enabled = true;
+      pictrs = {
+        url = "http://127.0.0.1:8538";
+      };
+      database = {
+        connection = "postgres://lemmy@127.0.0.1:5432/lemmy";
+        pool_size = 10;
+      };
+    }
+  );
 in
 {
   virtualisation.oci-containers.containers = {
