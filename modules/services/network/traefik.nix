@@ -304,7 +304,6 @@
           tubearchivist = {
             rule = "Host(`tubearchivist.dominikstahl.dev`)";
             service = "tubearchivist";
-            middlewares = [ "authentik" ];
             entryPoints = [ "websecure" ];
             tls = { };
           };

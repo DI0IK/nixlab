@@ -53,11 +53,6 @@
         TA_PORT = "8005";
         TA_BACKEND_PORT = "8006";
         TZ = "Europe/Berlin";
-
-        # Authentik Forward Auth
-        TA_ENABLE_AUTH_PROXY = "true";
-        TA_AUTH_PROXY_USERNAME_HEADER = "X_AUTHENTIK_USERNAME";
-        TA_AUTH_PROXY_LOGOUT_URL = "https://sso.dominikstahl.dev/flows/-/default/invalidation/";
       };
       environmentFiles = [
         config.sops.templates."tubearchivist.env".path
