@@ -87,7 +87,6 @@
       "paperless"
       "calagopus"
       "mealie"
-      "lemmy"
     ];
     location = "/var/backup/postgresql";
     startAt = "*-*-* 03:00:00";

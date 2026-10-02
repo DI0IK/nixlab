@@ -54,6 +54,12 @@
       "sh:**/sabnzbd/Downloads"
       "sh:**/sabnzbd/Downloads/**"
 
+      # Federated & cached media (Lemmy pict-rs and Matrix Continuwuity)
+      "pp:/persist/var/lib/pict-rs"
+      "sh:**/pict-rs/**"
+      "pp:/persist/var/lib/continuwuity/media"
+      "sh:**/continuwuity/media/**"
+
       # AdGuard high-churn query logs
       "sh:**/AdGuardHome/data/**/querylog.json*"
 

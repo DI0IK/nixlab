@@ -17,6 +17,14 @@
         server = "matrix.dominikstahl.dev:443";
       };
 
+      media.retention = [
+        {
+          scope = "remote";
+          created = "30d";
+          space = "10G";
+        }
+      ];
+
       oauth.oidc = {
         enable = true;
         client_id = "ieNHW82JJboIQr1zdsEKoMi3pTxgIwneNdgkpWnD";
