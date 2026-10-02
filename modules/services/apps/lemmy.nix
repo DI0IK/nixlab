@@ -25,6 +25,8 @@ in
       ];
       environment = {
         RUST_LOG = "warn,lemmy_server=info,lemmy_api=info";
+        RUST_MIN_STACK = "16777216";
+        RUST_BACKTRACE = "1";
         LEMMY_CONFIG_LOCATION = "/config/config.hjson";
         LEMMY_DATABASE_URL = "postgres://lemmy@127.0.0.1:5432/lemmy";
       };
