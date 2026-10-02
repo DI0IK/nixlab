@@ -78,10 +78,19 @@ in
   };
   users.groups.pict-rs = { };
 
-  systemd.services.pict-rs.serviceConfig = {
-    DynamicUser = lib.mkForce false;
-    User = "pict-rs";
-    Group = "pict-rs";
+  systemd.services.pict-rs = {
+    environment = {
+      PICTRS__CLIENT__TIMEOUT = "15";
+      PICTRS__MEDIA__PROCESS_TIMEOUT = "30";
+      PICTRS__MEDIA__RETENTION__PROXY = "7d";
+      PICTRS__MEDIA__RETENTION__VARIANTS = "7d";
+    };
+    serviceConfig = {
+      DynamicUser = lib.mkForce false;
+      User = "pict-rs";
+      Group = "pict-rs";
+      LimitNOFILE = 65536;
+    };
   };
 
   # Impermanence persistence for pict-rs media storage
