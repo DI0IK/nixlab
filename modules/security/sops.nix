@@ -118,6 +118,18 @@
         mode = "0400";
       };
 
+      "matrix-oidc-secret" = {
+        owner = "continuwuity";
+        group = "continuwuity";
+        mode = "0400";
+      };
+
+      "lemmy-oidc-secret" = {
+        owner = "root";
+        group = "root";
+        mode = "0400";
+      };
+
       "admin-password-hash" = {
         neededForUsers = true;
       };
@@ -189,6 +201,15 @@
       "mealie.env" = {
         content = ''
           OIDC_CLIENT_SECRET=${config.sops.placeholder."mealie-oidc-secret"}
+        '';
+        owner = "root";
+        group = "root";
+        mode = "0400";
+      };
+
+      "lemmy.env" = {
+        content = ''
+          LEMMY__OAUTH__CLIENT_SECRET="${config.sops.placeholder."lemmy-oidc-secret"}"
         '';
         owner = "root";
         group = "root";

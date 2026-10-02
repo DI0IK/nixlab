@@ -16,6 +16,7 @@
       "paperless"
       "calagopus"
       "mealie"
+      "lemmy"
     ];
 
     ensureUsers = [
@@ -45,6 +46,10 @@
       }
       {
         name = "mealie";
+        ensureDBOwnership = true;
+      }
+      {
+        name = "lemmy";
         ensureDBOwnership = true;
       }
     ];
@@ -82,6 +87,7 @@
       "paperless"
       "calagopus"
       "mealie"
+      "lemmy"
     ];
     location = "/var/backup/postgresql";
     startAt = "*-*-* 03:00:00";

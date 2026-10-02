@@ -281,6 +281,26 @@
             entryPoints = [ "websecure" ];
             tls = { };
           };
+          matrix = {
+            rule = "Host(`matrix.dominikstahl.dev`) || (Host(`dominikstahl.dev`) && PathPrefix(`/.well-known/matrix`))";
+            service = "matrix";
+            entryPoints = [ "websecure" ];
+            tls = { };
+          };
+          lemmy-backend = {
+            rule = "Host(`lemmy.dominikstahl.dev`) && (PathPrefix(`/api`, `/pictrs`, `/feeds`, `/nodeinfo`, `/.well-known`) || Method(`POST`) || HeaderRegexp(`Accept`, `application/(activity|ld)\\+json`))";
+            service = "lemmy-backend";
+            entryPoints = [ "websecure" ];
+            priority = 100;
+            tls = { };
+          };
+          lemmy-ui = {
+            rule = "Host(`lemmy.dominikstahl.dev`)";
+            service = "lemmy-ui";
+            entryPoints = [ "websecure" ];
+            priority = 50;
+            tls = { };
+          };
         };
 
         services = {
@@ -314,6 +334,9 @@
           spapi.loadBalancer.servers = [ { url = "http://192.168.179.10:2345"; } ];
           ycast.loadBalancer.servers = [ { url = "http://127.0.0.1:8010"; } ];
           mealie.loadBalancer.servers = [ { url = "http://127.0.0.1:9002"; } ];
+          matrix.loadBalancer.servers = [ { url = "http://127.0.0.1:6167"; } ];
+          lemmy-backend.loadBalancer.servers = [ { url = "http://127.0.0.1:8536"; } ];
+          lemmy-ui.loadBalancer.servers = [ { url = "http://127.0.0.1:8537"; } ];
         };
       };
     };

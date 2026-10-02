@@ -241,6 +241,22 @@
               siteMonitor = "http://127.0.0.1:9002/api/app/about";
             };
           }
+          {
+            "Matrix" = {
+              icon = "matrix.svg";
+              href = "https://matrix.dominikstahl.dev";
+              description = "Federated Chat";
+              siteMonitor = "http://127.0.0.1:6167/_matrix/client/versions";
+            };
+          }
+          {
+            "Lemmy" = {
+              icon = "lemmy.svg";
+              href = "https://lemmy.dominikstahl.dev";
+              description = "Federated Discussion Platform";
+              siteMonitor = "http://127.0.0.1:8536/api/v3/site";
+            };
+          }
         ];
       }
       {

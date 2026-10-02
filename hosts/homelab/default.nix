@@ -40,6 +40,8 @@
     ../../modules/services/apps/paperless.nix
     ../../modules/services/apps/ycast.nix
     ../../modules/services/apps/mealie.nix
+    ../../modules/services/apps/matrix.nix
+    ../../modules/services/apps/lemmy.nix
 
     # Containers (Podman)
     ../../modules/services/containers/podman.nix
