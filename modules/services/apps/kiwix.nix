@@ -88,8 +88,8 @@ in
       Group = "kiwix";
       StateDirectory = "kiwix";
       StateDirectoryMode = "0755";
-      PrivateUsers = false;
-      UMask = "0022";
+      PrivateUsers = lib.mkForce false;
+      UMask = lib.mkForce "0022";
       ReadOnlyPaths = [ "/data/media/media/zim" ];
       SupplementaryGroups = [ "media" ];
     };
