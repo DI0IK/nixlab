@@ -313,6 +313,12 @@
             entryPoints = [ "websecure" ];
             tls = { };
           };
+          gitlab-time-analysis = {
+            rule = "Host(`se-timetracking.dominikstahl.dev`)";
+            service = "gitlab-time-analysis";
+            entryPoints = [ "websecure" ];
+            tls = { };
+          };
         };
 
         services = {
@@ -351,6 +357,7 @@
           lemmy-ui.loadBalancer.servers = [ { url = "http://127.0.0.1:8537"; } ];
           tubearchivist.loadBalancer.servers = [ { url = "http://127.0.0.1:8005"; } ];
           kiwix.loadBalancer.servers = [ { url = "http://127.0.0.1:8095"; } ];
+          gitlab-time-analysis.loadBalancer.servers = [ { url = "http://127.0.0.1:3020"; } ];
         };
       };
     };

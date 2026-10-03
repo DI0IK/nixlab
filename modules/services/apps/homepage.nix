@@ -273,6 +273,14 @@
               siteMonitor = "http://127.0.0.1:8095";
             };
           }
+          {
+            "SE Timetracking" = {
+              icon = "gitlab.svg";
+              href = "https://se-timetracking.dominikstahl.dev";
+              description = "GitLab Time Tracking Analysis";
+              siteMonitor = "http://127.0.0.1:3020";
+            };
+          }
         ];
       }
       {

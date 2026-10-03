@@ -130,6 +130,12 @@
         mode = "0400";
       };
 
+      "gitlab-token" = {
+        owner = "root";
+        group = "root";
+        mode = "0400";
+      };
+
       "admin-password-hash" = {
         neededForUsers = true;
       };
@@ -305,6 +311,15 @@
       "tubearchivist.env" = {
         content = ''
           TA_PASSWORD=${config.sops.placeholder."tubearchivist-admin-pass"}
+        '';
+        owner = "root";
+        group = "root";
+        mode = "0400";
+      };
+
+      "gitlab-time-analysis.env" = {
+        content = ''
+          GITLAB_TOKEN=${config.sops.placeholder."gitlab-token"}
         '';
         owner = "root";
         group = "root";

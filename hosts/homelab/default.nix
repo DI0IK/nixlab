@@ -52,6 +52,7 @@
     ../../modules/services/containers/archivebox.nix
     ../../modules/services/containers/misc.nix
     ../../modules/services/containers/calagopus.nix
+    ../../modules/services/containers/gitlab-time-analysis.nix
 
     # Virtual Machines (MicroVM)
     ../../modules/services/vms/calagopus-wings
