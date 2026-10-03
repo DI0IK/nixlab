@@ -32,6 +32,10 @@
       "pp:/persist/var/lib/microvms"
       "pp:/persist/var/lib/immich/model-cache"
 
+      # Map routing graphs, search indices, and tile caches (easily regenerable from source data)
+      "pp:/persist/var/lib/maps"
+      "sh:**/maps/**"
+
       # Active PostgreSQL cluster (rely on clean nightly logical dumps in /persist/var/backup)
       "pp:/persist/var/lib/postgresql"
 

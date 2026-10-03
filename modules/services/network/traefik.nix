@@ -84,6 +84,18 @@
               ];
             };
           };
+          maps-strip-tiles = {
+            stripPrefix = {
+              prefixes = [ "/tiles" ];
+            };
+          };
+          maps-cors = {
+            headers = {
+              accessControlAllowMethods = [ "GET" "OPTIONS" ];
+              accessControlAllowOriginList = [ "*" ];
+              accessControlMaxAge = 86400;
+            };
+          };
         };
 
         routers = {
@@ -319,6 +331,37 @@
             entryPoints = [ "websecure" ];
             tls = { };
           };
+          maps-tiles = {
+            rule = "Host(`maps.dominikstahl.dev`) && PathPrefix(`/tiles`)";
+            service = "maps-tiles";
+            middlewares = [ "maps-strip-tiles" "maps-cors" ];
+            priority = 100;
+            entryPoints = [ "websecure" ];
+            tls = { };
+          };
+          maps-route = {
+            rule = "Host(`maps.dominikstahl.dev`) && (PathPrefix(`/route`) || PathPrefix(`/gh`))";
+            service = "maps-route";
+            middlewares = [ "maps-cors" ];
+            priority = 100;
+            entryPoints = [ "websecure" ];
+            tls = { };
+          };
+          maps-geocode = {
+            rule = "Host(`maps.dominikstahl.dev`) && (PathPrefix(`/api`) || PathPrefix(`/reverse`))";
+            service = "maps-geocode";
+            middlewares = [ "maps-cors" ];
+            priority = 100;
+            entryPoints = [ "websecure" ];
+            tls = { };
+          };
+          maps = {
+            rule = "Host(`maps.dominikstahl.dev`)";
+            service = "maps-web";
+            priority = 10;
+            entryPoints = [ "websecure" ];
+            tls = { };
+          };
         };
 
         services = {
@@ -358,6 +401,10 @@
           tubearchivist.loadBalancer.servers = [ { url = "http://127.0.0.1:8005"; } ];
           kiwix.loadBalancer.servers = [ { url = "http://127.0.0.1:8095"; } ];
           gitlab-time-analysis.loadBalancer.servers = [ { url = "http://127.0.0.1:3020"; } ];
+          maps-web.loadBalancer.servers = [ { url = "http://127.0.0.1:8091"; } ];
+          maps-tiles.loadBalancer.servers = [ { url = "http://127.0.0.1:8092"; } ];
+          maps-route.loadBalancer.servers = [ { url = "http://127.0.0.1:8998"; } ];
+          maps-geocode.loadBalancer.servers = [ { url = "http://127.0.0.1:2322"; } ];
         };
       };
     };

@@ -274,6 +274,14 @@
             };
           }
           {
+            "Maps" = {
+              icon = "openstreetmap.svg";
+              href = "https://maps.dominikstahl.dev";
+              description = "Self-hosted Maps, Geocoding & Routing";
+              siteMonitor = "http://127.0.0.1:8091";
+            };
+          }
+          {
             "SE Timetracking" = {
               icon = "gitlab.svg";
               href = "https://se-timetracking.dominikstahl.dev";
