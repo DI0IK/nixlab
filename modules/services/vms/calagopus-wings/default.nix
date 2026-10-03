@@ -13,10 +13,8 @@ let
   };
 in
 {
-  # Host-side directory preparation for MicroVM storage and secrets (with Btrfs NoCoW)
+  # Host-side directory preparation for Calagopus Wings storage and secrets (with Btrfs NoCoW)
   systemd.tmpfiles.rules = [
-    "d /persist/var/lib/microvms 0775 microvm kvm -"
-    "h /persist/var/lib/microvms - - - - +C"
     "d /persist/var/lib/microvms/calagopus-wings 0750 microvm kvm -"
     "h /persist/var/lib/microvms/calagopus-wings - - - - +C"
     "d /run/secrets/calagopus-wings 0750 root root -"
@@ -39,31 +37,6 @@ in
   systemd.services."microvm@calagopus-wings" = {
     after = [ "sops-nix.service" ];
     wants = [ "sops-nix.service" ];
-  };
-
-  # Host-side network bridge for MicroVM communication
-  networking.bridges.br-microvm.interfaces = [ ];
-  networking.interfaces.br-microvm.ipv4.addresses = [
-    {
-      address = "10.100.0.1";
-      prefixLength = 24;
-    }
-  ];
-
-  # Allow local traffic between host and MicroVM
-  networking.firewall.trustedInterfaces = [ "br-microvm" ];
-
-  # NAT outbound traffic so MicroVM has internet access to establish WireGuard to VPS
-  networking.nat = {
-    enable = true;
-    internalInterfaces = [ "br-microvm" ];
-  };
-
-  # Impermanence: ensure MicroVM state and virtual disks persist across host reboots
-  environment.persistence."/persist" = {
-    directories = [
-      "/var/lib/microvms"
-    ];
   };
 
   # Calagopus Wings MicroVM definition

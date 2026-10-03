@@ -136,6 +136,12 @@
         mode = "0400";
       };
 
+      "forgejo-action-microvm-token" = {
+        owner = "root";
+        group = "root";
+        mode = "0400";
+      };
+
       "admin-password-hash" = {
         neededForUsers = true;
       };

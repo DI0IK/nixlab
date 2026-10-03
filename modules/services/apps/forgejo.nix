@@ -40,6 +40,9 @@
       session = {
         COOKIE_SECURE = true;
       };
+      actions = {
+        ENABLED = true;
+      };
     };
   };
 

@@ -56,7 +56,9 @@
     ../../modules/services/containers/maps.nix
 
     # Virtual Machines (MicroVM)
+    ../../modules/services/vms/common.nix
     ../../modules/services/vms/calagopus-wings
+    ../../modules/services/vms/forgejo-runner
 
     # Backup
     ../../modules/services/backup/borgbackup.nix
