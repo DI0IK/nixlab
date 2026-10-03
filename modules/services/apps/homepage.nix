@@ -265,6 +265,14 @@
               siteMonitor = "http://127.0.0.1:8536/api/v3/site";
             };
           }
+          {
+            "Kiwix" = {
+              icon = "kiwix.svg";
+              href = "https://kiwix.dominikstahl.dev";
+              description = "Offline Wikipedia & ZIM Library";
+              siteMonitor = "http://127.0.0.1:8095";
+            };
+          }
         ];
       }
       {

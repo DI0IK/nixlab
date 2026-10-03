@@ -307,6 +307,12 @@
             entryPoints = [ "websecure" ];
             tls = { };
           };
+          kiwix = {
+            rule = "Host(`kiwix.dominikstahl.dev`)";
+            service = "kiwix";
+            entryPoints = [ "websecure" ];
+            tls = { };
+          };
         };
 
         services = {
@@ -344,6 +350,7 @@
           lemmy-backend.loadBalancer.servers = [ { url = "http://127.0.0.1:8536"; } ];
           lemmy-ui.loadBalancer.servers = [ { url = "http://127.0.0.1:8537"; } ];
           tubearchivist.loadBalancer.servers = [ { url = "http://127.0.0.1:8005"; } ];
+          kiwix.loadBalancer.servers = [ { url = "http://127.0.0.1:8095"; } ];
         };
       };
     };

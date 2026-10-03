@@ -43,6 +43,7 @@
     ../../modules/services/apps/mealie.nix
     ../../modules/services/apps/matrix.nix
     ../../modules/services/apps/lemmy.nix
+    ../../modules/services/apps/kiwix.nix
 
     # Containers (Podman)
     ../../modules/services/containers/podman.nix
