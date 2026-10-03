@@ -340,6 +340,7 @@
             middlewares = [
               "maps-strip-tiles"
               "maps-cors"
+              "authentik"
             ];
             priority = 100;
             entryPoints = [ "websecure" ];
@@ -348,7 +349,10 @@
           maps-route = {
             rule = "Host(`maps.dominikstahl.dev`) && (PathPrefix(`/route`) || PathPrefix(`/gh`))";
             service = "maps-route";
-            middlewares = [ "maps-cors" ];
+            middlewares = [
+              "maps-cors"
+              "authentik"
+            ];
             priority = 100;
             entryPoints = [ "websecure" ];
             tls = { };
@@ -356,7 +360,10 @@
           maps-geocode = {
             rule = "Host(`maps.dominikstahl.dev`) && (PathPrefix(`/api`) || PathPrefix(`/reverse`))";
             service = "maps-geocode";
-            middlewares = [ "maps-cors" ];
+            middlewares = [
+              "maps-cors"
+              "authentik"
+            ];
             priority = 100;
             entryPoints = [ "websecure" ];
             tls = { };
@@ -364,6 +371,9 @@
           maps = {
             rule = "Host(`maps.dominikstahl.dev`)";
             service = "maps-web";
+            middlewares = [
+              "authentik"
+            ];
             priority = 10;
             entryPoints = [ "websecure" ];
             tls = { };
