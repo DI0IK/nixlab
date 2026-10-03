@@ -40,7 +40,9 @@ in
     preStart = ''
       mkdir -p /run/secrets/forgejo-runner
       rm -f /run/secrets/forgejo-runner/token
-      install -m 0400 -o root -g root ${config.sops.secrets."forgejo-action-microvm-token".path} /run/secrets/forgejo-runner/token
+      install -m 0400 -o root -g root ${
+        config.sops.secrets."forgejo-action-microvm-token".path
+      } /run/secrets/forgejo-runner/token
 
       mkdir -p /persist/var/lib/microvms/forgejo-runner/cache
       chown microvm:kvm /persist/var/lib/microvms/forgejo-runner/cache

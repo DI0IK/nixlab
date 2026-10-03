@@ -91,7 +91,10 @@
           };
           maps-cors = {
             headers = {
-              accessControlAllowMethods = [ "GET" "OPTIONS" ];
+              accessControlAllowMethods = [
+                "GET"
+                "OPTIONS"
+              ];
               accessControlAllowOriginList = [ "*" ];
               accessControlMaxAge = 86400;
             };
@@ -334,7 +337,10 @@
           maps-tiles = {
             rule = "Host(`maps.dominikstahl.dev`) && PathPrefix(`/tiles`)";
             service = "maps-tiles";
-            middlewares = [ "maps-strip-tiles" "maps-cors" ];
+            middlewares = [
+              "maps-strip-tiles"
+              "maps-cors"
+            ];
             priority = 100;
             entryPoints = [ "websecure" ];
             tls = { };

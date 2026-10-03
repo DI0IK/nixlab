@@ -165,9 +165,19 @@ in
   # Automated initial dataset bootstrap service (OSM PBF & Vector PMTiles)
   systemd.services.maps-bootstrap = {
     description = "Bootstrap Map Datasets (OSM PBF & Vector Tiles)";
-    after = [ "network-online.target" "data-media.mount" ];
-    wants = [ "network-online.target" "data-media.mount" ];
-    path = [ pkgs.curl pkgs.pmtiles pkgs.coreutils ];
+    after = [
+      "network-online.target"
+      "data-media.mount"
+    ];
+    wants = [
+      "network-online.target"
+      "data-media.mount"
+    ];
+    path = [
+      pkgs.curl
+      pkgs.pmtiles
+      pkgs.coreutils
+    ];
     serviceConfig = {
       Type = "oneshot";
       RemainAfterExit = true;
@@ -223,9 +233,20 @@ in
   # Automated monthly maps update service & timer
   systemd.services.maps-update = {
     description = "Monthly Maps Dataset Refresh";
-    after = [ "network-online.target" "data-media.mount" ];
-    wants = [ "network-online.target" "data-media.mount" ];
-    path = [ pkgs.curl pkgs.pmtiles pkgs.coreutils pkgs.systemd ];
+    after = [
+      "network-online.target"
+      "data-media.mount"
+    ];
+    wants = [
+      "network-online.target"
+      "data-media.mount"
+    ];
+    path = [
+      pkgs.curl
+      pkgs.pmtiles
+      pkgs.coreutils
+      pkgs.systemd
+    ];
     serviceConfig = {
       Type = "oneshot";
       TimeoutStartSec = "7200";
@@ -283,12 +304,24 @@ in
 
   # Service dependencies ensuring NFS mount and datasets are ready before starting containers
   systemd.services.podman-maps-tiles = {
-    after = [ "data-media.mount" "maps-bootstrap.service" ];
-    wants = [ "data-media.mount" "maps-bootstrap.service" ];
+    after = [
+      "data-media.mount"
+      "maps-bootstrap.service"
+    ];
+    wants = [
+      "data-media.mount"
+      "maps-bootstrap.service"
+    ];
   };
 
   systemd.services.podman-maps-routing = {
-    after = [ "data-media.mount" "maps-bootstrap.service" ];
-    wants = [ "data-media.mount" "maps-bootstrap.service" ];
+    after = [
+      "data-media.mount"
+      "maps-bootstrap.service"
+    ];
+    wants = [
+      "data-media.mount"
+      "maps-bootstrap.service"
+    ];
   };
 }
