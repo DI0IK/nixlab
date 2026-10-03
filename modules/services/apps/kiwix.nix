@@ -18,14 +18,13 @@ let
     fi
 
     if [ -d "$ZIM_DIR" ]; then
-      shopt -s nullglob
-      zims=("$ZIM_DIR"/*.zim)
+      mapfile -t zims < <(find "$ZIM_DIR" -type f -name "*.zim" | sort)
       if [ ''${#zims[@]} -gt 0 ]; then
         echo "Updating Kiwix library with ''${#zims[@]} ZIM archive(s)..."
         ${pkgs.kiwix-tools}/bin/kiwix-manage "$LIB" add "''${zims[@]}"
         echo "Library updated successfully."
       else
-        echo "No .zim files found in $ZIM_DIR."
+        echo "No .zim files found in $ZIM_DIR (searched recursively)."
       fi
     else
       echo "Directory $ZIM_DIR does not exist."
@@ -72,10 +71,9 @@ in
         chmod 644 /var/lib/kiwix/library.xml
       fi
 
-      # Index existing ZIM archives on startup if any exist
+      # Index existing ZIM archives recursively on startup if any exist
       if [ -d /data/media/media/zim ]; then
-        shopt -s nullglob
-        zim_files=(/data/media/media/zim/*.zim)
+        mapfile -t zim_files < <(find /data/media/media/zim -type f -name "*.zim" | sort)
         if [ ''${#zim_files[@]} -gt 0 ]; then
           ${pkgs.kiwix-tools}/bin/kiwix-manage /var/lib/kiwix/library.xml add "''${zim_files[@]}" || true
         fi
