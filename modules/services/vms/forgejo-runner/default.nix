@@ -1,4 +1,9 @@
-{ config, pkgs, ... }:
+{
+  config,
+  pkgs,
+  lib,
+  ...
+}:
 
 let
   runnerConfig = pkgs.writeText "forgejo-runner-config.yaml" ''
@@ -24,16 +29,21 @@ let
   '';
 in
 {
-  # Ensure host directory for the SOPS decrypted secret and image cache exists
+  # Add qemu-utils to host environment for qemu-img and qemu-nbd
+  environment.systemPackages = [ pkgs.qemu-utils ];
+
+  # Ensure NBD module is available on the host for base image refresh
+  boot.kernelModules = [ "nbd" ];
+
+  # Host directories for secrets, base image storage, and ephemeral run overlay
   systemd.tmpfiles.rules = [
     "d /run/secrets/forgejo-runner 0750 root root -"
     "d /persist/var/lib/microvms/forgejo-runner 0775 microvm kvm -"
     "h /persist/var/lib/microvms/forgejo-runner - - - - +C"
-    "d /persist/var/lib/microvms/forgejo-runner/cache 0777 microvm kvm -"
-    "h /persist/var/lib/microvms/forgejo-runner/cache - - - - +C"
+    "d /run/microvms/forgejo-runner 0775 microvm kvm -"
   ];
 
-  # Order virtiofsd and MicroVM startup after host secrets are decrypted by sops-nix
+  # Order virtiofsd startup after host secrets are decrypted by sops-nix
   systemd.services."microvm-virtiofsd@forgejo-runner" = {
     after = [ "sops-nix.service" ];
     wants = [ "sops-nix.service" ];
@@ -43,16 +53,175 @@ in
       install -m 0400 -o root -g root ${
         config.sops.secrets."forgejo-action-microvm-token".path
       } /run/secrets/forgejo-runner/token
-
-      mkdir -p /persist/var/lib/microvms/forgejo-runner/cache
-      chown microvm:kvm /persist/var/lib/microvms/forgejo-runner/cache
-      chmod 0777 /persist/var/lib/microvms/forgejo-runner/cache
     '';
   };
 
+  # MicroVM host service: prepare fresh ephemeral overlay before VM starts
   systemd.services."microvm@forgejo-runner" = {
     after = [ "sops-nix.service" ];
     wants = [ "sops-nix.service" ];
+    serviceConfig = {
+      PermissionsStartOnly = true;
+    };
+    preStart = ''
+      ${pkgs.coreutils}/bin/mkdir -p /run/microvms/forgejo-runner
+      ${pkgs.coreutils}/bin/chown microvm:kvm /run/microvms/forgejo-runner
+      ${pkgs.coreutils}/bin/chmod 0775 /run/microvms/forgejo-runner
+
+      BASE_IMG="/persist/var/lib/microvms/forgejo-runner/base.qcow2"
+      OVERLAY_IMG="/run/microvms/forgejo-runner/overlay.qcow2"
+
+      if [ ! -f "$BASE_IMG" ]; then
+        echo "Base image ($BASE_IMG) does not exist yet. Please run initial fill with: systemctl start forgejo-runner-refresh-base"
+        exit 1
+      fi
+
+      # Wipe stale job overlay and create a fresh COW layer pointing to base
+      ${pkgs.coreutils}/bin/rm -f "$OVERLAY_IMG"
+      ${pkgs.qemu-utils}/bin/qemu-img create -f qcow2 -b "$BASE_IMG" -F qcow2 "$OVERLAY_IMG"
+      ${pkgs.coreutils}/bin/chown microvm:kvm "$OVERLAY_IMG"
+      ${pkgs.coreutils}/bin/chmod 0660 "$OVERLAY_IMG"
+    '';
+  };
+
+  # Weekly refresh timer & service to update golden base image
+  systemd.timers.forgejo-runner-refresh-base = {
+    description = "Weekly Refresh Timer for Forgejo Runner Base Image";
+    wantedBy = [ "timers.target" ];
+    timerConfig = {
+      OnCalendar = "Sun *-*-* 07:00:00";
+      Persistent = true;
+    };
+  };
+
+  systemd.services.forgejo-runner-refresh-base = {
+    description = "Refresh Forgejo Runner Base Image";
+    path = with pkgs; [
+      bash
+      qemu-utils
+      e2fsprogs
+      podman
+      util-linux
+      coreutils
+      kmod
+      systemd
+    ];
+    serviceConfig = {
+      Type = "oneshot";
+      TimeoutSec = "1h";
+    };
+    script = ''
+      set -euo pipefail
+
+      BASE_DIR="/persist/var/lib/microvms/forgejo-runner"
+      BASE_IMG="$BASE_DIR/base.qcow2"
+      NEW_IMG="$BASE_DIR/base-new.qcow2"
+      TMP_MNT="/run/microvms/forgejo-runner/mnt-base-refresh"
+      RUN_ROOT="/run/podman-base-refresh"
+      NBD_DEV=""
+
+      cleanup() {
+        local exit_code=$?
+        set +e
+        if mountpoint -q "$TMP_MNT"; then
+          umount -f "$TMP_MNT" || true
+        fi
+        if [ -n "$NBD_DEV" ]; then
+          qemu-nbd -d "$NBD_DEV" || true
+        fi
+        rm -rf "$TMP_MNT" "$RUN_ROOT"
+        if [ "$exit_code" -ne 0 ] && [ -f "$NEW_IMG" ]; then
+          rm -f "$NEW_IMG"
+        fi
+      }
+      trap cleanup EXIT
+
+      modprobe nbd max_part=8 || true
+
+      for i in $(seq 0 15); do
+        dev="/dev/nbd$i"
+        if [ -b "$dev" ]; then
+          size=$(cat "/sys/class/block/nbd$i/size" 2>/dev/null || echo 0)
+          if [ "$size" -eq 0 ]; then
+            NBD_DEV="$dev"
+            break
+          fi
+        fi
+      done
+
+      if [ -z "$NBD_DEV" ]; then
+        echo "ERROR: No available /dev/nbd device found!"
+        exit 1
+      fi
+
+      echo "Using NBD device: $NBD_DEV"
+
+      mkdir -p "$BASE_DIR"
+      mkdir -p "$TMP_MNT"
+      mkdir -p "$RUN_ROOT"
+      rm -f "$NEW_IMG"
+
+      echo "Creating 40 GiB sparse qcow2 image at $NEW_IMG..."
+      qemu-img create -f qcow2 "$NEW_IMG" 40G
+
+      echo "Connecting $NEW_IMG to $NBD_DEV..."
+      qemu-nbd --fork -c "$NBD_DEV" -f qcow2 "$NEW_IMG"
+
+      # Wait for kernel block layer to register the NBD device size
+      udevadm settle || true
+      for _ in $(seq 1 50); do
+        dev_size=$(cat "/sys/class/block/$(basename "$NBD_DEV")/size" 2>/dev/null || echo 0)
+        if [ "$dev_size" -gt 0 ]; then
+          break
+        fi
+        sleep 0.1
+      done
+
+      dev_size=$(cat "/sys/class/block/$(basename "$NBD_DEV")/size" 2>/dev/null || echo 0)
+      if [ "$dev_size" -eq 0 ]; then
+        echo "ERROR: $NBD_DEV size is still 0 after connecting!"
+        exit 1
+      fi
+
+      echo "Formatting $NBD_DEV with ext4..."
+      mkfs.ext4 -F -L "runner-disk" "$NBD_DEV"
+
+      echo "Populating golden disk via private mount namespace matching guest /var/lib/containers..."
+      unshare --mount --propagation private ${pkgs.bash}/bin/bash -euo pipefail -c "
+        mount --make-rprivate /
+        mkdir -p '$TMP_MNT'
+        mount '$NBD_DEV' '$TMP_MNT'
+        mkdir -p /var/lib/containers
+        mount --bind '$TMP_MNT' /var/lib/containers
+
+        echo 'Pulling runner image into golden container storage...'
+        podman --runroot '$RUN_ROOT' pull ghcr.io/catthehacker/ubuntu:act-latest
+
+        echo 'Syncing filesystem...'
+        sync
+
+        umount /var/lib/containers
+        umount '$TMP_MNT'
+      "
+
+      echo "Disconnecting NBD device $NBD_DEV..."
+      qemu-nbd -d "$NBD_DEV"
+      NBD_DEV=""
+
+      echo "Setting permissions on new base image..."
+      chown microvm:kvm "$NEW_IMG"
+      chmod 444 "$NEW_IMG"
+
+      echo "Atomically replacing $BASE_IMG with new image..."
+      mv -f "$NEW_IMG" "$BASE_IMG"
+
+      rm -rf "$TMP_MNT" "$RUN_ROOT"
+
+      echo "Restarting runner service if running..."
+      systemctl try-restart microvm@forgejo-runner.service || true
+
+      echo "Forgejo runner base image refresh completed successfully!"
+    '';
   };
 
   # Forgejo Runner MicroVM definition
@@ -65,7 +234,7 @@ in
 
         microvm = {
           vcpu = 6;
-          mem = 16384; # 16 GB RAM for tmpfs builds
+          mem = 6144; # Reduced from 16 GB to 6 GB
           hypervisor = "qemu";
           interfaces = [
             {
@@ -74,6 +243,12 @@ in
               bridge = "br-microvm";
               mac = "02:00:00:00:00:30";
             }
+          ];
+          qemu.extraArgs = [
+            "-drive"
+            "id=vdcontainers,format=qcow2,file=/run/microvms/forgejo-runner/overlay.qcow2,if=none,aio=io_uring,discard=unmap"
+            "-device"
+            "virtio-blk-pci,drive=vdcontainers,serial=containers"
           ];
           shares = [
             {
@@ -89,22 +264,23 @@ in
               mountPoint = "/run/secrets";
               readOnly = true;
             }
-            {
-              proto = "virtiofs";
-              tag = "runner-cache";
-              source = "/persist/var/lib/microvms/forgejo-runner/cache";
-              mountPoint = "/var/cache/runner";
-            }
           ];
         };
 
-        # Ephemeral root: 16 GB in-memory filesystem for large build workspaces (Rust target/, Android Gradle)
+        # Containers storage volume (QCOW2 COW overlay on top of golden base image)
+        fileSystems."/var/lib/containers" = {
+          device = "/dev/disk/by-label/runner-disk";
+          fsType = "ext4";
+          options = [ "defaults" ];
+        };
+
+        # Ephemeral root: 2 GB in-memory filesystem for tiny runtime files, /tmp, and /run
         fileSystems."/" = {
           device = "none";
           fsType = "tmpfs";
           options = [
             "defaults"
-            "size=16G"
+            "size=2G"
             "mode=755"
           ];
         };
@@ -187,23 +363,6 @@ in
             WorkingDirectory = "/root";
             StandardOutput = "journal";
             StandardError = "journal";
-            ExecStartPre = pkgs.writeShellScript "load-cached-runner-image" ''
-              set -euo pipefail
-              mkdir -p /var/cache/runner
-              IMAGE_TAR="/var/cache/runner/ubuntu-act-latest.tar"
-              IMAGE_TAG="ghcr.io/catthehacker/ubuntu:act-latest"
-
-              if [ -s "$IMAGE_TAR" ]; then
-                echo "Loading cached runner image from host storage..."
-                ${pkgs.podman}/bin/podman load -i "$IMAGE_TAR"
-              else
-                echo "Pulling runner image from registry..."
-                ${pkgs.podman}/bin/podman pull "$IMAGE_TAG"
-                echo "Caching runner image to host storage..."
-                ${pkgs.podman}/bin/podman save "$IMAGE_TAG" -o "$IMAGE_TAR.tmp"
-                mv "$IMAGE_TAR.tmp" "$IMAGE_TAR"
-              fi
-            '';
             ExecStart = "${pkgs.forgejo-runner}/bin/forgejo-runner one-job -w -c ${runnerConfig}";
             Restart = "on-failure";
             RestartSec = 10;
