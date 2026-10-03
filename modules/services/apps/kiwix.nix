@@ -1,4 +1,9 @@
-{ config, pkgs, ... }:
+{
+  config,
+  pkgs,
+  lib,
+  ...
+}:
 
 let
   kiwixSync = pkgs.writeShellScriptBin "kiwix-sync" ''
@@ -28,10 +33,18 @@ let
   '';
 in
 {
+  # Dedicated system user and group for Kiwix
+  users.users.kiwix = {
+    isSystemUser = true;
+    group = "kiwix";
+    extraGroups = [ "media" ];
+  };
+  users.groups.kiwix = { };
+
   # Declarative directory creation on the media mount and state directory
   systemd.tmpfiles.rules = [
     "d /data/media/media/zim 0775 root media -"
-    "d /persist/var/lib/kiwix 0755 root root -"
+    "d /persist/var/lib/kiwix 0755 kiwix kiwix -"
   ];
 
   # Kiwix ZIM archive HTTP server
@@ -70,7 +83,13 @@ in
     '';
 
     serviceConfig = {
+      DynamicUser = lib.mkForce false;
+      User = "kiwix";
+      Group = "kiwix";
       StateDirectory = "kiwix";
+      StateDirectoryMode = "0755";
+      PrivateUsers = false;
+      UMask = "0022";
       ReadOnlyPaths = [ "/data/media/media/zim" ];
       SupplementaryGroups = [ "media" ];
     };
