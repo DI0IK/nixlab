@@ -54,7 +54,7 @@ in
     libraryPath = "/var/lib/kiwix/library.xml";
     extraArgs = [
       "--monitorLibrary"
-      "--searchLimit=10"
+      "--searchLimit=100"
     ];
   };
 
