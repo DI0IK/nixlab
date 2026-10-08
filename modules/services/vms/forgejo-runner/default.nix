@@ -363,6 +363,7 @@ in
           jq
           nix
           devenv
+          nodejs_22
         ];
 
         nix.settings = {
@@ -399,6 +400,7 @@ in
             pkgs.coreutils
             pkgs.nix
             pkgs.devenv
+            pkgs.nodejs_22
           ];
           environment = {
             HOME = "/root";
