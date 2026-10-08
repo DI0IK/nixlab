@@ -26,6 +26,13 @@ let
           labels:
             - "ubuntu-latest:docker://ghcr.io/catthehacker/ubuntu:act-latest"
             - "native:host"
+        codeberg:
+          url: https://codeberg.org/
+          uuid: 3d3b9023-0662-46a6-bef3-655cd10626a5
+          token_url: file:///run/secrets/token-codeberg
+          labels:
+            - "ubuntu-latest:docker://ghcr.io/catthehacker/ubuntu:act-latest"
+            - "native:host"
   '';
 in
 {
@@ -50,9 +57,13 @@ in
     preStart = ''
       mkdir -p /run/secrets/forgejo-runner
       rm -f /run/secrets/forgejo-runner/token
+      rm -f /run/secrets/forgejo-runner/token-codeberg
       install -m 0400 -o root -g root ${
         config.sops.secrets."forgejo-action-microvm-token".path
       } /run/secrets/forgejo-runner/token
+      install -m 0400 -o root -g root ${
+        config.sops.secrets."codeberg-action-microvm-token".path
+      } /run/secrets/forgejo-runner/token-codeberg
     '';
   };
 
@@ -234,7 +245,7 @@ in
 
         microvm = {
           vcpu = 6;
-          mem = 6144; # Reduced from 16 GB to 6 GB
+          mem = 16384;
           hypervisor = "qemu";
           interfaces = [
             {
@@ -263,6 +274,25 @@ in
               source = "/run/secrets/forgejo-runner";
               mountPoint = "/run/secrets";
               readOnly = true;
+            }
+          ];
+          writableStoreOverlay = "/nix/.rw-store";
+          volumes = [
+            {
+              image = "/persist/var/lib/microvms/forgejo-runner/nix-store-overlay.img";
+              mountPoint = "/nix/.rw-store";
+              size = 40960;
+              label = "nix-overlay";
+              autoCreate = true;
+              fsType = "ext4";
+            }
+            {
+              image = "/persist/var/lib/microvms/forgejo-runner/nix-var.img";
+              mountPoint = "/nix/var";
+              size = 4096;
+              label = "nix-var";
+              autoCreate = true;
+              fsType = "ext4";
             }
           ];
         };
@@ -332,11 +362,25 @@ in
           curl
           jq
           nix
+          devenv
         ];
 
-        # Ephemeral One-Job Runner Service
+        nix.settings = {
+          trusted-users = [ "root" ];
+          substituters = [
+            "https://cache.nixos.org"
+            "https://devenv.cachix.org"
+          ];
+          trusted-public-keys = [
+            "cache.nixos.org-1:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY="
+            "devenv.cachix.org-1:w1cLUi8dv3hnoSPGAuibQv+f9TZLr6cv/Hm9XgU50cw="
+          ];
+          auto-optimise-store = false;
+        };
+
+        # Forgejo Runner Daemon Service
         systemd.services.forgejo-runner = {
-          description = "Forgejo Ephemeral One-Job Runner";
+          description = "Forgejo Runner Daemon";
           after = [
             "network-online.target"
             "podman.socket"
@@ -354,6 +398,7 @@ in
             pkgs.bash
             pkgs.coreutils
             pkgs.nix
+            pkgs.devenv
           ];
           environment = {
             HOME = "/root";
@@ -363,10 +408,9 @@ in
             WorkingDirectory = "/root";
             StandardOutput = "journal";
             StandardError = "journal";
-            ExecStart = "${pkgs.forgejo-runner}/bin/forgejo-runner one-job -w -c ${runnerConfig}";
-            Restart = "on-failure";
+            ExecStart = "${pkgs.forgejo-runner}/bin/forgejo-runner daemon -c ${runnerConfig}";
+            Restart = "always";
             RestartSec = 10;
-            SuccessAction = "reboot";
           };
         };
       };

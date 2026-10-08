@@ -142,6 +142,12 @@
         mode = "0400";
       };
 
+      "codeberg-action-microvm-token" = {
+        owner = "root";
+        group = "root";
+        mode = "0400";
+      };
+
       "admin-password-hash" = {
         neededForUsers = true;
       };
