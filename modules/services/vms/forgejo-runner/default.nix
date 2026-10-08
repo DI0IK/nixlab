@@ -386,11 +386,15 @@ in
             "network-online.target"
             "podman.socket"
             "podman.service"
+            "nix-daemon.socket"
+            "nix-daemon.service"
           ];
           wants = [
             "network-online.target"
             "podman.socket"
             "podman.service"
+            "nix-daemon.socket"
+            "nix-daemon.service"
           ];
           wantedBy = [ "multi-user.target" ];
           path = [
@@ -404,6 +408,7 @@ in
           ];
           environment = {
             HOME = "/root";
+            NIX_REMOTE = "daemon";
           };
           serviceConfig = {
             Type = "simple";
