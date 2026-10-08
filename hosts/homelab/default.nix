@@ -54,6 +54,7 @@
     ../../modules/services/containers/calagopus.nix
     ../../modules/services/containers/gitlab-time-analysis.nix
     ../../modules/services/containers/maps.nix
+    ../../modules/services/containers/roomfinder-api.nix
 
     # Virtual Machines (MicroVM)
     ../../modules/services/vms/common.nix

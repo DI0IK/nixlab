@@ -378,6 +378,12 @@
             entryPoints = [ "websecure" ];
             tls = { };
           };
+          roomfinder = {
+            rule = "Host(`roomfinder.dominikstahl.dev`)";
+            service = "roomfinder";
+            entryPoints = [ "websecure" ];
+            tls = { };
+          };
         };
 
         services = {
@@ -421,6 +427,7 @@
           maps-tiles.loadBalancer.servers = [ { url = "http://127.0.0.1:8092"; } ];
           maps-route.loadBalancer.servers = [ { url = "http://127.0.0.1:8998"; } ];
           maps-geocode.loadBalancer.servers = [ { url = "http://127.0.0.1:2322"; } ];
+          roomfinder.loadBalancer.servers = [ { url = "http://127.0.0.1:8025"; } ];
         };
       };
     };
