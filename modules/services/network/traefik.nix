@@ -385,7 +385,7 @@
             tls = { };
           };
           nextcloud-archive = {
-            rule = "Host(`nextcloud-archive.dominikstahl.dev`)";
+            rule = "Host(`keks.dominikstahl.dev`)";
             service = "nextcloud-archive";
             entryPoints = [ "websecure" ];
             tls = { };
