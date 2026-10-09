@@ -55,6 +55,7 @@
     ../../modules/services/containers/gitlab-time-analysis.nix
     ../../modules/services/containers/maps.nix
     ../../modules/services/containers/roomfinder-api.nix
+    ../../modules/services/containers/nextcloud-archiver.nix
 
     # Virtual Machines (MicroVM)
     ../../modules/services/vms/common.nix
