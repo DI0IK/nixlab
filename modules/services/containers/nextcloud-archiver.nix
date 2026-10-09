@@ -3,7 +3,7 @@
 {
   virtualisation.oci-containers.containers = {
     nextcloud-archiver = {
-      image = "git.dominikstahl.dev/dominik/nextcloud_archiver:v0.1.0";
+      image = "git.dominikstahl.dev/dominik/nextcloud_archiver:v0.2.0";
       autoStart = true;
       ports = [
         "127.0.0.1:8085:8080"
