@@ -151,6 +151,24 @@
       "admin-password-hash" = {
         neededForUsers = true;
       };
+
+      "dhbw-vpn-username" = {
+        owner = "root";
+        group = "root";
+        mode = "0400";
+      };
+
+      "dhbw-vpn-password" = {
+        owner = "root";
+        group = "root";
+        mode = "0400";
+      };
+
+      "dhbw-vpn-2fa-secret" = {
+        owner = "root";
+        group = "root";
+        mode = "0400";
+      };
     };
 
     templates = {

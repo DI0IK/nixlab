@@ -20,6 +20,7 @@
     ../../modules/services/network/wireguard-vps.nix
     ../../modules/services/network/traefik.nix
     ../../modules/services/network/guacamole.nix
+    ../../modules/services/network/dhbw-vpn.nix
 
     # Centralized Databases & Cache
     ../../modules/services/databases/postgres.nix
@@ -71,6 +72,16 @@
 
   networking.hostName = "homelab";
   networking.domain = "dominikstahl.dev";
+
+  services.dhbw-vpn = {
+    enable = true;
+    portForwards = [
+      "2201:db1.inf.dh-karlsruhe.de:22"
+      "2202:db2.inf.dh-karlsruhe.de:22"
+      "33061:db1.inf.dh-karlsruhe.de:3306"
+      "33062:db2.inf.dh-karlsruhe.de:3306"
+    ];
+  };
 
   # External NFS media share (containing media/, torrent/, usenet/)
   fileSystems."/data/media" = {
