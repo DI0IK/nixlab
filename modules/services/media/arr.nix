@@ -37,6 +37,7 @@
   services.sabnzbd = {
     enable = true;
     group = "media";
+    configFile = null;
   };
 
   # Grant Jellyfin access to the shared media group
