@@ -68,9 +68,19 @@
       # AdGuard high-churn query logs
       "sh:**/AdGuardHome/data/**/querylog.json*"
 
-      # Ephemeral monitoring TSDBs & chunks
+      # Ephemeral monitoring TSDBs, chunks, traces, and collector state
       "pp:/persist/var/lib/prometheus2"
       "pp:/persist/var/lib/loki"
+      "pp:/persist/var/lib/tempo"
+      "pp:/persist/var/lib/alloy"
+      "pp:/persist/var/lib/private/prometheus2"
+      "pp:/persist/var/lib/private/loki"
+      "pp:/persist/var/lib/private/tempo"
+      "pp:/persist/var/lib/private/alloy"
+      "sh:**/prometheus2/**"
+      "sh:**/loki/**"
+      "sh:**/tempo/**"
+      "sh:**/alloy/**"
 
       # System crash dumps
       "pp:/persist/var/lib/systemd/coredump"
@@ -87,6 +97,8 @@
       "sh:**/log/**"
       "sh:**/logs"
       "sh:**/logs/**"
+      "sh:**/*.log"
+      "sh:**/*.log.*"
       "sh:**/home-assistant.log*"
       "pp:/persist/var/log"
       "pp:/persist/var/lib/thelounge/logs"

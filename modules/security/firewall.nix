@@ -14,6 +14,8 @@
       503 # Modbus proxy (Sungrow inverter telemetry)
       853 # AdGuard Home DNS-over-TLS (DoT)
       1883 # Mosquitto MQTT broker
+      4317 # OpenTelemetry OTLP gRPC (Tempo)
+      4318 # OpenTelemetry OTLP HTTP (Tempo)
     ];
     allowedUDPPorts = [
       53 # AdGuard Home DNS
@@ -36,6 +38,9 @@
 
     interfaces."podman0" = {
       allowedTCPPorts = [
+        4317 # Tempo OTLP gRPC
+        4318 # Tempo OTLP HTTP
+        4822
         5432
         4822
       ];

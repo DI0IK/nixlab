@@ -99,6 +99,27 @@
           }
         ];
       }
+      {
+        job_name = "local-tempo";
+        static_configs = [
+          {
+            targets = [ "127.0.0.1:3200" ];
+          }
+        ];
+      }
+      {
+        job_name = "nextcloud-archiver";
+        scrape_interval = "15s";
+        metrics_path = "/metrics";
+        static_configs = [
+          {
+            targets = [ "127.0.0.1:8085" ];
+            labels = {
+              app = "nextcloud-archiver";
+            };
+          }
+        ];
+      }
     ];
   };
 
@@ -223,7 +244,71 @@
   };
 
   # ==========================================
-  # 3. VISUALIZATION (Grafana)
+  # 3. TRACES (Tempo & OpenTelemetry)
+  # ==========================================
+  services.tempo = {
+    enable = true;
+    settings = {
+      server = {
+        http_listen_port = 3200;
+        grpc_listen_port = 9096;
+      };
+
+      distributor = {
+        receivers = {
+          otlp = {
+            protocols = {
+              grpc = {
+                endpoint = "0.0.0.0:4317";
+              };
+              http = {
+                endpoint = "0.0.0.0:4318";
+              };
+            };
+          };
+        };
+      };
+
+      live_store = {
+        shutdown_marker_dir = "/var/lib/tempo/shutdown-marker";
+        wal = {
+          path = "/var/lib/tempo/live-wal";
+        };
+      };
+
+      block_builder = {
+        wal = {
+          path = "/var/lib/tempo/block-builder";
+        };
+      };
+
+      backend_scheduler = {
+        local_work_path = "/var/lib/tempo/work";
+        provider = {
+          compaction = {
+            compaction = {
+              block_retention = "720h"; # 30 days
+            };
+          };
+        };
+      };
+
+      storage = {
+        trace = {
+          backend = "local";
+          wal = {
+            path = "/var/lib/tempo/wal";
+          };
+          local = {
+            path = "/var/lib/tempo/blocks";
+          };
+        };
+      };
+    };
+  };
+
+  # ==========================================
+  # 4. VISUALIZATION (Grafana)
   # ==========================================
   services.grafana = {
     enable = true;
@@ -283,26 +368,67 @@
         {
           name = "Prometheus";
           type = "prometheus";
+          uid = "prometheus";
           url = "http://127.0.0.1:9090";
           isDefault = true;
         }
         {
           name = "Loki";
           type = "loki";
+          uid = "loki";
           url = "http://127.0.0.1:3100";
+          jsonData = {
+            derivedFields = [
+              {
+                datasourceUid = "tempo";
+                matcherRegex = "(?:trace_id|traceId|traceID)=(\\w+)";
+                name = "TraceID";
+                url = "$${__value.raw}";
+              }
+            ];
+          };
+        }
+        {
+          name = "Tempo";
+          type = "tempo";
+          uid = "tempo";
+          url = "http://127.0.0.1:3200";
+          jsonData = {
+            nodeGraph.enabled = true;
+            search.hide = false;
+            lgtm.enabled = true;
+            tracesToLogsV2 = {
+              datasourceUid = "loki";
+              tags = [
+                "service.name"
+                "job"
+              ];
+            };
+            tracesToMetrics = {
+              datasourceUid = "prometheus";
+              tags = [
+                {
+                  key = "service.name";
+                  value = "service";
+                }
+                { key = "job"; }
+              ];
+            };
+          };
         }
       ];
     };
   };
 
   # ==========================================
-  # 4. IMPERMANENCE PERSISTENCE
+  # 5. IMPERMANENCE PERSISTENCE
   # ==========================================
   environment.persistence."/persist" = {
     directories = [
       "/var/lib/prometheus2"
       "/var/lib/loki"
       "/var/lib/private/alloy"
+      "/var/lib/private/tempo"
       "/var/lib/grafana"
     ];
   };
