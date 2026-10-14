@@ -7,6 +7,15 @@
     staticConfigOptions = {
       api.dashboard = false;
 
+      accessLog = {
+        format = "json";
+      };
+
+      experimental.plugins.crowdsec-bouncer = {
+        moduleName = "github.com/maxlerebourg/crowdsec-bouncer-traefik-plugin";
+        version = "v1.7.1";
+      };
+
       entryPoints = {
         metrics = {
           address = "127.0.0.1:9101";
@@ -18,6 +27,9 @@
 
         websecure = {
           address = ":443";
+          http = {
+            middlewares = [ "crowdsec@file" ];
+          };
           # Strict PROXY Protocol v2 parsing from VPS endpoints
           proxyProtocol = {
             insecure = false;
@@ -74,6 +86,19 @@
 
       http = {
         middlewares = {
+          crowdsec = {
+            plugin.crowdsec-bouncer = {
+              enabled = true;
+              crowdsecMode = "stream";
+              crowdsecLapiScheme = "http";
+              crowdsecLapiHost = "127.0.0.1:8089";
+              crowdsecLapiKeyFile = "/var/lib/crowdsec/traefik-bouncer-key.txt";
+              updateFrequency = "10s";
+              defaultDecisionSeconds = 60;
+              streamStartupBlock = false;
+              updateMaxFailure = -1;
+            };
+          };
           authentik = {
             forwardAuth = {
               address = "http://127.0.0.1:9000/outpost.goauthentik.io/auth/traefik";
@@ -414,7 +439,7 @@
           authentik.loadBalancer.servers = [ { url = "http://127.0.0.1:9000"; } ];
           adguard.loadBalancer.servers = [ { url = "http://127.0.0.1:3001"; } ];
           thelounge.loadBalancer.servers = [ { url = "http://127.0.0.1:9001"; } ];
-          searxng.loadBalancer.servers = [ { url = "http://127.0.0.1:8888"; } ];
+          searxng.loadBalancer.servers = [ { url = "http://127.0.0.1:8905"; } ]; # Anubis anti-bot proxy -> :8888
           radarr.loadBalancer.servers = [ { url = "http://127.0.0.1:7878"; } ];
           sonarr.loadBalancer.servers = [ { url = "http://127.0.0.1:8989"; } ];
           prowlarr.loadBalancer.servers = [ { url = "http://127.0.0.1:9696"; } ];
@@ -424,7 +449,7 @@
           qui.loadBalancer.servers = [ { url = "http://127.0.0.1:7476"; } ];
           multiscrobbler.loadBalancer.servers = [ { url = "http://127.0.0.1:9078"; } ];
           koito.loadBalancer.servers = [ { url = "http://127.0.0.1:4110"; } ];
-          redlib.loadBalancer.servers = [ { url = "http://127.0.0.1:8088"; } ];
+          redlib.loadBalancer.servers = [ { url = "http://127.0.0.1:8901"; } ]; # Anubis anti-bot proxy -> :8088
           grafana.loadBalancer.servers = [ { url = "http://127.0.0.1:3005"; } ];
           archivebox.loadBalancer.servers = [ { url = "http://127.0.0.1:8000"; } ];
           guacamole.loadBalancer.servers = [ { url = "http://127.0.0.1:8084"; } ];
@@ -438,7 +463,7 @@
           lemmy-backend.loadBalancer.servers = [ { url = "http://127.0.0.1:8536"; } ];
           lemmy-ui.loadBalancer.servers = [ { url = "http://127.0.0.1:8537"; } ];
           tubearchivist.loadBalancer.servers = [ { url = "http://127.0.0.1:8005"; } ];
-          kiwix.loadBalancer.servers = [ { url = "http://127.0.0.1:8095"; } ];
+          kiwix.loadBalancer.servers = [ { url = "http://127.0.0.1:8903"; } ]; # Anubis anti-bot proxy -> :8095
           gitlab-time-analysis.loadBalancer.servers = [ { url = "http://127.0.0.1:3020"; } ];
           maps-web.loadBalancer.servers = [ { url = "http://127.0.0.1:8091"; } ];
           maps-tiles.loadBalancer.servers = [ { url = "http://127.0.0.1:8092"; } ];
@@ -455,5 +480,17 @@
   systemd.services.traefik = {
     wants = [ "acme-dominikstahl.dev.service" ];
     after = [ "acme-dominikstahl.dev.service" ];
+  };
+
+  # Persist Traefik state (including compiled plugins)
+  environment.persistence."/persist" = {
+    directories = [
+      {
+        directory = "/var/lib/traefik";
+        user = "traefik";
+        group = "traefik";
+        mode = "0750";
+      }
+    ];
   };
 }

@@ -120,6 +120,26 @@
           }
         ];
       }
+      {
+        job_name = "anubis";
+        static_configs = [
+          {
+            targets = [
+              "127.0.0.1:8902"
+              "127.0.0.1:8904"
+              "127.0.0.1:8906"
+            ];
+          }
+        ];
+      }
+      {
+        job_name = "crowdsec";
+        static_configs = [
+          {
+            targets = [ "127.0.0.1:6060" ];
+          }
+        ];
+      }
     ];
   };
 

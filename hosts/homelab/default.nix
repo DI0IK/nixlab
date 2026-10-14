@@ -15,6 +15,8 @@
     ../../modules/security/firewall.nix
     ../../modules/security/sops.nix
     ../../modules/security/acme.nix
+    ../../modules/security/anubis.nix
+    ../../modules/security/crowdsec.nix
 
     # Networking & Ingress
     ../../modules/services/network/wireguard-vps.nix
