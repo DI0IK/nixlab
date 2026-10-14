@@ -41,7 +41,7 @@ in
         {
           source = "journalctl";
           journalctl_filter = [ "_SYSTEMD_UNIT=traefik.service" ];
-          labels.type = "traefik";
+          labels.type = "syslog";
         }
         {
           source = "journalctl";
@@ -51,6 +51,9 @@ in
       ];
     };
   };
+
+  # Expose crowdsec config file at standard /etc/crowdsec/config.yaml for cscli commands
+  environment.etc."crowdsec/config.yaml".source = crowdsecConfigFile;
 
   # Traefik user belongs to group crowdsec to read the bouncer API key
   users.users.traefik.extraGroups = [ "crowdsec" ];
