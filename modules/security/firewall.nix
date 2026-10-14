@@ -13,6 +13,7 @@
       80 # HTTP (for Denon YCast)
       503 # Modbus proxy (Sungrow inverter telemetry)
       853 # AdGuard Home DNS-over-TLS (DoT)
+      1080 # DHBW VPN Proxy
       1883 # Mosquitto MQTT broker
       4317 # OpenTelemetry OTLP gRPC (Tempo)
       4318 # OpenTelemetry OTLP HTTP (Tempo)
