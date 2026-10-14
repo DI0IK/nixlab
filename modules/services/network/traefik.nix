@@ -43,6 +43,17 @@
           addRoutersLabels = true;
         };
       };
+
+      tracing = {
+        serviceName = "traefik";
+        sampleRate = 1.0;
+        otlp = {
+          grpc = {
+            endpoint = "127.0.0.1:4317";
+            insecure = true;
+          };
+        };
+      };
     };
 
     # Declarative routing and TLS definitions for local services
