@@ -32,7 +32,7 @@
     };
 
     immich-machine-learning = {
-      image = "ghcr.io/immich-app/immich-machine-learning:v3.3.1-openvino";
+      image = "ghcr.io/immich-app/immich-machine-learning:v3.3.3-openvino";
       autoStart = true;
       extraOptions = [
         "--network=host"
