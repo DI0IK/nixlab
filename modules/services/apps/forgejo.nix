@@ -36,6 +36,7 @@
       service = {
         DISABLE_REGISTRATION = true;
         ALLOW_ONLY_EXTERNAL_REGISTRATION = false;
+        REQUIRE_SIGNIN_VIEW = true;
       };
       session = {
         COOKIE_SECURE = true;

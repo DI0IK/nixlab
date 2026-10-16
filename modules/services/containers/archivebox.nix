@@ -11,7 +11,7 @@
       environment = {
         ALLOWED_HOSTS = "archive.dominikstahl.dev,localhost,127.0.0.1";
         PUBLIC_INDEX = "False";
-        PUBLIC_SNAPSHOTS = "True";
+        PUBLIC_SNAPSHOTS = "False";
         PUBLIC_ADD_FIELDS = "False";
         SAVE_ARCHIVE_DOT_ORG = "False";
         MEDIA_MAX_SIZE = "750m";
