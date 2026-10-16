@@ -62,7 +62,7 @@
     };
 
     authentik-ldap = {
-      image = "ghcr.io/goauthentik/ldap:2026.8.3";
+      image = "ghcr.io/goauthentik/ldap:2026.8.4";
       autoStart = true;
       user = "0";
       extraOptions = [
