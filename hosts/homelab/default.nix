@@ -76,7 +76,7 @@
   networking.domain = "dominikstahl.dev";
 
   services.dhbw-vpn = {
-    enable = true;
+    enable = false;
     portForwards = [
       "2201:db1.inf.dh-karlsruhe.de:22"
       "2202:db2.inf.dh-karlsruhe.de:22"
