@@ -169,6 +169,12 @@
         group = "root";
         mode = "0400";
       };
+
+      "se-timetracking-htpasswd" = {
+        owner = "traefik";
+        group = "traefik";
+        mode = "0400";
+      };
     };
 
     templates = {

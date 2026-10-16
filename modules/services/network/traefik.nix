@@ -135,6 +135,11 @@
               accessControlMaxAge = 86400;
             };
           };
+          se-timetracking-auth = {
+            basicAuth = {
+              usersFile = config.sops.secrets."se-timetracking-htpasswd".path;
+            };
+          };
         };
 
         routers = {
@@ -370,10 +375,26 @@
             entryPoints = [ "websecure" ];
             tls = { };
           };
+          gitlab-time-analysis-campus = {
+            rule = "Host(`se-timetracking.dominikstahl.dev`) && (ClientIP(`193.196.6.0/23`) || ClientIP(`2001:7c0:1b50::/48`) || ClientIP(`172.30.32.0/24`) || ClientIP(`fd86:ea04:1115::/64`))";
+            service = "gitlab-time-analysis";
+            entryPoints = [ "websecure" ];
+            priority = 100;
+            tls = { };
+          };
+          gitlab-time-analysis-gitlab-pages = {
+            rule = "Host(`se-timetracking.dominikstahl.dev`) && PathRegexp(`^/api/group/.+/table\\.svg$`) && (HeaderRegexp(`Referer`, `^https?://([a-zA-Z0-9-]+\\.)*gitlab\\.io(/|:|$)`) || HeaderRegexp(`Referrer`, `^https?://([a-zA-Z0-9-]+\\.)*gitlab\\.io(/|:|$)`))";
+            service = "gitlab-time-analysis";
+            entryPoints = [ "websecure" ];
+            priority = 100;
+            tls = { };
+          };
           gitlab-time-analysis = {
             rule = "Host(`se-timetracking.dominikstahl.dev`)";
             service = "gitlab-time-analysis";
+            middlewares = [ "se-timetracking-auth" ];
             entryPoints = [ "websecure" ];
+            priority = 50;
             tls = { };
           };
           maps-tiles = {
