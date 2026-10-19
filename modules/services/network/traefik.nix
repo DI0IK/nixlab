@@ -388,7 +388,7 @@
             tls = { };
           };
           gitlab-time-analysis-gitlab-pages = {
-            rule = "Host(`se-timetracking.dominikstahl.dev`) && PathRegexp(`^/api/group/.+/table\\.svg$`) && (HeaderRegexp(`Referer`, `^https?://([a-zA-Z0-9-]+\\.)*gitlab\\.io(/|:|$)`) || HeaderRegexp(`Referrer`, `^https?://([a-zA-Z0-9-]+\\.)*gitlab\\.io(/|:|$)`))";
+            rule = "Host(`se-timetracking.dominikstahl.dev`) && PathRegexp(`^/api/group/.+/table\\.svg$`)";
             service = "gitlab-time-analysis";
             entryPoints = [ "websecure" ];
             priority = 100;
@@ -410,7 +410,7 @@
             tls = { };
           };
           gitlab-time-analysis-tinf25-gitlab-pages = {
-            rule = "Host(`se-timetracking-tinf25.dominikstahl.dev`) && PathRegexp(`^/api/group/.+/table\\.svg$`) && (HeaderRegexp(`Referer`, `^https?://([a-zA-Z0-9-]+\\.)*gitlab\\.io(/|:|$)`) || HeaderRegexp(`Referrer`, `^https?://([a-zA-Z0-9-]+\\.)*gitlab\\.io(/|:|$)`))";
+            rule = "Host(`se-timetracking-tinf25.dominikstahl.dev`) && PathRegexp(`^/api/group/.+/table\\.svg$`)";
             service = "gitlab-time-analysis-tinf25";
             entryPoints = [ "websecure" ];
             priority = 100;
