@@ -285,8 +285,16 @@
             "SE Timetracking" = {
               icon = "gitlab.svg";
               href = "https://se-timetracking.dominikstahl.dev";
-              description = "GitLab Time Tracking Analysis";
+              description = "GitLab Time Tracking Analysis (TINF24)";
               siteMonitor = "http://127.0.0.1:3020";
+            };
+          }
+          {
+            "SE Timetracking TINF25" = {
+              icon = "gitlab.svg";
+              href = "https://se-timetracking-tinf25.dominikstahl.dev";
+              description = "GitLab Time Tracking Analysis (TINF25)";
+              siteMonitor = "http://127.0.0.1:3021";
             };
           }
         ];

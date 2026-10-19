@@ -21,5 +21,24 @@
         config.sops.templates."gitlab-time-analysis.env".path
       ];
     };
+    gitlab-time-analysis-tinf25 = {
+      image = "ghcr.io/di0ik/gitlab-time-analysis:main";
+      autoStart = true;
+      ports = [
+        "127.0.0.1:3021:3000"
+      ];
+      environment = {
+        GITLAB_GROUP_PATH = "dhbw-se/software-engineering-i-tinf25b6";
+        GITLAB_DOMAIN = "https://gitlab.com";
+        APP_URL = "https://se-timetracking-tinf25.dominikstahl.dev";
+        PROJECT_START_DATE = "2026-10-01";
+        PROJECT_END_DATE = "2027-06-27";
+        SPRINT_START_WEEKDAY = "2";
+        SPRINT_DURATION_WEEKS = "1";
+      };
+      environmentFiles = [
+        config.sops.templates."gitlab-time-analysis-tinf25.env".path
+      ];
+    };
   };
 }

@@ -136,6 +136,12 @@
         mode = "0400";
       };
 
+      "gitlab-token-tinf25" = {
+        owner = "root";
+        group = "root";
+        mode = "0400";
+      };
+
       "forgejo-action-microvm-token" = {
         owner = "root";
         group = "root";
@@ -171,6 +177,12 @@
       };
 
       "se-timetracking-htpasswd" = {
+        owner = "traefik";
+        group = "traefik";
+        mode = "0400";
+      };
+
+      "se-tinf25-timetracking-htpasswd" = {
         owner = "traefik";
         group = "traefik";
         mode = "0400";
@@ -356,6 +368,15 @@
       "gitlab-time-analysis.env" = {
         content = ''
           GITLAB_TOKEN=${config.sops.placeholder."gitlab-token"}
+        '';
+        owner = "root";
+        group = "root";
+        mode = "0400";
+      };
+
+      "gitlab-time-analysis-tinf25.env" = {
+        content = ''
+          GITLAB_TOKEN=${config.sops.placeholder."gitlab-token-tinf25"}
         '';
         owner = "root";
         group = "root";

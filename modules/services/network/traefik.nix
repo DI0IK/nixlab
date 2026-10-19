@@ -140,6 +140,11 @@
               usersFile = config.sops.secrets."se-timetracking-htpasswd".path;
             };
           };
+          se-timetracking-tinf25-auth = {
+            basicAuth = {
+              usersFile = config.sops.secrets."se-tinf25-timetracking-htpasswd".path;
+            };
+          };
         };
 
         routers = {
@@ -397,6 +402,28 @@
             priority = 50;
             tls = { };
           };
+          gitlab-time-analysis-tinf25-campus = {
+            rule = "Host(`se-timetracking-tinf25.dominikstahl.dev`) && (ClientIP(`193.196.6.0/23`) || ClientIP(`2001:7c0:1b50::/48`) || ClientIP(`172.30.32.0/24`) || ClientIP(`fd86:ea04:1115::/64`))";
+            service = "gitlab-time-analysis-tinf25";
+            entryPoints = [ "websecure" ];
+            priority = 100;
+            tls = { };
+          };
+          gitlab-time-analysis-tinf25-gitlab-pages = {
+            rule = "Host(`se-timetracking-tinf25.dominikstahl.dev`) && PathRegexp(`^/api/group/.+/table\\.svg$`) && (HeaderRegexp(`Referer`, `^https?://([a-zA-Z0-9-]+\\.)*gitlab\\.io(/|:|$)`) || HeaderRegexp(`Referrer`, `^https?://([a-zA-Z0-9-]+\\.)*gitlab\\.io(/|:|$)`))";
+            service = "gitlab-time-analysis-tinf25";
+            entryPoints = [ "websecure" ];
+            priority = 100;
+            tls = { };
+          };
+          gitlab-time-analysis-tinf25 = {
+            rule = "Host(`se-timetracking-tinf25.dominikstahl.dev`)";
+            service = "gitlab-time-analysis-tinf25";
+            middlewares = [ "se-timetracking-tinf25-auth" ];
+            entryPoints = [ "websecure" ];
+            priority = 50;
+            tls = { };
+          };
           maps-tiles = {
             rule = "Host(`maps.dominikstahl.dev`) && PathPrefix(`/tiles`)";
             service = "maps-tiles";
@@ -492,6 +519,7 @@
           tubearchivist.loadBalancer.servers = [ { url = "http://127.0.0.1:8005"; } ];
           kiwix.loadBalancer.servers = [ { url = "http://127.0.0.1:8095"; } ];
           gitlab-time-analysis.loadBalancer.servers = [ { url = "http://127.0.0.1:3020"; } ];
+          gitlab-time-analysis-tinf25.loadBalancer.servers = [ { url = "http://127.0.0.1:3021"; } ];
           maps-web.loadBalancer.servers = [ { url = "http://127.0.0.1:8091"; } ];
           maps-tiles.loadBalancer.servers = [ { url = "http://127.0.0.1:8092"; } ];
           maps-route.loadBalancer.servers = [ { url = "http://127.0.0.1:8998"; } ];
