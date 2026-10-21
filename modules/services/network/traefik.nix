@@ -480,6 +480,13 @@
             entryPoints = [ "websecure" ];
             tls = { };
           };
+          archive-viewer = {
+            rule = "Host(`archive-viewer.dominikstahl.dev`)";
+            service = "archive-viewer";
+            middlewares = [ "authentik" ];
+            entryPoints = [ "websecure" ];
+            tls = { };
+          };
         };
 
         services = {
@@ -526,6 +533,7 @@
           maps-geocode.loadBalancer.servers = [ { url = "http://127.0.0.1:2322"; } ];
           roomfinder.loadBalancer.servers = [ { url = "http://127.0.0.1:8025"; } ];
           nextcloud-archive.loadBalancer.servers = [ { url = "http://127.0.0.1:8085"; } ];
+          archive-viewer.loadBalancer.servers = [ { url = "http://127.0.0.1:3015"; } ];
         };
       };
     };

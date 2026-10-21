@@ -187,6 +187,12 @@
         group = "traefik";
         mode = "0400";
       };
+
+      "archive-viewer-env" = {
+        owner = "root";
+        group = "root";
+        mode = "0400";
+      };
     };
 
     templates = {
