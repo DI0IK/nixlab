@@ -30,9 +30,15 @@
     ];
   };
 
-  # Wait for external NFS media share before starting container
+  # Wait for external NFS media share and registry login before starting container
   systemd.services."podman-archive-viewer" = {
-    after = [ "data-media.mount" ];
-    wants = [ "data-media.mount" ];
+    after = [
+      "data-media.mount"
+      "podman-registry-login.service"
+    ];
+    wants = [
+      "data-media.mount"
+      "podman-registry-login.service"
+    ];
   };
 }
