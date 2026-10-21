@@ -15,6 +15,9 @@
         "/data/media:/media:ro"
         "/persist/var/lib/archive-viewer:/data"
       ];
+      extraOptions = [
+        "--pull=always"
+      ];
     };
   };
 
