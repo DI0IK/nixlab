@@ -3,7 +3,7 @@
 {
   virtualisation.oci-containers.containers = {
     archive-viewer = {
-      image = "git.dominikstahl.dev/dominik/archive_viewer:latest";
+      image = "git.dominikstahl.dev/dominik/data_viewer:latest";
       autoStart = true;
       ports = [
         "127.0.0.1:3015:3001"
