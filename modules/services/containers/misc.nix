@@ -109,7 +109,7 @@
 
     # Multiscrobbler (scrobble music from Navidrome/Jellyfin/Spotify to Last.fm/ListenBrainz)
     multiscrobbler = {
-      image = "docker.io/foxxmd/multi-scrobbler:0.20.0";
+      image = "docker.io/foxxmd/multi-scrobbler:0.20.2";
       autoStart = true;
       extraOptions = [
         "--network=host"
