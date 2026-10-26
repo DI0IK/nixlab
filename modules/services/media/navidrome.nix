@@ -13,6 +13,9 @@
       ListenBrainz = {
         BaseURL = "http://127.0.0.1:9078/1/";
       };
+      Plugins = {
+        Enabled = false;
+      };
     };
   };
 

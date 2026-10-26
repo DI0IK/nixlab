@@ -43,8 +43,5 @@
       "/var/lib/containers"
       "/root/.config/containers"
     ];
-    files = [
-      "/etc/containers/auth.json"
-    ];
   };
 }
