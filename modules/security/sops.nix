@@ -199,6 +199,18 @@
         group = "root";
         mode = "0400";
       };
+
+      "gitlab-image-pull-access-token" = {
+        owner = "root";
+        group = "root";
+        mode = "0400";
+      };
+
+      "angi-env" = {
+        owner = "root";
+        group = "root";
+        mode = "0400";
+      };
     };
 
     templates = {

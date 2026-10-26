@@ -60,6 +60,7 @@
     ../../modules/services/containers/roomfinder-api.nix
     ../../modules/services/containers/nextcloud-archiver.nix
     ../../modules/services/containers/archive-viewer.nix
+    ../../modules/services/containers/angi.nix
 
     # Virtual Machines (MicroVM)
     ../../modules/services/vms/common.nix
