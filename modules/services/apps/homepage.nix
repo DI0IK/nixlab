@@ -297,6 +297,14 @@
               siteMonitor = "http://127.0.0.1:3021";
             };
           }
+          {
+            "Timetracking v2" = {
+              icon = "gitlab.svg";
+              href = "https://timetracking.dominikstahl.dev";
+              description = "GitLab Time Tracking Platform v2";
+              siteMonitor = "http://127.0.0.1:3022";
+            };
+          }
         ];
       }
       {

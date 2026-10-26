@@ -194,6 +194,12 @@
         mode = "0400";
       };
 
+      "timetracking-v2-env" = {
+        owner = "root";
+        group = "root";
+        mode = "0400";
+      };
+
       "homelab-forgejo-image-pull-access-token" = {
         owner = "root";
         group = "root";

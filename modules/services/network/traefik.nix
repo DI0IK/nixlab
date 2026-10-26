@@ -424,6 +424,13 @@
             priority = 50;
             tls = { };
           };
+          gitlab-time-analysis-v2 = {
+            rule = "Host(`timetracking.dominikstahl.dev`)";
+            service = "gitlab-time-analysis-v2";
+            middlewares = [ "se-timetracking-auth" ];
+            entryPoints = [ "websecure" ];
+            tls = { };
+          };
           maps-tiles = {
             rule = "Host(`maps.dominikstahl.dev`) && PathPrefix(`/tiles`)";
             service = "maps-tiles";
@@ -527,6 +534,7 @@
           kiwix.loadBalancer.servers = [ { url = "http://127.0.0.1:8095"; } ];
           gitlab-time-analysis.loadBalancer.servers = [ { url = "http://127.0.0.1:3020"; } ];
           gitlab-time-analysis-tinf25.loadBalancer.servers = [ { url = "http://127.0.0.1:3021"; } ];
+          gitlab-time-analysis-v2.loadBalancer.servers = [ { url = "http://127.0.0.1:3022"; } ];
           maps-web.loadBalancer.servers = [ { url = "http://127.0.0.1:8091"; } ];
           maps-tiles.loadBalancer.servers = [ { url = "http://127.0.0.1:8092"; } ];
           maps-route.loadBalancer.servers = [ { url = "http://127.0.0.1:8998"; } ];

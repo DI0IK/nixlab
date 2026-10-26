@@ -40,5 +40,40 @@
         config.sops.templates."gitlab-time-analysis-tinf25.env".path
       ];
     };
+    gitlab-time-analysis-v2 = {
+      image = "ghcr.io/di0ik/gitlab-time-analysis:v2";
+      autoStart = true;
+      ports = [
+        "127.0.0.1:3022:3000"
+      ];
+      volumes = [
+        "/persist/var/lib/gitlab-time-analysis-v2:/data:Z"
+      ];
+      environmentFiles = [
+        config.sops.secrets."timetracking-v2-env".path
+      ];
+      environment = {
+        APP_URL = "https://timetracking.dominikstahl.dev";
+        GITLAB_DOMAIN = "https://gitlab.com";
+        SYNC_INTERVAL_SECS = "300";
+        GIT_MIRROR_INTERVAL_SECS = "900";
+        RUST_LOG = "info,gitlab_platform=info";
+      };
+      extraOptions = [
+        "--pull=always"
+      ];
+    };
+  };
+
+  # Declarative directory creation for persistent database and git mirrors
+  systemd.tmpfiles.rules = [
+    "d /persist/var/lib/gitlab-time-analysis-v2 0750 1000 1000 -"
+  ];
+
+  # Impermanence persistence for SQLite database and bare git mirrors
+  environment.persistence."/persist" = {
+    directories = [
+      "/var/lib/gitlab-time-analysis-v2"
+    ];
   };
 }
