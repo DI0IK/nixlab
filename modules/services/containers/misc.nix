@@ -68,7 +68,7 @@
 
     # Unpackerr (automated archive extraction for media downloads)
     unpackerr = {
-      image = "docker.io/golift/unpackerr:v0.16.1";
+      image = "docker.io/golift/unpackerr:v1.0.0";
       autoStart = true;
       extraOptions = [
         "--network=host"
