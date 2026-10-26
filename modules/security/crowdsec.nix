@@ -5,10 +5,6 @@
   ...
 }:
 
-let
-  format = pkgs.formats.yaml { };
-  crowdsecConfigFile = format.generate "crowdsec.yaml" config.services.crowdsec.settings.general;
-in
 {
   services.crowdsec = {
     enable = true;
@@ -25,18 +21,16 @@ in
     };
 
     settings = {
-      general = {
+      config = {
         api.server = {
           enable = true;
           # sabnzbd occupies port 8080, so run CrowdSec LAPI on port 8089
           listen_uri = "127.0.0.1:8089";
+          online_client.credentials_path = "/etc/crowdsec/online_api_credentials.yaml";
         };
+        api.client.credentials_path = "/etc/crowdsec/local_api_credentials.yaml";
       };
-      lapi.credentialsFile = "/etc/crowdsec/local_api_credentials.yaml";
-      capi.credentialsFile = "/etc/crowdsec/online_api_credentials.yaml";
-    };
 
-    localConfig = {
       acquisitions = [
         {
           source = "journalctl";
@@ -52,11 +46,37 @@ in
     };
   };
 
-  # Expose crowdsec config file at standard /etc/crowdsec/config.yaml for cscli commands
-  environment.etc."crowdsec/config.yaml".source = crowdsecConfigFile;
+  # Static crowdsec user/group definition for persistence, bouncer service, and traefik group membership
+  users.users.crowdsec = {
+    isSystemUser = true;
+    group = "crowdsec";
+    description = "CrowdSec service user";
+    extraGroups = [ "systemd-journal" ];
+  };
+  users.groups.crowdsec = { };
 
   # Traefik user belongs to group crowdsec to read the bouncer API key
   users.users.traefik.extraGroups = [ "crowdsec" ];
+
+  # Disable DynamicUser so CrowdSec uses the static user/group and /var/lib/crowdsec directly
+  systemd.services = {
+    crowdsec.serviceConfig.DynamicUser = lib.mkForce false;
+    crowdsec-setup.serviceConfig.DynamicUser = lib.mkForce false;
+    crowdsec-update-hub.serviceConfig.DynamicUser = lib.mkForce false;
+  };
+
+  # Provide a direct cscli wrapper so running cscli doesn't invoke systemd-run with DynamicUser
+  environment.systemPackages = [
+    (lib.hiPrio (
+      pkgs.writeShellScriptBin "cscli" ''
+        if [ "$USER" = "crowdsec" ] || [ "$(id -u)" -eq 0 ]; then
+          exec ${lib.getExe' pkgs.crowdsec "cscli"} -c /etc/crowdsec/config.yaml "$@"
+        else
+          exec sudo -u crowdsec ${lib.getExe' pkgs.crowdsec "cscli"} -c /etc/crowdsec/config.yaml "$@"
+        fi
+      ''
+    ))
+  ];
 
   # Dedicated oneshot service to provision the bouncer key for Traefik
   systemd.services.crowdsec-traefik-bouncer = {
@@ -88,8 +108,8 @@ in
       chmod 640 "$KEY_FILE"
 
       # Register bouncer with cscli if not already registered
-      if ! cscli -c ${crowdsecConfigFile} bouncers list -o raw 2>/dev/null | grep -q "^traefik,"; then
-        cscli -c ${crowdsecConfigFile} bouncers add traefik -k "$KEY"
+      if ! cscli -c /etc/crowdsec/config.yaml bouncers list -o raw 2>/dev/null | grep -q "^traefik,"; then
+        cscli -c /etc/crowdsec/config.yaml bouncers add traefik -k "$KEY"
       fi
     '';
   };
