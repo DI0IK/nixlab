@@ -427,7 +427,6 @@
           gitlab-time-analysis-v2 = {
             rule = "Host(`timetracking.dominikstahl.dev`)";
             service = "gitlab-time-analysis-v2";
-            middlewares = [ "se-timetracking-auth" ];
             entryPoints = [ "websecure" ];
             tls = { };
           };
