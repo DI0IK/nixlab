@@ -9,6 +9,8 @@
       extraOptions = [
         # Network host mode allows accurate bare-metal bandwidth measurements and low-overhead raw sockets for ICMP/mtr/traceroute
         "--network=host"
+        "--cap-add=NET_RAW"
+        "--cap-add=NET_ADMIN"
       ];
       environment = {
         NETRONOME__HOST = "127.0.0.1";
