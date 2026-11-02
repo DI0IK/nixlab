@@ -217,6 +217,18 @@
         group = "root";
         mode = "0400";
       };
+
+      "netronome-oidc-client-secret" = {
+        owner = "root";
+        group = "root";
+        mode = "0400";
+      };
+
+      "netronome-session-secret" = {
+        owner = "root";
+        group = "root";
+        mode = "0400";
+      };
     };
 
     templates = {
@@ -407,6 +419,16 @@
       "gitlab-time-analysis-tinf25.env" = {
         content = ''
           GITLAB_TOKEN=${config.sops.placeholder."gitlab-token-tinf25"}
+        '';
+        owner = "root";
+        group = "root";
+        mode = "0400";
+      };
+
+      "netronome.env" = {
+        content = ''
+          NETRONOME__OIDC_CLIENT_SECRET=${config.sops.placeholder."netronome-oidc-client-secret"}
+          NETRONOME__SESSION_SECRET=${config.sops.placeholder."netronome-session-secret"}
         '';
         owner = "root";
         group = "root";

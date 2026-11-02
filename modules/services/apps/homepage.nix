@@ -361,6 +361,14 @@
               siteMonitor = "http://127.0.0.1:8008";
             };
           }
+          {
+            "Netronome" = {
+              icon = "si-speedtestnet";
+              href = "https://netronome.dominikstahl.dev";
+              description = "Network & Speed Test Monitor";
+              siteMonitor = "http://127.0.0.1:7575";
+            };
+          }
         ];
       }
       {

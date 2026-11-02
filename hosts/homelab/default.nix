@@ -61,6 +61,7 @@
     ../../modules/services/containers/nextcloud-archiver.nix
     ../../modules/services/containers/archive-viewer.nix
     ../../modules/services/containers/angi.nix
+    ../../modules/services/containers/netronome.nix
 
     # Virtual Machines (MicroVM)
     ../../modules/services/vms/common.nix

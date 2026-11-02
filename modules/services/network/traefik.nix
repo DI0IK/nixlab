@@ -493,6 +493,12 @@
             entryPoints = [ "websecure" ];
             tls = { };
           };
+          netronome = {
+            rule = "Host(`netronome.dominikstahl.dev`)";
+            service = "netronome";
+            entryPoints = [ "websecure" ];
+            tls = { };
+          };
         };
 
         services = {
@@ -541,6 +547,7 @@
           roomfinder.loadBalancer.servers = [ { url = "http://127.0.0.1:8025"; } ];
           nextcloud-archive.loadBalancer.servers = [ { url = "http://127.0.0.1:8085"; } ];
           archive-viewer.loadBalancer.servers = [ { url = "http://127.0.0.1:3015"; } ];
+          netronome.loadBalancer.servers = [ { url = "http://127.0.0.1:7575"; } ];
         };
       };
     };
