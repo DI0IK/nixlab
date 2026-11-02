@@ -5,6 +5,9 @@
     # Redlib (private alternative Reddit frontend)
     redlib = {
       image = "ghcr.io/cycneuramus/containers:redlib";
+      extraOptions = [
+        "--pull=always"
+      ];
       autoStart = true;
       ports = [
         "127.0.0.1:8088:8080"
@@ -84,7 +87,7 @@
 
     # Qui (web interface for torrents)
     qui = {
-      image = "ghcr.io/hotio/qui:release-1.30.0";
+      image = "ghcr.io/hotio/qui:release-1.35.0";
       autoStart = true;
       extraOptions = [
         "--network=host"
