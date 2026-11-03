@@ -25,7 +25,7 @@ in
 {
   virtualisation.oci-containers.containers = {
     lemmy = {
-      image = "docker.io/dessalines/lemmy:1.0.0-beta.2";
+      image = "docker.io/dessalines/lemmy:1.0.0-beta.3";
       autoStart = true;
       extraOptions = [
         "--network=host"
