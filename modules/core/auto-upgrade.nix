@@ -1,4 +1,4 @@
-{ ... }:
+{ pkgs, ... }:
 
 {
   # Automatic NixOS system upgrade from GitHub flake configuration
@@ -10,5 +10,16 @@
       "-L"
     ];
     allowReboot = false;
+  };
+
+  # Log package version changes between generations upon activation to systemd journal
+  system.activationScripts.logSystemDiff = {
+    supportsDryActivation = true;
+    text = ''
+      if [ -e /run/current-system ] && [ -e "$systemConfig" ]; then
+        echo "=== NixOS System Upgrade Diff ==="
+        ${pkgs.nvd}/bin/nvd diff /run/current-system "$systemConfig" || true
+      fi
+    '';
   };
 }

@@ -2,37 +2,38 @@
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "extends": ["config:recommended"],
   "nix": {
-    "enabled": true
-  },
-  "lockFileMaintenance": {
-    "enabled": true,
-    "automerge": true,
-    "schedule": ["at any time"]
+    "enabled": false
   },
   "packageRules": [
     {
-      "matchManagers": ["nix"],
-      "groupName": "nix flake updates",
-      "automerge": true,
-      "platformAutomerge": true
+      "description": "Pin digests for floating/moving tags so updates are tracked in GitOps",
+      "matchDatasources": ["docker"],
+      "matchCurrentValue": "/^(latest|alpine|main|master)$/",
+      "pinDigests": true
+    },
+    {
+      "description": "Keep Immich services synchronized on identical releases",
+      "matchDatasources": ["docker"],
+      "matchPackageNames": ["ghcr.io/immich-app/**"],
+      "groupName": "immich"
+    },
+    {
+      "description": "Keep Authentik server, worker, and ldap synchronized on identical releases",
+      "matchDatasources": ["docker"],
+      "matchPackageNames": ["ghcr.io/goauthentik/**"],
+      "groupName": "authentik"
     }
   ],
   "customManagers": [
     {
+      "description": "Match OCI container image declarations across all .nix files, supporting arbitrary prefixes, suffixes, and digests",
       "customType": "regex",
       "fileMatch": ["\\.nix$"],
       "matchStrings": [
-        "image\\s*=\\s*\"(?<depName>[^\":]+):(?<currentValue>[^\":]+)\";"
+        "image\\s*=\\s*\"(?<depName>[^\"@:]+)(?::(?<currentValue>[^\"@:\\s]+))?(?:@(?<currentDigest>sha256:[a-f0-9]{64}))?\";"
       ],
-      "datasourceTemplate": "docker"
-    },
-    {
-      "customType": "regex",
-      "fileMatch": ["\\.nix$"],
-      "matchStrings": [
-        "image\\s*=\\s*\"(?<depName>[^\":]+):release-(?<currentValue>[^\":]+)\";"
-      ],
-      "datasourceTemplate": "docker"
+      "datasourceTemplate": "docker",
+      "versioningTemplate": "loose"
     }
   ]
 }
