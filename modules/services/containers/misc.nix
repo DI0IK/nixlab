@@ -4,7 +4,7 @@
   virtualisation.oci-containers.containers = {
     # Redlib (private alternative Reddit frontend)
     redlib = {
-      image = "ghcr.io/cycneuramus/containers:redlib";
+      image = "quay.io/redlib/redlib:latest";
       extraOptions = [
         "--pull=always"
       ];
