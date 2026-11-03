@@ -27,6 +27,10 @@
       "sh:**/transcodes"
       "sh:**/transcodes/**"
 
+      # SQLite temporary Write-Ahead Log (WAL) and Shared-Memory (SHM) buffers
+      "sh:**/*.db-wal"
+      "sh:**/*.db-shm"
+
       # Container runtimes, MicroVMs, and ML models
       "pp:/persist/var/lib/containers"
       "pp:/persist/var/lib/microvms"
@@ -118,6 +122,7 @@
 
     compression = "auto,zstd";
     startAt = "*-*-* 04:00:00";
+    failOnWarnings = false;
 
     prune.keep = {
       within = "1d";
@@ -161,6 +166,7 @@
 
     compression = "auto,zstd";
     startAt = "Sun *-*-* 02:00:00";
+    failOnWarnings = false;
 
     prune.keep = {
       weekly = 4;
@@ -195,6 +201,7 @@
 
     compression = "auto,zstd";
     startAt = "Sun *-*-* 08:30:00";
+    failOnWarnings = false;
 
     prune.keep = {
       weekly = 4;
