@@ -4,7 +4,13 @@
   "nix": {
     "enabled": false
   },
+  "ignoreUnstable": true,
   "packageRules": [
+    {
+      "description": "Never upgrade to unstable pre-releases, release candidates (RC), beta, or alpha",
+      "matchDatasources": ["docker"],
+      "ignoreUnstable": true
+    },
     {
       "description": "Pin digests for floating/moving tags so updates are tracked in GitOps",
       "matchDatasources": ["docker"],
@@ -26,14 +32,23 @@
   ],
   "customManagers": [
     {
-      "description": "Match OCI container image declarations across all .nix files, supporting arbitrary prefixes, suffixes, and digests",
+      "description": "Match versioned OCI containers while strictly preserving tag prefixes, compatibility suffixes/flavors, and locking out pre-releases",
       "customType": "regex",
       "fileMatch": ["\\.nix$"],
       "matchStrings": [
-        "image\\s*=\\s*\"(?<depName>[^\"@:]+)(?::(?<currentValue>[^\"@:\\s]+))?(?:@(?<currentDigest>sha256:[a-f0-9]{64}))?\";"
+        "image\\s*=\\s*\"(?<depName>[^\"@:]+):(?<currentValue>(?:(?<tagPrefix>[a-zA-Z_-]+))?v?[0-9]+(?:\\.[0-9]+)+(?:-(?<compatibility>[a-zA-Z0-9_.]+))?)(?:@(?<currentDigest>sha256:[a-f0-9]{64}))?\";"
       ],
       "datasourceTemplate": "docker",
-      "versioningTemplate": "loose"
+      "versioningTemplate": "regex:^(?:(?<tagPrefix>[a-zA-Z_-]+))?v?(?<major>\\d+)\\.(?<minor>\\d+)(?:\\.(?<patch>\\d+))?(?:-(?<prerelease>(?:alpha|beta|rc|dev|preview)[a-zA-Z0-9_.]*))?(?:-(?<compatibility>[a-zA-Z0-9_.]+))?$"
+    },
+    {
+      "description": "Match moving/floating tags pinned by digest without altering the tag itself",
+      "customType": "regex",
+      "fileMatch": ["\\.nix$"],
+      "matchStrings": [
+        "image\\s*=\\s*\"(?<depName>[^\"@:]+):(?<currentValue>latest|alpine|main)(?:@(?<currentDigest>sha256:[a-f0-9]{64}))?\";"
+      ],
+      "datasourceTemplate": "docker"
     }
   ]
 }
