@@ -10,7 +10,8 @@
     allowedTCPPorts = [
       22 # SSH
       53 # AdGuard Home DNS
-      80 # HTTP (for Denon YCast)
+      80 # HTTP
+      443 # HTTPS
       503 # Modbus proxy (Sungrow inverter telemetry)
       853 # AdGuard Home DNS-over-TLS (DoT)
       1080 # DHBW VPN Proxy
