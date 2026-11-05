@@ -369,6 +369,14 @@
               siteMonitor = "http://127.0.0.1:7575";
             };
           }
+          {
+            "Internet Tracker" = {
+              icon = "si-statuspage";
+              href = "https://tracker.dominikstahl.dev";
+              description = "Internet Uptime & Outage Monitor";
+              siteMonitor = "http://127.0.0.1:3030/api/health";
+            };
+          }
         ];
       }
       {

@@ -499,6 +499,12 @@
             entryPoints = [ "websecure" ];
             tls = { };
           };
+          internet-tracker = {
+            rule = "Host(`tracker.dominikstahl.dev`)";
+            service = "internet-tracker";
+            entryPoints = [ "websecure" ];
+            tls = { };
+          };
         };
 
         services = {
@@ -548,6 +554,7 @@
           nextcloud-archive.loadBalancer.servers = [ { url = "http://127.0.0.1:8085"; } ];
           archive-viewer.loadBalancer.servers = [ { url = "http://127.0.0.1:3015"; } ];
           netronome.loadBalancer.servers = [ { url = "http://127.0.0.1:7575"; } ];
+          internet-tracker.loadBalancer.servers = [ { url = "http://127.0.0.1:3030"; } ];
         };
       };
     };

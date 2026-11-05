@@ -62,6 +62,7 @@
     ../../modules/services/containers/archive-viewer.nix
     ../../modules/services/containers/angi.nix
     ../../modules/services/containers/netronome.nix
+    ../../modules/services/containers/internet-tracker.nix
 
     # Virtual Machines (MicroVM)
     ../../modules/services/vms/common.nix
