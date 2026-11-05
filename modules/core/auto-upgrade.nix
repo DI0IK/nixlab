@@ -18,7 +18,7 @@
     text = ''
       if [ -e /run/current-system ] && [ -e "$systemConfig" ]; then
         echo "=== NixOS System Upgrade Diff ==="
-        ${pkgs.nvd}/bin/nvd diff /run/current-system "$systemConfig" || true
+        PATH="${pkgs.nix}/bin:$PATH" ${pkgs.nvd}/bin/nvd diff /run/current-system "$systemConfig" || true
       fi
     '';
   };

@@ -9,7 +9,7 @@
         "127.0.0.1:3030:3000"
       ];
       volumes = [
-        "/persist/var/lib/internet-tracker:/app"
+        "/persist/var/lib/internet-tracker:/data"
       ];
       extraOptions = [
         "--pull=always"
@@ -17,6 +17,7 @@
       ];
       environment = {
         PORT = "3000";
+        DB_PATH = "/data/ping_results.db";
       };
     };
   };
