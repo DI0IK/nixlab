@@ -363,7 +363,7 @@
         # - "Grafana Admins" -> GrafanaAdmin
         # - "Grafana" -> Editor
         # - fallback -> Viewer
-        role_attribute_path = "contains(groups, 'Grafana Admins') && 'GrafanaAdmin' || contains(groups, 'Grafana') && 'Editor' || 'Viewer'";
+        role_attribute_path = "contains(groups, 'Grafana Admins') && 'GrafanaAdmin' || contains(groups, 'Grafana Viewer') && 'Viewer' || 'Editor'";
         allow_assign_grafana_admin = true;
       };
     };
