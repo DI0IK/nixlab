@@ -229,6 +229,12 @@
         group = "root";
         mode = "0400";
       };
+
+      "kavita-oidc-client-secret" = {
+        owner = "root";
+        group = "root";
+        mode = "0400";
+      };
     };
 
     templates = {

@@ -1,4 +1,4 @@
-{ pkgs, ... }:
+{ config, pkgs, ... }:
 
 {
   services.kavita = {
@@ -7,9 +7,17 @@
       Port = 5000;
       IpAddresses = "127.0.0.1";
       TokenKey = "@token_key@";
+      OpenIdConnectSettings = {
+        Authority = "https://sso.dominikstahl.dev/application/o/kavita/";
+        ClientId = "kavita";
+        Secret = "@oidc_client_secret@";
+        CustomScopes = [ ];
+        Enabled = true;
+      };
     };
     credentials = {
       token_key = "/persist/var/lib/kavita/token_key";
+      oidc_client_secret = config.sops.secrets."kavita-oidc-client-secret".path;
     };
   };
 
