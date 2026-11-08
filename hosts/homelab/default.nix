@@ -34,6 +34,7 @@
     ../../modules/services/media/navidrome.nix
     ../../modules/services/media/tubearchivist.nix
     ../../modules/services/media/audiobookshelf.nix
+    ../../modules/services/media/kavita.nix
 
     # Automation & Apps
     ../../modules/services/automation/home-assistant.nix

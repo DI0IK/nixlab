@@ -179,6 +179,12 @@
             entryPoints = [ "websecure" ];
             tls = { };
           };
+          kavita = {
+            rule = "Host(`books.dominikstahl.dev`)";
+            service = "kavita";
+            entryPoints = [ "websecure" ];
+            tls = { };
+          };
           homeassistant = {
             rule = "Host(`ha.dominikstahl.dev`)";
             service = "homeassistant";
@@ -519,6 +525,7 @@
           jellyseerr.loadBalancer.servers = [ { url = "http://127.0.0.1:5055"; } ];
           navidrome.loadBalancer.servers = [ { url = "http://127.0.0.1:4533"; } ];
           audiobookshelf.loadBalancer.servers = [ { url = "http://127.0.0.1:13378"; } ];
+          kavita.loadBalancer.servers = [ { url = "http://127.0.0.1:5000"; } ];
           homeassistant.loadBalancer.servers = [ { url = "http://127.0.0.1:8123"; } ];
           forgejo.loadBalancer.servers = [ { url = "http://127.0.0.1:3000"; } ];
           immich.loadBalancer.servers = [ { url = "http://127.0.0.1:2283"; } ];

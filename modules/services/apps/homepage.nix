@@ -168,6 +168,14 @@
             };
           }
           {
+            "Kavita" = {
+              icon = "kavita.svg";
+              href = "https://books.dominikstahl.dev";
+              description = "E-Books & Comics Reader";
+              siteMonitor = "http://127.0.0.1:5000";
+            };
+          }
+          {
             "Tube Archivist" = {
               icon = "tubearchivist.svg";
               href = "https://tubearchivist.dominikstahl.dev";
