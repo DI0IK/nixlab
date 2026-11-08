@@ -160,6 +160,14 @@
             };
           }
           {
+            "Audiobookshelf" = {
+              icon = "audiobookshelf.svg";
+              href = "https://audiobooks.dominikstahl.dev";
+              description = "Audiobooks & Podcasts";
+              siteMonitor = "http://127.0.0.1:13378/healthcheck";
+            };
+          }
+          {
             "Tube Archivist" = {
               icon = "tubearchivist.svg";
               href = "https://tubearchivist.dominikstahl.dev";

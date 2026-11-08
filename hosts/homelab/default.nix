@@ -33,6 +33,7 @@
     ../../modules/services/media/arr.nix
     ../../modules/services/media/navidrome.nix
     ../../modules/services/media/tubearchivist.nix
+    ../../modules/services/media/audiobookshelf.nix
 
     # Automation & Apps
     ../../modules/services/automation/home-assistant.nix
