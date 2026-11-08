@@ -11,7 +11,9 @@
         Authority = "https://sso.dominikstahl.dev/application/o/kavita/";
         ClientId = "kavita";
         Secret = "@oidc_client_secret@";
-        CustomScopes = [ ];
+        CustomScopes = [
+          "email-verified"
+        ];
         Enabled = true;
       };
     };
