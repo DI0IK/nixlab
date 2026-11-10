@@ -57,16 +57,6 @@
           disabled = false;
         }
 
-        # Self-hosted Photon geocoding (OpenStreetMap)
-        {
-          name = "photon";
-          engine = "photon";
-          base_url = "http://127.0.0.1:2322/";
-          enable_http = true;
-          categories = [ "map" ];
-          disabled = false;
-        }
-
         # Self-hosted Lemmy instance search
         {
           name = "lemmy";

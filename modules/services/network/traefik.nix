@@ -120,21 +120,6 @@
               ];
             };
           };
-          maps-strip-tiles = {
-            stripPrefix = {
-              prefixes = [ "/tiles" ];
-            };
-          };
-          maps-cors = {
-            headers = {
-              accessControlAllowMethods = [
-                "GET"
-                "OPTIONS"
-              ];
-              accessControlAllowOriginList = [ "*" ];
-              accessControlMaxAge = 86400;
-            };
-          };
           se-timetracking-auth = {
             basicAuth = {
               usersFile = config.sops.secrets."se-timetracking-htpasswd".path;
@@ -442,50 +427,6 @@
             entryPoints = [ "websecure" ];
             tls = { };
           };
-          maps-tiles = {
-            rule = "Host(`maps.dominikstahl.dev`) && PathPrefix(`/tiles`)";
-            service = "maps-tiles";
-            middlewares = [
-              "maps-strip-tiles"
-              "maps-cors"
-              "authentik"
-            ];
-            priority = 100;
-            entryPoints = [ "websecure" ];
-            tls = { };
-          };
-          maps-route = {
-            rule = "Host(`maps.dominikstahl.dev`) && (PathPrefix(`/route`) || PathPrefix(`/gh`))";
-            service = "maps-route";
-            middlewares = [
-              "maps-cors"
-              "authentik"
-            ];
-            priority = 100;
-            entryPoints = [ "websecure" ];
-            tls = { };
-          };
-          maps-geocode = {
-            rule = "Host(`maps.dominikstahl.dev`) && (PathPrefix(`/api`) || PathPrefix(`/reverse`))";
-            service = "maps-geocode";
-            middlewares = [
-              "maps-cors"
-              "authentik"
-            ];
-            priority = 100;
-            entryPoints = [ "websecure" ];
-            tls = { };
-          };
-          maps = {
-            rule = "Host(`maps.dominikstahl.dev`)";
-            service = "maps-web";
-            middlewares = [
-              "authentik"
-            ];
-            priority = 10;
-            entryPoints = [ "websecure" ];
-            tls = { };
-          };
           roomfinder = {
             rule = "Host(`roomfinder.dominikstahl.dev`)";
             service = "roomfinder";
@@ -560,10 +501,6 @@
           gitlab-time-analysis.loadBalancer.servers = [ { url = "http://127.0.0.1:3020"; } ];
           gitlab-time-analysis-tinf25.loadBalancer.servers = [ { url = "http://127.0.0.1:3021"; } ];
           gitlab-time-analysis-v2.loadBalancer.servers = [ { url = "http://127.0.0.1:3022"; } ];
-          maps-web.loadBalancer.servers = [ { url = "http://127.0.0.1:8091"; } ];
-          maps-tiles.loadBalancer.servers = [ { url = "http://127.0.0.1:8092"; } ];
-          maps-route.loadBalancer.servers = [ { url = "http://127.0.0.1:8998"; } ];
-          maps-geocode.loadBalancer.servers = [ { url = "http://127.0.0.1:2322"; } ];
           roomfinder.loadBalancer.servers = [ { url = "http://127.0.0.1:8025"; } ];
           nextcloud-archive.loadBalancer.servers = [ { url = "http://127.0.0.1:8085"; } ];
           archive-viewer.loadBalancer.servers = [ { url = "http://127.0.0.1:3015"; } ];

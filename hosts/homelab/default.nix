@@ -58,7 +58,6 @@
     ../../modules/services/containers/misc.nix
     ../../modules/services/containers/calagopus.nix
     ../../modules/services/containers/gitlab-time-analysis.nix
-    ../../modules/services/containers/maps.nix
     ../../modules/services/containers/roomfinder-api.nix
     ../../modules/services/containers/nextcloud-archiver.nix
     ../../modules/services/containers/archive-viewer.nix
