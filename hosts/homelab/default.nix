@@ -14,6 +14,7 @@
     ../../modules/security/sshd.nix
     ../../modules/security/firewall.nix
     ../../modules/security/sops.nix
+    ./secrets.nix
     ../../modules/security/acme.nix
     ../../modules/security/anubis.nix
     ../../modules/security/crowdsec.nix
@@ -71,7 +72,7 @@
     ../../modules/services/vms/forgejo-runner
 
     # Backup
-    ../../modules/services/backup/borgbackup.nix
+    ./backup.nix
 
     # Monitoring & Metrics
     ../../modules/services/monitoring
@@ -79,6 +80,26 @@
 
   networking.hostName = "homelab";
   networking.domain = "dominikstahl.dev";
+
+  # ACME Wildcard Certificate for Homelab Services
+  security.acme.certs."dominikstahl.dev" = {
+    domain = "dominikstahl.dev";
+    extraDomainNames = [
+      "*.dominikstahl.dev"
+      "*.dns.dominikstahl.dev"
+    ];
+    dnsProvider = "cloudflare";
+    environmentFile = config.sops.templates."acme-cf.env".path;
+    group = "certs";
+    reloadServices = [
+      "traefik.service"
+      "adguardhome.service"
+    ];
+  };
+
+  # Grant Traefik and AdGuard Home read permissions for certificates
+  users.users.traefik.extraGroups = [ "certs" ];
+  users.users.adguardhome.extraGroups = [ "certs" ];
 
   services.dhbw-vpn = {
     enable = false;

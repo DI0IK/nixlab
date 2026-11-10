@@ -100,6 +100,14 @@
         ];
       }
       {
+        job_name = "vps-node";
+        static_configs = [
+          {
+            targets = [ "172.30.32.1:9100" ];
+          }
+        ];
+      }
+      {
         job_name = "local-tempo";
         static_configs = [
           {

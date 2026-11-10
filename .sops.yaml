@@ -5,7 +5,15 @@ keys:
   # Homelab host key (derived from system-ssh-key)
   - &homelab_host age1n2nc8va6c7d9hd2jy8l6vlet8ahmhf8kwaj0ymsh220z2plavuas0fdvqw
 
+  # VPS host key (derived from /etc/ssh/ssh_host_ed25519_key via ssh-to-age)
+  - &vps_host age13rfpyj026fgrsnw38hr27yll5w3a46vupaz9q2lx5wqj0t63l5eqkhp4p9
+
 creation_rules:
+  - path_regex: secrets/vps\.yaml$
+    key_groups:
+      - age:
+          - *admin_yubikey
+          - *vps_host
   - path_regex: secrets/.*\.yaml$
     key_groups:
       - age:

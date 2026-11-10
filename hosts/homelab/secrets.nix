@@ -1,0 +1,440 @@
+{ config, ... }:
+
+{
+  sops = {
+    # Path to encrypted secrets file (created from secrets/secrets.example.yaml)
+    defaultSopsFile = ../../secrets/secrets.yaml;
+
+    secrets = {
+      "wg-private-key" = {
+        owner = "root";
+        group = "root";
+        mode = "0400";
+      };
+
+      "wg-wings-private-key" = {
+        owner = "root";
+        group = "root";
+        mode = "0400";
+      };
+
+      "cloudflare-api-token" = {
+        owner = "traefik";
+        group = "traefik";
+        mode = "0400";
+      };
+
+      "authentik-secret-key" = {
+        owner = "root";
+        group = "root";
+        mode = "0400";
+      };
+
+      "borg-repo-passphrase" = {
+        owner = "root";
+        group = "root";
+        mode = "0400";
+      };
+
+      "borg-photos-passphrase" = {
+        owner = "root";
+        group = "root";
+        mode = "0400";
+      };
+
+      "system-ssh-key" = {
+        owner = "root";
+        group = "root";
+        mode = "0400";
+      };
+
+      "storagebox-pass" = {
+        owner = "root";
+        group = "root";
+        mode = "0400";
+      };
+
+      "immich-oauth-client-secret" = {
+        owner = "root";
+        group = "root";
+        mode = "0400";
+      };
+
+      "authentik-outpost-token" = {
+        owner = "root";
+        group = "root";
+        mode = "0400";
+      };
+
+      "searxng-secret-key" = {
+        owner = "searx";
+        group = "searx";
+        mode = "0400";
+      };
+
+      "grafana-oauth-client-secret" = {
+        owner = "grafana";
+        group = "grafana";
+        mode = "0400";
+      };
+
+      "grafana-secret-key" = {
+        owner = "grafana";
+        group = "grafana";
+        mode = "0400";
+      };
+
+      "paperless-admin-password" = {
+        owner = "paperless";
+        group = "paperless";
+        mode = "0400";
+      };
+
+      "paperless-secret" = {
+        owner = "paperless";
+        group = "paperless";
+        mode = "0400";
+      };
+
+      "old-nas-username" = {
+        owner = "root";
+        group = "root";
+        mode = "0400";
+      };
+
+      "old-nas-password" = {
+        owner = "root";
+        group = "root";
+        mode = "0400";
+      };
+
+      "mealie-oidc-secret" = {
+        owner = "root";
+        group = "root";
+        mode = "0400";
+      };
+
+      "matrix-oidc-secret" = {
+        owner = "continuwuity";
+        group = "continuwuity";
+        mode = "0400";
+      };
+
+      "tubearchivist-admin-pass" = {
+        owner = "root";
+        group = "root";
+        mode = "0400";
+      };
+
+      "gitlab-token" = {
+        owner = "root";
+        group = "root";
+        mode = "0400";
+      };
+
+      "gitlab-token-tinf25" = {
+        owner = "root";
+        group = "root";
+        mode = "0400";
+      };
+
+      "forgejo-action-microvm-token" = {
+        owner = "root";
+        group = "root";
+        mode = "0400";
+      };
+
+      "codeberg-action-microvm-token" = {
+        owner = "root";
+        group = "root";
+        mode = "0400";
+      };
+
+      "admin-password-hash" = {
+        neededForUsers = true;
+      };
+
+      "dhbw-vpn-username" = {
+        owner = "root";
+        group = "root";
+        mode = "0400";
+      };
+
+      "dhbw-vpn-password" = {
+        owner = "root";
+        group = "root";
+        mode = "0400";
+      };
+
+      "dhbw-vpn-2fa-secret" = {
+        owner = "root";
+        group = "root";
+        mode = "0400";
+      };
+
+      "se-timetracking-htpasswd" = {
+        owner = "traefik";
+        group = "traefik";
+        mode = "0400";
+      };
+
+      "se-tinf25-timetracking-htpasswd" = {
+        owner = "traefik";
+        group = "traefik";
+        mode = "0400";
+      };
+
+      "archive-viewer-env" = {
+        owner = "root";
+        group = "root";
+        mode = "0400";
+      };
+
+      "timetracking-v2-env" = {
+        owner = "root";
+        group = "root";
+        mode = "0400";
+      };
+
+      "homelab-forgejo-image-pull-access-token" = {
+        owner = "root";
+        group = "root";
+        mode = "0400";
+      };
+
+      "gitlab-image-pull-access-token" = {
+        owner = "root";
+        group = "root";
+        mode = "0400";
+      };
+
+      "angi-env" = {
+        owner = "root";
+        group = "root";
+        mode = "0400";
+      };
+
+      "netronome-oidc-client-secret" = {
+        owner = "root";
+        group = "root";
+        mode = "0400";
+      };
+
+      "netronome-session-secret" = {
+        owner = "root";
+        group = "root";
+        mode = "0400";
+      };
+
+      "kavita-oidc-client-secret" = {
+        owner = "root";
+        group = "root";
+        mode = "0400";
+      };
+    };
+
+    templates = {
+      "paperless-env" = {
+        content = ''
+          PAPERLESS_SOCIALACCOUNT_PROVIDERS={"openid_connect":{"APPS":[{"provider_id":"authentik","name":"Authentik","client_id":"zGnyIvUxXuTNJ65ikflrN8bvVPTqHsGTpcnJusOA","secret":"${
+            config.sops.placeholder."paperless-secret"
+          }","settings":{"server_url":"https://sso.dominikstahl.dev/application/o/paperless/.well-known/openid-configuration"}}]}}
+        '';
+        owner = "paperless";
+        group = "paperless";
+        mode = "0400";
+      };
+
+      "acme-cf.env" = {
+        content = ''
+          CLOUDFLARE_DNS_API_TOKEN=${config.sops.placeholder."cloudflare-api-token"}
+          CF_DNS_API_TOKEN=${config.sops.placeholder."cloudflare-api-token"}
+          CLOUDFLARE_ZONE_API_TOKEN=${config.sops.placeholder."cloudflare-api-token"}
+          CF_ZONE_API_TOKEN=${config.sops.placeholder."cloudflare-api-token"}
+        '';
+        owner = "acme";
+        group = "acme";
+        mode = "0400";
+      };
+
+      "authentik.env" = {
+        content = ''
+          AUTHENTIK_SECRET_KEY=${config.sops.placeholder."authentik-secret-key"}
+        '';
+        owner = "root";
+        group = "root";
+        mode = "0400";
+      };
+
+      "authentik-ldap.env" = {
+        content = ''
+          AUTHENTIK_TOKEN=${config.sops.placeholder."authentik-outpost-token"}
+        '';
+        owner = "root";
+        group = "root";
+        mode = "0400";
+      };
+
+      "searxng.env" = {
+        content = ''
+          SEARXNG_SECRET_KEY=${config.sops.placeholder."searxng-secret-key"}
+          SEARX_SECRET_KEY=${config.sops.placeholder."searxng-secret-key"}
+        '';
+        owner = "searx";
+        group = "searx";
+        mode = "0400";
+      };
+
+      "cifs-old-nas-credentials" = {
+        content = ''
+          username=${config.sops.placeholder."old-nas-username"}
+          password=${config.sops.placeholder."old-nas-password"}
+        '';
+        owner = "root";
+        group = "root";
+        mode = "0400";
+      };
+
+      "mealie.env" = {
+        content = ''
+          OIDC_CLIENT_SECRET=${config.sops.placeholder."mealie-oidc-secret"}
+        '';
+        owner = "root";
+        group = "root";
+        mode = "0400";
+      };
+
+      "immich-config.yaml" = {
+        content = ''
+          machineLearning:
+            clip:
+              enabled: true
+              modelName: "ViT-B-16-SigLIP2__webli"
+            facialRecognition:
+              enabled: true
+              modelName: "buffalo_l"
+              minScore: 0.65
+              maxDistance: 0.48
+              minFaces: 3
+          trash:
+            enabled: false
+            days: 30
+          storageTemplate:
+            enabled: true
+            template: "{{y}}/{{MM}}/{{dd}}/{{filename}}"
+          oauth:
+            autoLaunch: true
+            autoRegister: true
+            buttonText: "Login with Authentik"
+            clientId: iPFX7ek90F00029l0XIxCiPyxGUZaiqvXu3HaI1k
+            clientSecret: ${config.sops.placeholder."immich-oauth-client-secret"}
+            defaultStorageQuota: 0
+            enabled: true
+            issuerUrl: https://sso.dominikstahl.dev/application/o/immich/
+          passwordLogin:
+            enabled: false
+          server:
+            externalDomain: https://photos.dominikstahl.dev
+          ffmpeg:
+            crf: 23
+            threads: 0
+            preset: "ultrafast"
+            targetVideoCodec: "h264"
+            acceptedVideoCodecs:
+              - "h264"
+            targetAudioCodec: "aac"
+            acceptedAudioCodecs:
+              - "aac"
+              - "mp3"
+              - "opus"
+            acceptedContainers:
+              - "mov"
+              - "ogg"
+              - "webm"
+            targetResolution: "720"
+            maxBitrate: "0"
+            bframes: -1
+            refs: 0
+            gopSize: 0
+            temporalAQ: false
+            cqMode: "auto"
+            twoPass: false
+            preferredHwDevice: "auto"
+            transcode: "required"
+            tonemap: "hable"
+            accel: "qsv"
+            accelDecode: true
+          job:
+            backgroundTask:
+              concurrency: 5
+            smartSearch:
+              concurrency: 4
+            metadataExtraction:
+              concurrency: 5
+            faceDetection:
+              concurrency: 3
+            search:
+              concurrency: 5
+            sidecar:
+              concurrency: 5
+            library:
+              concurrency: 5
+            migration:
+              concurrency: 5
+            thumbnailGeneration:
+              concurrency: 5
+            videoConversion:
+              concurrency: 1
+            notifications:
+              concurrency: 5
+          library:
+            scan:
+              enabled: true
+              cronExpression: "0 10 * * *"
+            watch:
+              enabled: false
+        '';
+        owner = "root";
+        group = "root";
+        mode = "0400";
+      };
+
+      "tubearchivist.env" = {
+        content = ''
+          TA_PASSWORD=${config.sops.placeholder."tubearchivist-admin-pass"}
+        '';
+        owner = "root";
+        group = "root";
+        mode = "0400";
+      };
+
+      "gitlab-time-analysis.env" = {
+        content = ''
+          GITLAB_TOKEN=${config.sops.placeholder."gitlab-token"}
+        '';
+        owner = "root";
+        group = "root";
+        mode = "0400";
+      };
+
+      "gitlab-time-analysis-tinf25.env" = {
+        content = ''
+          GITLAB_TOKEN=${config.sops.placeholder."gitlab-token-tinf25"}
+        '';
+        owner = "root";
+        group = "root";
+        mode = "0400";
+      };
+
+      "netronome.env" = {
+        content = ''
+          NETRONOME__OIDC_CLIENT_SECRET=${config.sops.placeholder."netronome-oidc-client-secret"}
+          NETRONOME__SESSION_SECRET=${config.sops.placeholder."netronome-session-secret"}
+        '';
+        owner = "root";
+        group = "root";
+        mode = "0400";
+      };
+    };
+  };
+}

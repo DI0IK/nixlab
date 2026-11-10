@@ -1,10 +1,10 @@
-{ pkgs, ... }:
+{ config, pkgs, ... }:
 
 {
   # Automatic NixOS system upgrade from GitHub flake configuration
   system.autoUpgrade = {
     enable = true;
-    flake = "github:DI0IK/nixlab#homelab";
+    flake = "github:DI0IK/nixlab#${config.networking.hostName}";
     dates = "04:00";
     flags = [
       "-L"

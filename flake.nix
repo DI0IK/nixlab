@@ -51,6 +51,17 @@
         ];
       };
 
+      nixosConfigurations.vps = nixpkgs.lib.nixosSystem {
+        inherit system;
+        specialArgs = { inherit inputs; };
+        modules = [
+          disko.nixosModules.disko
+          sops-nix.nixosModules.sops
+          impermanence.nixosModules.impermanence
+          ./hosts/vps
+        ];
+      };
+
       formatter.${system} = nixpkgs.legacyPackages.${system}.nixfmt;
     };
 }
