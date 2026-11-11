@@ -43,6 +43,31 @@
           labels.type = "syslog";
         }
       ];
+
+      parsers.s02Enrich = [
+        {
+          name = "homelab/google-cloud-whitelist";
+          description = "Whitelist Google Cloud Platform & Google Actions backend";
+          filter = "evt.Parsed.source_ip != '' && 'ASNumber' in evt.Enriched";
+          whitelist = {
+            reason = "Google Assistant / Home integration backend";
+            expression = [
+              "evt.Enriched.ASNumber in ['396982', '15169']"
+            ];
+          };
+        }
+        {
+          name = "homelab/vpn-whitelist";
+          description = "Whitelist WireGuard VPS network traffic";
+          whitelist = {
+            reason = "WireGuard VPS VPN network";
+            cidr = [
+              "172.30.32.0/24"
+              "fd86:ea04:1115::/64"
+            ];
+          };
+        }
+      ];
     };
   };
 
