@@ -1,5 +1,25 @@
 {
   "nodes": {
+    "cut-rs": {
+      "inputs": {
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1794913205,
+        "narHash": "sha256-m74yWCeuvCyLGkuc1I3aELZ/qMvzhV5Mfh9Ir7mvu08=",
+        "owner": "DI0IK",
+        "repo": "cut-rs",
+        "rev": "d95ff1acfe4afbd89967c1fa139e22d28f183507",
+        "type": "github"
+      },
+      "original": {
+        "owner": "DI0IK",
+        "repo": "cut-rs",
+        "type": "github"
+      }
+    },
     "disko": {
       "inputs": {
         "nixpkgs": [
@@ -101,6 +121,7 @@
     },
     "root": {
       "inputs": {
+        "cut-rs": "cut-rs",
         "disko": "disko",
         "impermanence": "impermanence",
         "microvm": "microvm",

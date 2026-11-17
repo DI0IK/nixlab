@@ -23,6 +23,11 @@
       url = "github:microvm-nix/microvm.nix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
+    cut-rs = {
+      url = "github:DI0IK/cut-rs";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs =
@@ -33,6 +38,7 @@
       sops-nix,
       impermanence,
       microvm,
+      cut-rs,
       ...
     }@inputs:
     let
@@ -47,6 +53,7 @@
           sops-nix.nixosModules.sops
           impermanence.nixosModules.impermanence
           microvm.nixosModules.host
+          cut-rs.nixosModules.default
           ./hosts/homelab
         ];
       };

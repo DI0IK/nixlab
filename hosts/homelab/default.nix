@@ -49,6 +49,7 @@
     ../../modules/services/apps/matrix.nix
     ../../modules/services/apps/lemmy.nix
     ../../modules/services/apps/kiwix.nix
+    ../../modules/services/apps/cut-rs.nix
 
     # Containers (Podman)
     ../../modules/services/containers/podman.nix
