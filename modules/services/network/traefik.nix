@@ -458,12 +458,6 @@
             entryPoints = [ "websecure" ];
             tls = { };
           };
-          cut-rs = {
-            rule = "Host(`cut-rs.dominikstahl.dev`)";
-            service = "cut-rs";
-            entryPoints = [ "websecure" ];
-            tls = { };
-          };
         };
 
         services = {
@@ -512,7 +506,6 @@
           archive-viewer.loadBalancer.servers = [ { url = "http://127.0.0.1:3015"; } ];
           netronome.loadBalancer.servers = [ { url = "http://127.0.0.1:7575"; } ];
           internet-tracker.loadBalancer.servers = [ { url = "http://127.0.0.1:3030"; } ];
-          cut-rs.loadBalancer.servers = [ { url = "http://127.0.0.1:8090"; } ];
         };
       };
     };
