@@ -15,11 +15,18 @@
         publicKey = "xp2zUi4Dx1wSQwZq3mKL7RwOIKFc9G12LyzinAj/8C4=";
         endpoint = "217.154.87.4:51820";
         allowedIPs = [
-          "172.30.32.1/24"
-          "fd86:ea04:1115::1/128"
+          "172.30.32.0/24"
+          "fd86:ea04:1115::/64"
         ];
         persistentKeepalive = 20;
       }
     ];
+  };
+
+  # Allow WireGuard clients routed through the VPS to use this host as a VPN exit node
+  networking.nat = {
+    enable = true;
+    enableIPv6 = true;
+    internalInterfaces = [ "wg-vps" ];
   };
 }
