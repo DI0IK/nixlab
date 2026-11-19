@@ -458,6 +458,21 @@
             entryPoints = [ "websecure" ];
             tls = { };
           };
+          n8n-webhooks = {
+            rule = "Host(`n8n.dominikstahl.dev`) && (PathPrefix(`/webhook/`) || PathPrefix(`/webhook-test/`) || PathPrefix(`/webhook-waiting/`))";
+            service = "n8n";
+            entryPoints = [ "websecure" ];
+            priority = 100;
+            tls = { };
+          };
+          n8n = {
+            rule = "Host(`n8n.dominikstahl.dev`)";
+            service = "n8n";
+            middlewares = [ "authentik" ];
+            entryPoints = [ "websecure" ];
+            priority = 50;
+            tls = { };
+          };
         };
 
         services = {
@@ -506,6 +521,7 @@
           archive-viewer.loadBalancer.servers = [ { url = "http://127.0.0.1:3015"; } ];
           netronome.loadBalancer.servers = [ { url = "http://127.0.0.1:7575"; } ];
           internet-tracker.loadBalancer.servers = [ { url = "http://127.0.0.1:3030"; } ];
+          n8n.loadBalancer.servers = [ { url = "http://127.0.0.1:5678"; } ];
         };
       };
     };

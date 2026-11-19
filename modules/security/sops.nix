@@ -235,6 +235,18 @@
         group = "root";
         mode = "0400";
       };
+
+      "n8n-encryption-key" = {
+        owner = "root";
+        group = "root";
+        mode = "0400";
+      };
+
+      "n8n-runners-auth-token" = {
+        owner = "root";
+        group = "root";
+        mode = "0400";
+      };
     };
 
     templates = {
