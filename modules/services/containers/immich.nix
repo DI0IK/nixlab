@@ -3,7 +3,7 @@
 {
   virtualisation.oci-containers.containers = {
     immich-server = {
-      image = "ghcr.io/immich-app/immich-server:v3.4.1";
+      image = "ghcr.io/immich-app/immich-server:v3.4.2";
       autoStart = true;
       extraOptions = [
         "--network=host"
