@@ -3,7 +3,7 @@
 {
   virtualisation.oci-containers.containers = {
     netronome = {
-      image = "ghcr.io/autobrr/netronome:v0.16.0";
+      image = "ghcr.io/autobrr/netronome:v0.17";
       autoStart = true;
       user = "0";
       extraOptions = [
