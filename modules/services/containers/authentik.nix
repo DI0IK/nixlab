@@ -3,7 +3,7 @@
 {
   virtualisation.oci-containers.containers = {
     authentik-server = {
-      image = "ghcr.io/goauthentik/server:2026.8.6";
+      image = "ghcr.io/goauthentik/server:2026.8.7";
       autoStart = true;
       cmd = [ "server" ];
       extraOptions = [
@@ -32,7 +32,7 @@
     };
 
     authentik-worker = {
-      image = "ghcr.io/goauthentik/server:2026.8.6";
+      image = "ghcr.io/goauthentik/server:2026.8.7";
       autoStart = true;
       user = "0";
       cmd = [ "worker" ];
@@ -62,7 +62,7 @@
     };
 
     authentik-ldap = {
-      image = "ghcr.io/goauthentik/ldap:2026.8.6";
+      image = "ghcr.io/goauthentik/ldap:2026.8.7";
       autoStart = true;
       user = "0";
       extraOptions = [
